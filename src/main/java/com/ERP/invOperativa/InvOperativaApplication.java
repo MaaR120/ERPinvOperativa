@@ -8,6 +8,7 @@ public class InvOperativaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(InvOperativaApplication.class, args);
+		System.out.println("Estoy funcionando");
 	}
 
 }
