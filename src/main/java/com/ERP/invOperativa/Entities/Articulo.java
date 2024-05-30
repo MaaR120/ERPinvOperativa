@@ -1,6 +1,9 @@
 package com.ERP.invOperativa.Entities;
 
-public class Articulo {
+import jakarta.persistence.Entity;
+
+
+public class Articulo{
 
     //PRUEBA DE PUSH
 }
