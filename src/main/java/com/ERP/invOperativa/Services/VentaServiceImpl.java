@@ -1,4 +1,16 @@
 package com.ERP.invOperativa.Services;
 
-public class VentaServiceImpl {
+import com.ERP.invOperativa.Entities.Venta;
+import com.ERP.invOperativa.Repositories.BaseRepository;
+import com.ERP.invOperativa.Repositories.VentaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements VentaService  {
+    @Autowired
+    protected VentaRepository ventaRepository;
+
+    public VentaServiceImpl(BaseRepository<Venta, Long> baseRepository, VentaRepository ventaRepository) {
+        super(baseRepository);
+        this.ventaRepository=ventaRepository;
+    }
 }

@@ -1,4 +1,6 @@
 package com.ERP.invOperativa.Services;
 
-public interface VentaService {
+import com.ERP.invOperativa.Entities.Venta;
+
+public interface VentaService extends BaseService<Venta,Long>{
 }
