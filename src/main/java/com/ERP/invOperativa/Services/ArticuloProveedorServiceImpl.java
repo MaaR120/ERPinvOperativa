@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProveedor,Long> implements ArticuloProveedorService{
     @Autowired
-    ArticuloProveedorRepository articuloProveedorRepository;
+    protected ArticuloProveedorRepository articuloProveedorRepository;
     public ArticuloProveedorServiceImpl(BaseRepository<ArticuloProveedor, Long> baseRepository,ArticuloProveedorRepository articuloProveedorRepository) {
         super(baseRepository);
         this.articuloProveedorRepository=articuloProveedorRepository;
