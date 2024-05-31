@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.awt.print.Pageable;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "api/v1/venta")
 public class VentaController extends BaseControllerImpl<Venta, VentaServiceImpl> {
 
