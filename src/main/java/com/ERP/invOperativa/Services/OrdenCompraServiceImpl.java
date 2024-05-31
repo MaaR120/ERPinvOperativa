@@ -4,7 +4,9 @@ import com.ERP.invOperativa.Entities.OrdenCompra;
 import com.ERP.invOperativa.Repositories.BaseRepository;
 import com.ERP.invOperativa.Repositories.OrdenCompraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OrdenCompraServiceImpl extends BaseServiceImpl<OrdenCompra,Long> implements OrdenCompraService {
     @Autowired
     protected OrdenCompraRepository ordenCompraRepository;

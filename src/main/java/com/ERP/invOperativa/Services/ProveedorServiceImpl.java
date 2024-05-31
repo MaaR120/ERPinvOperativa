@@ -4,7 +4,9 @@ import com.ERP.invOperativa.Entities.Proveedor;
 import com.ERP.invOperativa.Repositories.BaseRepository;
 import com.ERP.invOperativa.Repositories.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProveedorServiceImpl extends BaseServiceImpl<Proveedor,Long> implements ProveedorService{
     @Autowired
     protected ProveedorRepository proveedorRepository;
