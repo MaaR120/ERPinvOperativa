@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.awt.print.Pageable;
 
 @RestController
-@RequestMapping(path = "api/v1/productos")
+@RequestMapping(path = "api/v1/venta")
 public class VentaController extends BaseControllerImpl<Venta, VentaServiceImpl> {
 
-    @Override
-    public ResponseEntity<?> getAll(Pageable pageable) {
-        return null;
-    }
 }
