@@ -1,4 +1,6 @@
 package com.ERP.invOperativa.Services;
 
-public interface DetalleOrdenCompraService {
+import com.ERP.invOperativa.Entities.DetalleOrdenCompra;
+
+public interface DetalleOrdenCompraService extends BaseService<DetalleOrdenCompra, Long>{
 }
