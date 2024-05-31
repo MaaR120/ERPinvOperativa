@@ -1,4 +1,6 @@
 package com.ERP.invOperativa.Services;
 
-public interface ArticuloProveedorService {
+import com.ERP.invOperativa.Entities.ArticuloProveedor;
+
+public interface ArticuloProveedorService extends BaseService<ArticuloProveedor,Long>{
 }
