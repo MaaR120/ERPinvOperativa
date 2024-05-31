@@ -1,4 +1,15 @@
 package com.ERP.invOperativa.Services;
 
-public class DetalleVentaServiceImpl {
+import com.ERP.invOperativa.Entities.DetalleVenta;
+import com.ERP.invOperativa.Repositories.BaseRepository;
+import com.ERP.invOperativa.Repositories.DetalleVentaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class DetalleVentaServiceImpl extends BaseServiceImpl<DetalleVenta,Long> implements DetalleVentaService{
+    @Autowired
+    protected DetalleVentaRepository detalleVentaRepository;
+    public DetalleVentaServiceImpl(BaseRepository<DetalleVenta, Long> baseRepository, DetalleVentaRepository detalleVentaRepository) {
+        super(baseRepository);
+        this.detalleVentaRepository=detalleVentaRepository;
+    }
 }

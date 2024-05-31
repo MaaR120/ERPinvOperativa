@@ -1,4 +1,6 @@
 package com.ERP.invOperativa.Services;
 
-public interface FamilaArticuloService {
+import com.ERP.invOperativa.Entities.FamiliaArticulo;
+
+public interface FamilaArticuloService extends BaseService<FamiliaArticulo,Long>{
 }

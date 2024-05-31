@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 
-public class DetalleOrdenCompraServiceImpl {
+public class DetalleOrdenCompraServiceImpl extends BaseServiceImpl<DetalleOrdenCompra,Long> implements DetalleOrdenCompraService {
 
+    @Autowired
+    protected DetalleOrdenCompraRepository detalleOrdenCompraRepository;
+    public DetalleOrdenCompraServiceImpl(BaseRepository<DetalleOrdenCompra, Long> baseRepository, DetalleOrdenCompraRepository detalleOrdenCompraRepository) {
+        super(baseRepository);
+        this.detalleOrdenCompraRepository=detalleOrdenCompraRepository;
+    }
 }
