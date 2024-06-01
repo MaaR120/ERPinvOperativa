@@ -18,6 +18,7 @@ public class InvOperativaApplication {
 		SpringApplication.run(InvOperativaApplication.class, args);
 		System.out.println("Programa en Ejecucion");
 	}
+
 	@Autowired
 	ArticuloRepository articuloRepository;
 
@@ -58,11 +59,11 @@ public class InvOperativaApplication {
 
 			DetalleOrdenCompra Detalle1 = DetalleOrdenCompra.builder()
 					.cantidad(200)
-					.subtotal(12000)
+					.subtotal(12000.0)
 					.articulo(articulo1)
 					.build();
 			detalleOrdenCompraRepository.save(Detalle1);
-			DetallesOrdenCompra.add(Detalle1);
+//			DetallesOrdenCompra.add(Detalle1);
 
 			Proveedor Proveedor1 = Proveedor.builder()
 					.nombreProveedor("Juan Gonzalez")
@@ -73,15 +74,16 @@ public class InvOperativaApplication {
 
 			OrdenCompra ordencompra1 = OrdenCompra.builder()
 					.estadoOrdenCompra(EstadoOrdenCompra.Preparacion)
-					.totalOrden(15000)
+					.totalOrden(15000.0)
 					.proveedor(Proveedor1)
-					.detalleOrdenCompras(DetallesOrdenCompra)
 					.build();
+//			ordencompra1.agregarDetalleOrdenCompra(Detalle1);
 			ordenCompraRepository.save(ordencompra1);
 
 
 		};
 	}
+}
 //	@Bean
 //	CommandLineRunner init(OrdenCompraRepository OrdenCompraRepository1) {
 //		return args -> {
@@ -109,12 +111,12 @@ public class InvOperativaApplication {
 //
 //		};
 //	}
-	@Bean
-	public CommandLineRunner init() {
-		return args -> {
-			System.out.println("------------------------Estoy Funcionando------------------------");
+//	@Bean
+//	public CommandLineRunner init() {
+//		return args -> {
+//			System.out.println("------------------------Estoy Funcionando------------------------");
+//
+//		};
+//	}
 
-		};
-	}
-}
 

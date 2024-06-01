@@ -17,17 +17,17 @@ import java.util.List;
 @Setter
 @Builder
 public class OrdenCompra extends Base{
-    @NotNull
+//    @NotNull
     @Column(name = "fecha_Entrega")
     @Temporal(TemporalType.DATE)
     private Date fechaEntrega;
 
-    @NotNull
+//    @NotNull
     @Column(name = "fecha_Inicio")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
 
-    @NotNull
+//    @NotNull
     @Column(name = "fecha_Ultimo_Cambio")
     @Temporal(TemporalType.DATE)
     private Date fechaUltimoCambio;
