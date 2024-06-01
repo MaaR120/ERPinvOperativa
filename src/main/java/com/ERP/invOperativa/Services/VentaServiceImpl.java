@@ -38,9 +38,14 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
                     detalleVenta.setArticulo(articulo.get());
                     detalleVenta.setCantidad(dtoDetalleVenta.getCantidad());
                     detalleVenta.setSubtotal(articulo.get().getPrecio() * dtoDetalleVenta.getCantidad());
-                    total = total + detalleVenta.getCantidad();
+                    total = total + detalleVenta.getSubtotal();
+                    newVenta.agregarDetalleVenta(detalleVenta);
+                } else {
+                    throw new Exception("Artículo no encontrado con id: " + dtoDetalleVenta.getIdArticulo());
                 }
             }
+
+
             newVenta.setTotalVenta(total);
             ventaRepository.save(newVenta);
             return newVenta;
