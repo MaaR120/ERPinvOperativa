@@ -1,4 +1,6 @@
 package com.ERP.invOperativa.Repositories;
 
-public interface VentaRepository {
+import com.ERP.invOperativa.Entities.Venta;
+
+public interface VentaRepository extends BaseRepository<Venta, Long> {
 }

@@ -1,4 +1,7 @@
 package com.ERP.invOperativa.Repositories;
 
-public interface ProveedorRepository {
+
+import com.ERP.invOperativa.Entities.Proveedor;
+
+public interface ProveedorRepository extends BaseRepository<Proveedor, Long>{
 }
