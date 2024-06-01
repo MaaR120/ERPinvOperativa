@@ -4,7 +4,9 @@ import com.ERP.invOperativa.Entities.FamiliaArticulo;
 import com.ERP.invOperativa.Repositories.BaseRepository;
 import com.ERP.invOperativa.Repositories.FamiliaArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FamiliaArticuloServiceImpl extends BaseServiceImpl<FamiliaArticulo,Long> implements FamilaArticuloService {
     @Autowired
     protected FamiliaArticuloRepository familiaArticuloRepository;

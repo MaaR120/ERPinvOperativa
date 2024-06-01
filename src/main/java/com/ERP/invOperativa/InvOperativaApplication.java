@@ -15,7 +15,7 @@ public class InvOperativaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(InvOperativaApplication.class, args);
-		System.out.println("Estoy funcionando");
+		System.out.println("Programa en Ejecucion");
 	}
 	@Autowired
 	ArticuloRepository articuloRepository;
@@ -43,6 +43,12 @@ public class InvOperativaApplication {
 		};
 	}
 
-}
+	@Bean
+	public CommandLineRunner init() {
+		return args -> {
+			System.out.println("------------------------Estoy Funcionando------------------------");
 
+		};
+	}
+}
 

@@ -1,4 +1,8 @@
 package com.ERP.invOperativa.Repositories;
 
-public interface DetalleVentaRepository  {
+import com.ERP.invOperativa.Entities.DetalleVenta;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface DetalleVentaRepository extends BaseRepository<DetalleVenta,Long>{
 }

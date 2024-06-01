@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Data
 @Builder
 public class Venta extends Base{
     @NotNull
@@ -26,16 +25,12 @@ public class Venta extends Base{
     @Column(name = "total_venta")
     private double totalVenta;
 
-    @ManyToOne
-    @JoinColumn(name = "venta_id")
-    private Venta venta;
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_factura")
+    @JoinColumn(name = "venta_id")
     @Builder.Default
     private List<DetalleVenta> detalleVentas = new ArrayList<>();
 
     public void agregarDetalleVenta(DetalleVenta detalleVenta){
-
         detalleVentas.add(detalleVenta);
     }
 }
