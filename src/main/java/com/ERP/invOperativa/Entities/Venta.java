@@ -30,7 +30,7 @@ public class Venta extends Base{
     @JoinColumn(name = "venta_id")
     private Venta venta;
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_factura")
+    @JoinColumn(name = "id_venta")
     @Builder.Default
     private List<DetalleVenta> detalleVentas = new ArrayList<>();
 
