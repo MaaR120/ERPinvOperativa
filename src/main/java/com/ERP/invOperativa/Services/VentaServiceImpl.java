@@ -2,15 +2,21 @@ package com.ERP.invOperativa.Services;
 
 import com.ERP.invOperativa.DTO.DTODetalleVenta;
 import com.ERP.invOperativa.DTO.DTOVenta;
+import com.ERP.invOperativa.DTO.DTOVentasFiltroArt;
+import com.ERP.invOperativa.DTO.DTOVentasFiltroArtProjection;
 import com.ERP.invOperativa.Entities.Articulo;
 import com.ERP.invOperativa.Entities.DetalleVenta;
 import com.ERP.invOperativa.Entities.Venta;
 import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.BaseRepository;
+import com.ERP.invOperativa.Repositories.DetalleVentaRepository;
 import com.ERP.invOperativa.Repositories.VentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +25,9 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
     protected VentaRepository ventaRepository;
     @Autowired
     protected ArticuloRepository articuloRepository;
+
+    @Autowired
+    protected DetalleVentaRepository detalleVentaRepository;
 
     public VentaServiceImpl(BaseRepository<Venta, Long> baseRepository, VentaRepository ventaRepository) {
         super(baseRepository);
@@ -53,4 +62,22 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
             throw new Exception(e.getMessage());
         }
     }
+
+    @Override
+    public List<DTOVentasFiltroArt> filtroVentaArtFecha(Date fechaIni, Date fechaFin, Long idArt) throws Exception {
+        List<DTOVentasFiltroArtProjection> ventasFiltro=ventaRepository.filtroVentaArtFecha(fechaIni,fechaFin,idArt);
+        if (!ventasFiltro.isEmpty()){
+            List<DTOVentasFiltroArt> listVentasFiltro=new ArrayList<DTOVentasFiltroArt>();
+            for (DTOVentasFiltroArtProjection ventaProjection:ventasFiltro){
+                DTOVentasFiltroArt dtoVentasFiltro=new DTOVentasFiltroArt();
+                dtoVentasFiltro.setFechaFactruacion(ventaProjection.getFechaFacturacion());
+                dtoVentasFiltro.setCantidad(ventaProjection.getCantidad());
+                dtoVentasFiltro.setIdArt(ventaProjection.getIdArt());
+                listVentasFiltro.add(dtoVentasFiltro);
+            }
+            return listVentasFiltro;
+        } else throw new Exception("No se encontraron ventas para este articulo en las fechas indicadas...");
+    }
+
+
 }
