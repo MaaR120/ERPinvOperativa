@@ -1,9 +1,6 @@
 package com.ERP.invOperativa.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
@@ -19,21 +16,29 @@ import java.util.Date;
 public class Articulo extends Base{
 
     @NotNull
+    @Column
     private String NombreArticulo;
 
+    @Column
     private Double CostoAlmacenamiento;
 
+    @Column
     private int Stock;
 
+    @Column
     private int StockSeguridad;
 
+    @Column
     private int PuntoPedido;
 
+    @Column
     private int LoteOptimo;
 
+    @Column
     @NotNull
     private double precio;
 
+    @Column
     private Date fechaBaja;
 
     @ManyToOne

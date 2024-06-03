@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Data
 @Builder
 public class OrdenCompra extends Base{
     @NotNull

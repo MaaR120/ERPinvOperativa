@@ -1,5 +1,6 @@
 package com.ERP.invOperativa.Controller;
 
+import com.ERP.invOperativa.DTO.DTOVenta;
 import com.ERP.invOperativa.Entities.Venta;
 import com.ERP.invOperativa.Services.VentaServiceImpl;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.awt.print.Pageable;
 
 @RestController
-@RequestMapping(path = "api/v1/productos")
+@CrossOrigin(origins = "*")
+@RequestMapping(path = "api/v1/venta")
 public class VentaController extends BaseControllerImpl<Venta, VentaServiceImpl> {
 
-    @Override
-    public ResponseEntity<?> getAll(Pageable pageable) {
-        return null;
+    @PostMapping("/add")
+    public ResponseEntity<?> crearVenta(@RequestBody DTOVenta dtoVenta){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(service.crearVenta(dtoVenta));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
     }
 }

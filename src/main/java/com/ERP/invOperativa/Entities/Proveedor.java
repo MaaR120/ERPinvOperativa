@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Data
 @Builder
 public class Proveedor extends Base{
     @Column(name = "nombre_Proveedor", length = 50, nullable = false)
@@ -26,14 +25,13 @@ public class Proveedor extends Base{
 
     @NotNull
     @Column(name = "Tiempo_Estimado_Entrega")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date TiempoEstimadoEntrega;
+    private int tiempoEstimadoEntrega;
 
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "id_proveedor")
     @Builder.Default
-    private List<ArticuloProveedor> articuloProveedors = new ArrayList<>();
+    private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
     public void agregarArticuloProveedor(ArticuloProveedor articuloProveedor){
-        articuloProveedors.add(articuloProveedor);
+        articuloProveedores.add(articuloProveedor);
     }
 }
