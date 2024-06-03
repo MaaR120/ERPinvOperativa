@@ -12,7 +12,7 @@
     </div>
     <div class="row">
         <div class="col-lg-3">
-            <a th:href="@{/ordenCompra/crear}" class="btn btn-primary">Agregar</a>
+            <a th:href="@{api/v1/ordenCompra}" class="btn btn-primary">Agregar</a>
         </div>
     </div>
     <br>
@@ -30,9 +30,7 @@
             <th scope="col">Acciones</th>
         </tr>
         </thead>
-        <!-- Aca es donde yo pienso hacer las cosas todas en una entidad para que sea mas sencillo mostrar los ordenes de compra y su cantitdad y de X articulo-->
-        <!-- Todavia esta sin terminar por ese cambio radical quye podriamos hacer-->
-        <tbody>
+            <tbody>
         <tr th:each="ordenCompra :${ordenes}">
             <td th:text="${ordenCompra.articulo.NombreArticulo}"></td>
             <td th:text="${ordenCompra.cantidad}"></td>
@@ -40,7 +38,7 @@
             <!--<td th:text="${ordenCompra.fechaInicio}"></td>-->
             <td th:text="${ordenCompra.fechaUltimoCambio}"></td>
             <td th:text="${ordenCompra.fechaEntrega}"></td>
-            <td th:text="${ordenCompra.EstadoOrdenCompra}"></td>  <!--Verificar, nome acuerdo si para que se vea el ENUM tenia que pasarlo a string al nombre-->
+            <td th:text="${ordenCompra.EstadoOrdenCompra}"></td>
             <td th:text="${ordenCompra.Total}"></td>
 
             <td>

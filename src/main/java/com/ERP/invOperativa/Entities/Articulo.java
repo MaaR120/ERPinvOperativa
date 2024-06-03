@@ -5,6 +5,7 @@ import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name= "articulo")
@@ -40,6 +41,9 @@ public class Articulo extends Base{
 
     @Column
     private Date fechaBaja;
+
+    @OneToMany(mappedBy = "articulo")
+    private Set<ArticuloProveedor> articuloProveedores;
 
     @ManyToOne
     @JoinColumn(name="FamiliaArticulo")

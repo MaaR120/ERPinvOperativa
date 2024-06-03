@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Proveedor")
@@ -23,15 +24,13 @@ public class Proveedor extends Base{
     @Temporal(TemporalType.DATE)
     private Date fechaBaja;
 
+
+    @OneToMany(mappedBy = "proveedor")
+    private Set<ArticuloProveedor> articuloProveedores;
+
     @NotNull
     @Column(name = "Tiempo_Estimado_Entrega")
     private int tiempoEstimadoEntrega;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_proveedor")
-    @Builder.Default
-    private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
-    public void agregarArticuloProveedor(ArticuloProveedor articuloProveedor){
-        articuloProveedores.add(articuloProveedor);
-    }
+
 }

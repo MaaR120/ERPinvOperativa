@@ -5,9 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 
 @Entity
 @Table(name = "OrdenCompra")
@@ -41,16 +40,17 @@ public class OrdenCompra extends Base{
     @Enumerated(EnumType.STRING)
     private EstadoOrdenCompra estadoOrdenCompra;
 
+    @NotNull
+    private int cantidad;
+
+
+    @ManyToOne()
+    @JoinColumn(name = "id_articulo")
+    private Articulo articulo;
+
+
     @ManyToOne()
     @JoinColumn(name = "id_proveedor")
     private Proveedor proveedor;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_orden")
-    @Builder.Default
-    private List<DetalleOrdenCompra> detalleOrdenCompras = new ArrayList<>();
-    public void agregarDetalleOrdenCompra(DetalleOrdenCompra detalleOrdenCompra){
-
-        detalleOrdenCompras.add(detalleOrdenCompra);
-    }
 }

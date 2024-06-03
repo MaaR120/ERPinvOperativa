@@ -22,8 +22,16 @@ public class ArticuloProveedor extends Base{
     @Column(name = "precio_articulo_Proveedor")
     private double precioArticuloProveedor;
 
+    @NotNull
+    @Column(name = "predeterminado")
+    private boolean predeterminado;
+
     @ManyToOne()
     @JoinColumn(name = "id_Articulo")
-    private Articulo Articulo;
+    private Articulo articulo;
+
+    @ManyToOne()
+    @JoinColumn(name = "id_proveedor")
+    private Proveedor proveedor;
 
 }
