@@ -9,6 +9,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication
@@ -31,6 +35,9 @@ public class InvOperativaApplication {
 
 	@Autowired
 	ProveedorRepository proveedorRepository;
+
+	@Autowired
+	ArticuloProveedorRepository articuloProveedorRepository;
 
 
 
@@ -59,6 +66,18 @@ public class InvOperativaApplication {
 					.build();
 
 			proveedorRepository.save(Proveedor1);
+
+			Date FechaVigente = new Date(2024, 9, 21);
+
+			ArticuloProveedor articuloProveedor1 = ArticuloProveedor.builder()
+					.proveedor(Proveedor1)
+					.articulo(articulo1)
+					.precioArticuloProveedor(30.0)
+					.fechaVigencia(FechaVigente)
+					.predeterminado(true)
+					.build();
+
+			articuloProveedorRepository.save(articuloProveedor1);
 
 			OrdenCompra ordencompra1 = OrdenCompra.builder()
 					.estadoOrdenCompra(EstadoOrdenCompra.Preparacion)
