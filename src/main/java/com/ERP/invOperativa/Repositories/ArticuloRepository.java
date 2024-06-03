@@ -1,4 +1,6 @@
 package com.ERP.invOperativa.Repositories;
 
-public interface ArticuloRepository {
+import com.ERP.invOperativa.Entities.Articulo;
+
+public interface ArticuloRepository extends BaseRepository<Articulo,Long> {
 }

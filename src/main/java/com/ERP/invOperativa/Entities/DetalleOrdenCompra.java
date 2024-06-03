@@ -10,7 +10,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 @AllArgsConstructor
 @Getter
 @Setter
-@Data
 @Builder
 public class DetalleOrdenCompra extends Base{
     @NotNull
