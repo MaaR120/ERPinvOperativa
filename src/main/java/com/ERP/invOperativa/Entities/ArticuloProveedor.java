@@ -19,6 +19,11 @@ public class ArticuloProveedor extends Base{
     private Date fechaVigencia;
 
     @NotNull
+    @Column(name = "Tiempo_Demora")
+    private int tiempoDemora;
+
+
+    @NotNull
     @Column(name = "precio_articulo_Proveedor")
     private double precioArticuloProveedor;
 

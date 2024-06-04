@@ -65,7 +65,6 @@ public class InvOperativaApplication {
 
 			Proveedor Proveedor1 = Proveedor.builder()
 					.nombreProveedor("Juan Gonzalez")
-					.tiempoEstimadoEntrega(15)
 					.build();
 
 			proveedorRepository.save(Proveedor1);

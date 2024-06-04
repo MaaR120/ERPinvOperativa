@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <h1>Crear Orden de Compra</h1>
-    <form th:action="@{api/v1/ordenCompra}" th:object="${ordenDeCompra}" method="post">
+    <form th:action="@{/ordenes}" th:object="${ordenDeCompra}" method="post">
         <div class="form-group">
             <label for="articulo">Artículo</label>
             <select id="articulo" name="articulo" class="form-control" onchange="cargarProveedores()">

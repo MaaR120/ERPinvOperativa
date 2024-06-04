@@ -17,6 +17,7 @@ import java.util.Date;
 @Builder
 public class OrdenCompra extends Base{
 //    @NotNull
+    //Falta el calculo
     @Column(name = "fecha_Entrega")
     @Temporal(TemporalType.DATE)
     private Date fechaEntrega;
@@ -41,6 +42,7 @@ public class OrdenCompra extends Base{
     private EstadoOrdenCompra estadoOrdenCompra;
 
     @NotNull
+    @Column(name = "Cantidad")
     private int cantidad;
 
 

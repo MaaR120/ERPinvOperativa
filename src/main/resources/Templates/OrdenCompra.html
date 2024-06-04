@@ -12,7 +12,7 @@
     </div>
     <div class="row">
         <div class="col-lg-3">
-            <a th:href="@{api/v1/ordenCompra}" class="btn btn-primary">Agregar</a>
+            <a th:href="@{/ordenCompra/form}" class="btn btn-primary">Agregar</a>
         </div>
     </div>
     <br>
@@ -22,7 +22,7 @@
             <th scope="col">Articulo</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Proveedor</th>
-            <!--<th scope="col">FechaInicio</th>-->
+            <!--<th scope="col">FechaInicio</th> ME PARECIO IRRELEVANTE PARA EL USUARIO ESTE DATO-->
             <th scope="col">FechaUltimoCambio</th>
             <th scope="col">FechaEntrega</th>
             <th scope="col">EstadoOrden</th>
@@ -34,12 +34,12 @@
         <tr th:each="ordenCompra :${ordenes}">
             <td th:text="${ordenCompra.articulo.NombreArticulo}"></td>
             <td th:text="${ordenCompra.cantidad}"></td>
-            <td th:text="${ordenCompra.proveedor.NombreProveedor}"></td>
+            <td th:text="${ordenCompra.proveedor.nombreProveedor}"></td>
             <!--<td th:text="${ordenCompra.fechaInicio}"></td>-->
             <td th:text="${ordenCompra.fechaUltimoCambio}"></td>
             <td th:text="${ordenCompra.fechaEntrega}"></td>
-            <td th:text="${ordenCompra.EstadoOrdenCompra}"></td>
-            <td th:text="${ordenCompra.Total}"></td>
+            <td th:text="${ordenCompra.estadoOrdenCompra}"></td>
+            <td th:text="${ordenCompra.totalOrden}"></td>
 
             <td>
                 <a class="btn btn-warning">Modificar</a>

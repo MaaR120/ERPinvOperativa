@@ -28,9 +28,6 @@ public class Proveedor extends Base{
     @OneToMany(mappedBy = "proveedor")
     private Set<ArticuloProveedor> articuloProveedores;
 
-    @NotNull
-    @Column(name = "Tiempo_Estimado_Entrega")
-    private int tiempoEstimadoEntrega;
 
 
 }
