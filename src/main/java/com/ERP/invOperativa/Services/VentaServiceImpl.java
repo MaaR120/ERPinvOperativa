@@ -9,6 +9,7 @@ import com.ERP.invOperativa.Repositories.BaseRepository;
 import com.ERP.invOperativa.Repositories.VentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.events.Event;
 
 
 import java.util.List;
@@ -28,15 +29,39 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
     public VentaServiceImpl(BaseRepository<Venta, Long> baseRepository) {
         super(baseRepository);
     }
+
+    //Listar todas las ventas
     @Override
     public List<Venta> findAll() {
         return ventaRepository.findAll();
     }
+
+    //Ver los detalles de las ventas
     @Override
     public Optional<Venta> findById(Long id) {
-        return ventaRepository.findById(id);
+        return super.findById(id);
     }
 
+    //Guardar venta
+    @Override
+    public Venta saveVenta(Venta venta) {
+
+        return ventaRepository.save(venta);
+    }
+
+    //Borrar venta
+    @Override
+    public Venta deleteVenta(Long id) {
+        ventaRepository.deleteById(id);
+        return null;
+    }
+
+
+
+
+
+
+    //Crear ventas
     @Override
     public Venta crearVenta(DTOVenta dtoVenta) throws Exception {
         try {

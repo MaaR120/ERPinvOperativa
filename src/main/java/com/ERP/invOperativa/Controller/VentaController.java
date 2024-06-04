@@ -1,12 +1,13 @@
 package com.ERP.invOperativa.Controller;
-
+import java.util.Date;
 import com.ERP.invOperativa.DTO.DTOVenta;
+import com.ERP.invOperativa.Entities.Articulo;
+import com.ERP.invOperativa.Entities.DetalleVenta;
 import com.ERP.invOperativa.Entities.Venta;
-import com.ERP.invOperativa.Services.VentaService;
+import com.ERP.invOperativa.Services.ArticuloService;
 import com.ERP.invOperativa.Services.VentaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +30,10 @@ import java.util.Optional;
 @RequestMapping(path = "venta")
 public class VentaController extends BaseControllerImpl <Venta, VentaServiceImpl>{
 
+    @Autowired
+    private ArticuloService articuloService;
 
+    //controlador de ver el listado de las ventas
     @GetMapping("/listadoVentas")
     public String listarVentas(Model model) {
         model.addAttribute("ventas", service.findAll());
@@ -38,16 +47,7 @@ public class VentaController extends BaseControllerImpl <Venta, VentaServiceImpl
         return "NuevaVenta";
     }
 
-    @PostMapping("/nuevo")
-    public String crearVenta(@ModelAttribute DTOVenta dtoVenta) {
-        try {
-            service.crearVenta(dtoVenta);
-            return "redirect:/venta";
-        } catch (Exception e) {
-            return "error";
-        }
-    }
-
+    //controlador de ver el detalle
     @GetMapping("/detalleVenta/{id}")
     public String DetalleVenta(@PathVariable("id") Long id, Model model) {
         Optional<Venta> venta = service.findById(id);
@@ -58,20 +58,26 @@ public class VentaController extends BaseControllerImpl <Venta, VentaServiceImpl
             return "redirect:/venta/listadoVentas"; // O maneja el error de otra forma
         }
     }
+
+
+    //Controaldor de borrar venta en la lista
+    @GetMapping("/listadoVentas/{id}")
+    public String eliminarVenta(@PathVariable Long id){
+        service.deleteVenta(id);
+        return "redirect:/venta/listadoVentas";
     }
-//
-//    @GetMapping("/detalle/{id}")
-//    public String detalleVenta(@PathVariable Long id, Model model) throws Exception {
-//        Venta venta = service.findById(id).orElse(null);
-//        model.addAttribute("venta", venta);
-//        return "detalle";
+
+    //    @PostMapping("/guardarVenta")
+//    public String guardarVenta(@ModelAttribute Venta venta) {
+//        try {
+//            service.save(venta);
+//            return "redirect:/venta";
+//        } catch (Exception e) {
+//            return "error";
+//        }
 //    }
 
-//    @GetMapping("/eliminar/{id}")
-//    public String eliminarVenta(@PathVariable Long id) throws Exception {
-//        Venta venta = service.findById(id).orElse(null);
-//        if (venta != null) {
-//            service.delete(id);
-//        }
-//        return "redirect:/venta";
-//    }
+}
+
+
+

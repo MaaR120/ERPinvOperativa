@@ -64,6 +64,25 @@ public class InvOperativaApplication implements CommandLineRunner {
 		// Guardar venta (esto también guarda los detalles de venta debido a CascadeType.ALL)
 		ventaRepository.save(venta);
 
+		// Crear venta
+		Venta venta1 = new Venta();
+		venta1.setFechaFacturacion(new Date(System.currentTimeMillis()));
+		venta1.setTotalVenta(0);
+
+		// Crear detalles de venta
+		DetalleVenta detalleVenta2 = new DetalleVenta();
+		detalleVenta2.setArticulo(articulo1);
+		detalleVenta2.setCantidad(5);
+		detalleVenta2.setSubtotal(articulo1.getPrecio() * detalleVenta2.getCantidad());
+
+		venta1.agregarDetalleVenta(detalleVenta2);
+
+		// Calcular total de venta
+		venta1.setTotalVenta(detalleVenta2.getSubtotal());
+
+		// Guardar venta (esto también guarda los detalles de venta debido a CascadeType.ALL)
+		ventaRepository.save(venta1);
+
 		System.out.println("Venta creada: ");
 		System.out.println("ID: " + venta.getId());
 		System.out.println("Fecha de facturación: " + venta.getFechaFacturacion());

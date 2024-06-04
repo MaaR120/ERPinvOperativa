@@ -21,12 +21,17 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tbody>
                 <tr th:each="detalle : ${venta.detalleVentas}">
-                    <td th:if="${detalle.articulo != null}" th:text="${detalle.articulo.nombre}">-</td>
-                    <td th:unless="${detalle.articulo != null}">N/A</td>
+                    <td>
+                        <span th:if="${detalle.articulo != null}" th:text="${detalle.articulo.NombreArticulo}">-</span>
+                        <span th:unless="${detalle.articulo != null}">N/A</span>
+                    </td>
                     <td th:text="${detalle.cantidad}"></td>
                     <td th:text="${detalle.subtotal}"></td>
                 </tr>
+                </tbody>
+
                 </tbody>
             </table>
             <a th:href="@{/venta/listadoVentas}" class="btn btn-primary">Volver a la lista</a>
@@ -35,4 +40,3 @@
 </div>
 </body>
 </html>
-

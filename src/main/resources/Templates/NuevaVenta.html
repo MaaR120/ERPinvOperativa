@@ -1,3 +1,28 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Nueva Venta</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <h1>Nueva Venta</h1>-->
+<!--    </div>-->
+<!--    <form th:action="@{/venta/nuevo}" method="post">-->
+<!--        <div class="form-group">-->
+<!--            <label for="fechaFacturacion">Fecha de Facturación</label>-->
+<!--            <input type="date" id="fechaFacturacion" name="fechaFacturacion" class="form-control">-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Añade los detalles de venta aquí &ndash;&gt;-->
+<!--        <button type="submit" class="btn btn-primary">Guardar</button>-->
+<!--    </form>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -10,14 +35,38 @@
     <div class="row">
         <h1>Nueva Venta</h1>
     </div>
-    <form th:action="@{/venta/nuevo}" method="post">
-        <div class="form-group">
-            <label for="fechaFacturacion">Fecha de Facturación</label>
-            <input type="date" id="fechaFacturacion" name="fechaFacturacion" class="form-control">
-        </div>
-        <!-- Añade los detalles de venta aquí -->
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </form>
+    <div class="row">
+        <form th:action="@{/venta/nueva}" method="post">
+            <div class="form-group">
+                <label for="fechaFacturacion">Fecha de Facturación:</label>
+                <input type="date" id="fechaFacturacion" name="fechaFacturacion" class="form-control" value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+            </div>
+
+
+            <div class="form-group">
+                <label for="NombreArticulo">Nombre del Artículo:</label>
+                <select th:field="*{Articulo.id}" class="form-control">
+                    <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.NombreArticulo}" type="text" id="NombreArticulo" name="nombreArticulo" class="form-control" required></option>
+                </select>
+
+            </div>
+            <div class="form-group">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" name="cantidad" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="subtotal">Subtotal:</label>
+                <input type="number" id="subtotal" name="subtotal" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="totalVenta">Total de la Venta:</label>
+                <input type="number" id="totalVenta" name="totalVenta" class="form-control" required>
+            </div>
+
+            <a th:href="@{/venta/guardarVenta/{id}(id=${venta.id})}" type="submit" class="btn btn-primary">Guardar Venta</a>
+        </form>
+    </div>
 </div>
 </body>
 </html>

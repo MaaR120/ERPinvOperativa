@@ -31,8 +31,7 @@
             <td>
                 <a th:href="@{/venta/detalleVenta/{id}(id=${venta.id})}" class="btn btn-info">Detalle</a>
                 <a th:href="@{/venta/modificar/{id}(id=${venta.id})}" class="btn btn-warning">Modificar</a>
-                <a th:href="@{/venta/eliminar/{id}(id=${venta.id})}" class="btn btn-danger">Eliminar</a>
-            </td>
+                <a th:href="@{/venta/listadoVentas/{id}(id=${venta.id})}" class="btn btn-danger">Eliminar</a>            </td>
         </tr>
         </tbody>
     </table>

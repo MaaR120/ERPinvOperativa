@@ -19,7 +19,9 @@ public interface BaseService <E extends Base, ID extends Serializable> {
     //Actualizamos entidades
     public E update(ID id, E entity) throws Exception;
     //Eliminamos registros
-    public  boolean delete(ID id) throws Exception;
+
+    Boolean delete(ID id) throws Exception;
+
     Optional<E> findById(ID id);
 
 }

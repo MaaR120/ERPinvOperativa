@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import lombok.Builder;
+import java.util.Date;
 
 import java.util.ArrayList;
 import java.util.Date;
