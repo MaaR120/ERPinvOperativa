@@ -12,7 +12,7 @@
     <h1> Agregar Articulo</h1>
   </div>
 </div>
-//No esta funcionando porque no existe el crud de familia
+
 <div class="container">
   <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
@@ -20,32 +20,40 @@
         <form th:action="@{/articulos}" th:object="${articulo}" method="POST">
           <div class="form-group">
             <label>Nombre</label>
-            <input type="text" name="nombre" th:field="*{NombreArticulo}" class="form-control">
+            <input type="text" name="nombre" th:field="*{NombreArticulo}" class="form-control" required>
+          </div><br>
+          <div class="form-group">
+            <label>Costo Almacenamiento</label>
+            <input type="text" name="costo" th:field="*{CostoAlmacenamiento}" class="form-control">
           </div><br>
           <div class="form-group">
             <label>Precio</label>
-            <input type="number" name="nombre" th:field="*{precio}" class="form-control">
+            <input type="number" name="precio" th:field="*{precio}" class="form-control">
           </div><br>
           <div class="form-group">
             <label>Stock</label>
-            <input type="number" name="nombre" th:field="*{Stock}" class="form-control">
+            <input type="number" name="stock" th:field="*{Stock}" class="form-control">
           </div>
           <br>
           <div class="form-group">
             <label>Fecha Baja</label>
-            <input type="date" name="nombre" th:field="*{Stock}" class="form-control" disabled>
+            <input type="date" name="fecha" th:field="*{fechaBaja}" class="form-control" disabled>
           </div>
           <br>
-          
+          <div class="form-group">
+            <label>Familia de Artículo</label>
+            <select th:field="*{familiaArticulo.id}" class="form-control">
+              <option th:each="familia : ${familias}" th:value="${familia.id}" th:text="${familia.nombreFamilia}"></option>
+            </select>
+          </div>
+          <br>
           <div class="box-footer">
             <button class="btn btn-success">Guardar</button>
+            <a th:href="@{/maestroarticulo}" class="btn btn-danger">Cancelar</a>
           </div>
-
         </form>
-
       </div>
     </div>
-
   </div>
 
 </div>

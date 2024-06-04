@@ -18,7 +18,7 @@ public class FamiliaArticulo extends Base{
     @Column(name = "nombre_Familia", length = 50, nullable = false)
     private String nombreFamilia;
 
-
+    @NotNull
     @Column(name = "Modelo")
     @Enumerated(EnumType.STRING)
     private Modelo modelo;

@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import static com.ERP.invOperativa.Enum.Modelo.Lote_fijo;
 
 @SpringBootApplication
 public class InvOperativaApplication {
@@ -46,13 +47,15 @@ public class InvOperativaApplication {
 	CommandLineRunner init(ArticuloRepository ArticuloRepository1,OrdenCompraRepository OrdenCompraRepository1 ) {
 		return args -> {
 
-		FamiliaArticulo familia1 = FamiliaArticulo.builder()
-			.nombreFamilia("herramienta")
+			FamiliaArticulo familia1 = FamiliaArticulo.builder()
+					.nombreFamilia("herramienta")
+					.modelo(Lote_fijo)
 					.build();
 			familiaArticuloRepository.save(familia1);
 
 	Articulo articulo1 = Articulo.builder()
 					.NombreArticulo("Tornillo")
+					.CostoAlmacenamiento(1500.0)
 					.precio(2500.0)
 					.familiaArticulo(familia1)
 					.build();
