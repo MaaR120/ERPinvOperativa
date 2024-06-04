@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import static com.ERP.invOperativa.Enum.Modelo.Lote_fijo;
+
 @SpringBootApplication
 public class InvOperativaApplication {
 
@@ -30,11 +32,13 @@ public class InvOperativaApplication {
 
 			FamiliaArticulo familia1 = FamiliaArticulo.builder()
 					.nombreFamilia("herramienta")
+					.modelo(Lote_fijo)
 					.build();
 			familiaArticuloRepository.save(familia1);
 
 			Articulo articulo1 = Articulo.builder()
 					.NombreArticulo("Tornillo")
+					.CostoAlmacenamiento(1500.0)
 					.precio(2500.0)
 					.familiaArticulo(familia1)
 					.build();

@@ -20,11 +20,13 @@ public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implemen
 
     @Override
     public List<Articulo> ListarArticulos() {
+
         return articuloRepository.findAll();
     }
 
     @Override
     public Articulo saveArticulo(Articulo articulo) {
+
         return articuloRepository.save(articulo);
     }
 
