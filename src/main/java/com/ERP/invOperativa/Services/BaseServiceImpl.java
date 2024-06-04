@@ -18,7 +18,6 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
     }
 
     @Override
-    @Transactional
     public List<E> findAll() throws Exception {
         try {
             List<E> entities = baseRepository.findAll();
@@ -37,16 +36,6 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
             throw new Exception(e.getMessage());
         }
 
-    }
-    @Override
-    @Transactional
-    public E findById(ID id) throws Exception {
-        try{
-            Optional<E> entityOptional = baseRepository.findById(id);
-            return entityOptional.get();
-        } catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
     }
 
     @Override
@@ -86,5 +75,11 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
+    }
+
+
+    @Override
+    public Optional<E> findById(ID id) {
+        return baseRepository.findById(id);
     }
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de Venta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h1>Detalle de Venta</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Artículo</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="detalle : ${venta.detalleVentas}">
+                    <td th:if="${detalle.articulo != null}" th:text="${detalle.articulo.nombre}">-</td>
+                    <td th:unless="${detalle.articulo != null}">N/A</td>
+                    <td th:text="${detalle.cantidad}"></td>
+                    <td th:text="${detalle.subtotal}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <a th:href="@{/venta/listadoVentas}" class="btn btn-primary">Volver a la lista</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

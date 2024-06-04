@@ -3,8 +3,11 @@ package com.ERP.invOperativa.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import lombok.Builder;
 
 import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name= "articulo")
@@ -15,36 +18,50 @@ import java.util.Date;
 @Builder
 public class Articulo extends Base{
 
-    @NotNull
-    @Column
+    @Column(name = "NombreArticulo")
     private String NombreArticulo;
 
-    @Column
+    @Column(name = "CostoAlmacenamiento")
     private Double CostoAlmacenamiento;
 
-    @Column
+    @Column(name = "Stock")
     private int Stock;
 
-    @Column
+    @Column(name = "StockSeguridad")
     private int StockSeguridad;
 
-    @Column
+    @Column(name = "PuntoPedido")
     private int PuntoPedido;
 
-    @Column
+    @Column(name = "LoteOptimo")
     private int LoteOptimo;
 
-    @Column
+    @Column(name = "precio")
     @NotNull
     private double precio;
 
-    @Column
+    @Column(name = "fechaBaja")
     private Date fechaBaja;
 
     @ManyToOne
     @JoinColumn(name="FamiliaArticulo")
     private FamiliaArticulo familiaArticulo;
 
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public String getNombreArticulo(){
+        return NombreArticulo;
+    }
+    public void setNombreArticulo(String nombreArticulo) {
+        this.NombreArticulo = nombreArticulo;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
 
     // Métodos para calcular stockSeguridad, puntoPedido, loteOptimo
     public int calcularStockSeguridad() {
