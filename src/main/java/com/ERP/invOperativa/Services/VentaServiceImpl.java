@@ -1,9 +1,6 @@
 package com.ERP.invOperativa.Services;
 
-import com.ERP.invOperativa.DTO.DTODetalleVenta;
-import com.ERP.invOperativa.DTO.DTOVenta;
-import com.ERP.invOperativa.DTO.DTOVentasFiltroArt;
-import com.ERP.invOperativa.DTO.DTOVentasFiltroArtProjection;
+import com.ERP.invOperativa.DTO.*;
 import com.ERP.invOperativa.Entities.Articulo;
 import com.ERP.invOperativa.Entities.DetalleVenta;
 import com.ERP.invOperativa.Entities.Venta;
@@ -77,6 +74,21 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
             }
             return listVentasFiltro;
         } else throw new Exception("No se encontraron ventas para este articulo en las fechas indicadas...");
+    }
+
+    @Override
+    public List<VentasPorMesDTO> obtenerVentasPorMes(Date fechaIni, Date fechaFin, Long idArt) throws Exception {
+        List<VentasPorMesDTOProjection> ventasFiltroProjection=ventaRepository.obtenerVentasPorMes(fechaIni,fechaFin,idArt);
+        if(!ventasFiltroProjection.isEmpty()) {
+            List<VentasPorMesDTO> ventasFiltro=new ArrayList<VentasPorMesDTO>();
+            for(VentasPorMesDTOProjection ventasProjection:ventasFiltroProjection){
+                VentasPorMesDTO ventasPorMesDTO= new VentasPorMesDTO();
+                ventasPorMesDTO.setMes(ventasProjection.getMes());
+                ventasPorMesDTO.setCantidad(ventasProjection.getCantidad());
+                ventasFiltro.add(ventasPorMesDTO);
+            }
+            return ventasFiltro;
+        }else throw new Exception("No se encontraron ventas para este articulo en las fechas indicadas...");
     }
 
 

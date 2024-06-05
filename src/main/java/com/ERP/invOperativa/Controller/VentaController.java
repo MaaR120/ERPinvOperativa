@@ -1,6 +1,7 @@
 package com.ERP.invOperativa.Controller;
 
 import com.ERP.invOperativa.DTO.DTOVenta;
+import com.ERP.invOperativa.DTO.VentasPorMesDTO;
 import com.ERP.invOperativa.Entities.Venta;
 import com.ERP.invOperativa.Services.VentaServiceImpl;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,6 +35,15 @@ public class VentaController extends BaseControllerImpl<Venta, VentaServiceImpl>
             return ResponseEntity.status(HttpStatus.OK).body(service.filtroVentaArtFecha(fechaIni,fechaFin,idArt));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage() +"\"}"));
+        }
+    }
+
+    @GetMapping("/filtroMes")
+    public ResponseEntity<?> obtenerHistoricoVentas(@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date fechaIni,@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date fechaFin,@RequestParam Long idArt) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.obtenerVentasPorMes(fechaIni, fechaFin, idArt));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage() + "\"}"));
         }
     }
 

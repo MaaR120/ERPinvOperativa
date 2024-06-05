@@ -1,6 +1,8 @@
 package com.ERP.invOperativa.Repositories;
 import com.ERP.invOperativa.DTO.DTOVentasFiltroArt;
 import com.ERP.invOperativa.DTO.DTOVentasFiltroArtProjection;
+import com.ERP.invOperativa.DTO.VentasPorMesDTO;
+import com.ERP.invOperativa.DTO.VentasPorMesDTOProjection;
 import com.ERP.invOperativa.Entities.Venta;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +23,19 @@ public interface VentaRepository extends BaseRepository<Venta,Long>{
     List<DTOVentasFiltroArtProjection> filtroVentaArtFecha(@Param("fechaIni") Date fechaIni,
                                                            @Param("fechaFin") Date fechaFin,
                                                            @Param("idArt") Long idArt);
+
+
+        @Query(value = "SELECT FORMATDATETIME(v.fecha_Venta, 'yyyy-MM') as mes, SUM(dv.cantidad) as cantidad " +
+                "FROM Venta v " +
+                "JOIN Detalle_Venta dv ON v.id = dv.venta_id " +
+                "WHERE dv.articulo = :idArt " +
+                "AND v.fecha_Venta BETWEEN :fechaIni AND :fechaFin " +
+                "GROUP BY FORMATDATETIME(v.fecha_Venta, 'yyyy-MM') " +
+                "ORDER BY FORMATDATETIME(v.fecha_Venta, 'yyyy-MM')",
+                nativeQuery = true)
+        List<VentasPorMesDTOProjection> obtenerVentasPorMes(@Param("fechaIni") Date fechaIni,
+                                                            @Param("fechaFin") Date fechaFin,
+                                                            @Param("idArt") Long idArt);
+
+
 }
