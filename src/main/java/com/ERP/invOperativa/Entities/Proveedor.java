@@ -25,9 +25,17 @@ public class Proveedor extends Base{
     private Date fechaBaja;
 
 
-    @OneToMany(mappedBy = "proveedor")
-    private Set<ArticuloProveedor> articuloProveedores;
+
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Getter
+    @Setter
+    private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
 
 
+    // Método para agregar un ArticuloProveedor a la lista
+    public void addArticuloProveedor(ArticuloProveedor articuloProveedor) {
+        articuloProveedores.add(articuloProveedor);
+        articuloProveedor.setProveedor(this);
+    }
 
 }

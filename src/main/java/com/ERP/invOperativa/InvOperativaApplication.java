@@ -61,26 +61,30 @@ public class InvOperativaApplication {
 					.build();
 		articuloRepository.save(articulo1);
 
-			//CREO ORDEN COMPRA
 
+//Creo proveedor
 			Proveedor Proveedor1 = Proveedor.builder()
 					.nombreProveedor("Juan Gonzalez")
 					.build();
-
+//Guardo Proveedor
 			proveedorRepository.save(Proveedor1);
-
+//Primer intento de fecha vigente
 			Date FechaVigente = new Date(2024, 9, 21);
-
+//Creo articulo proveedor, asignandole su proveedor y su articulo
 			ArticuloProveedor articuloProveedor1 = ArticuloProveedor.builder()
 					.proveedor(Proveedor1)
 					.articulo(articulo1)
 					.precioArticuloProveedor(30.0)
-					.fechaVigencia(FechaVigente)
+					.fechaVigencia(java.sql.Date.valueOf("2024-07-30"))
 					.predeterminado(true)
 					.build();
-
+//Guardo
 			articuloProveedorRepository.save(articuloProveedor1);
+//Obtengo la lista de articuloProveedores de proveedor y le agrego el aP que cree recientemente
+			Proveedor1.addArticuloProveedor(articuloProveedor1);
+			articulo1.addArticuloProveedor(articuloProveedor1);
 
+//Creo OC
 			OrdenCompra ordencompra1 = OrdenCompra.builder()
 					.estadoOrdenCompra(EstadoOrdenCompra.Preparacion)
 					.totalOrden(15000.0)
@@ -90,8 +94,11 @@ public class InvOperativaApplication {
 					.build();
 
 			ordenCompraRepository.save(ordencompra1);
-
-
+// Le asigno la OC al articulo
+			articulo1.addOrdenCompra(ordencompra1);
+//Guardo los cambios, aunque en teoria, se deberia hacer automaticamente por el cascade
+			proveedorRepository.save(Proveedor1);
+			articuloRepository.save(articulo1);
 		};
 	}
 }

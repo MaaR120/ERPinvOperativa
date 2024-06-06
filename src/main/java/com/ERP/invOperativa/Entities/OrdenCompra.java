@@ -47,12 +47,12 @@ public class OrdenCompra extends Base{
 
 
     @ManyToOne()
-    @JoinColumn(name = "id_articulo")
+    @JoinColumn(name = "id_articulo") //Clave Foranea articulo
     private Articulo articulo;
 
 
     @ManyToOne()
-    @JoinColumn(name = "id_proveedor")
+    @JoinColumn(name = "id_proveedor") //Clave Foranea proveedor
     private Proveedor proveedor;
 
 }

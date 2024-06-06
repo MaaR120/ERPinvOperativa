@@ -32,11 +32,13 @@ public class ArticuloProveedor extends Base{
     private boolean predeterminado;
 
     @ManyToOne()
-    @JoinColumn(name = "id_Articulo")
+    @JoinColumn(name = "id_Articulo")  //Clave foranea de la entidad articulo
     private Articulo articulo;
 
+
+
     @ManyToOne()
-    @JoinColumn(name = "id_proveedor")
+    @JoinColumn(name = "id_proveedor") //Clave foranea de la entidad proveedor
     private Proveedor proveedor;
 
 }

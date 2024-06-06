@@ -34,7 +34,7 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
     }
     @GetMapping("/ordenCompra")
     public String listarOrdenes(Model modelo){
-        modelo.addAttribute("ordenes", service.ListarOrdenes());
+        modelo.addAttribute("ordenes", ordenCompraService.ListarOrdenes());
         return "OrdenCompra";
     }
 
