@@ -1,14 +1,16 @@
 package com.ERP.invOperativa.Entities;
 
+import com.ERP.invOperativa.DTO.DTODetalleVenta;
+import com.ERP.invOperativa.DTO.DTOVenta;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import lombok.Builder;
-import java.util.Date;
+import java.sql.Date;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import lombok.Getter;
@@ -34,13 +36,19 @@ public class Venta extends Base {
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @Builder.Default
-    private List<DetalleVenta> detalleVentas = new ArrayList<>();
+    private List<DetalleVenta> detallesVenta = new ArrayList<>();
 
     public void agregarDetalleVenta(DetalleVenta detalleVenta) {
         detalleVenta.setVenta(this);
-        detalleVentas.add(detalleVenta);
+        detallesVenta.add(detalleVenta);
+    }
+    public List<DetalleVenta> getDetallesVenta() {
+        return detallesVenta;
     }
 
+    public void setDetallesVenta(List<DetalleVenta> detalleVenta) {
+        this.detallesVenta = detalleVenta;
+    }
     public double getTotalVenta () {
         return totalVenta;
     }
@@ -48,18 +56,18 @@ public class Venta extends Base {
     public void setTotalVenta(double totalVenta) {
         this.totalVenta = totalVenta;
     }
-    public List<DetalleVenta> getDetalleVentas() {
-        return detalleVentas;
-    }
+
     public Date getFechaFacturacion() {
         return fechaFacturacion;
     }
 
-    public void setDetalleVentas(List<DetalleVenta> detallesVenta) {
-        this.detalleVentas = detallesVenta;}
 
-    public void setFechaFacturacion(Date fechaFactuacion) {
-        this.fechaFacturacion = fechaFactuacion;
+    public void setFechaFacturacion(Date fechaFacturacion) {
+        this.fechaFacturacion = fechaFacturacion;
     }
 
+
+
 }
+
+

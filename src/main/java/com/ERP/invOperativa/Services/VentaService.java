@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface VentaService extends BaseService<Venta,Long>{
-    Venta crearVenta(DTOVenta dtoVenta) throws Exception;
 
     //Listar las ventas
     List<Venta> findAll();
@@ -18,8 +17,6 @@ public interface VentaService extends BaseService<Venta,Long>{
     Optional<Venta> findById(Long id);
 
 
-    //Guardar venta
-    public Venta saveVenta(Venta venta);
 
     //Guardar borrar
     Venta deleteVenta(Long id);

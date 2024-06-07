@@ -12,7 +12,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.sql.Date;
-import java.util.List;
 
 @SpringBootApplication
 public class InvOperativaApplication implements CommandLineRunner {
@@ -88,7 +87,7 @@ public class InvOperativaApplication implements CommandLineRunner {
 		System.out.println("Fecha de facturación: " + venta.getFechaFacturacion());
 		System.out.println("Total de venta: " + venta.getTotalVenta());
 
-		for (DetalleVenta detalle : venta.getDetalleVentas()) {
+		for (DetalleVenta detalle : venta.getDetallesVenta()) {
 			System.out.println("Detalle de venta creado: ");
 			System.out.println("ID: " + detalle.getId());
 			System.out.println("Cantidad: " + detalle.getCantidad());
