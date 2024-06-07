@@ -24,6 +24,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class Venta extends Base {
+
     @NotNull
     @Column(name = "fecha_Venta")
     @Temporal(TemporalType.DATE)
@@ -33,23 +34,23 @@ public class Venta extends Base {
     @Column(name = "total_venta")
     private double totalVenta;
 
-
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    @JoinColumn(name = "venta_id")
     @Builder.Default
-    private List<DetalleVenta> detallesVenta = new ArrayList<>();
+    private List<DetalleVenta> detalleVentas = new ArrayList<>();
 
-    public void agregarDetalleVenta(DetalleVenta detalleVenta) {
-        detalleVenta.setVenta(this);
-        detallesVenta.add(detalleVenta);
+    public void agregarDetalleVenta(DetalleVenta detalleVenta){
+        detalleVentas.add(detalleVenta);
     }
-    public List<DetalleVenta> getDetallesVenta() {
-        return detallesVenta;
+    public Date getFechaFacturacion() {
+        return fechaFacturacion;
     }
 
-    public void setDetallesVenta(List<DetalleVenta> detalleVenta) {
-        this.detallesVenta = detalleVenta;
+    public void setFechaFacturacion(Date fechaFacturacion) {
+        this.fechaFacturacion = fechaFacturacion;
     }
-    public double getTotalVenta () {
+
+    public double getTotalVenta() {
         return totalVenta;
     }
 
@@ -57,13 +58,12 @@ public class Venta extends Base {
         this.totalVenta = totalVenta;
     }
 
-    public Date getFechaFacturacion() {
-        return fechaFacturacion;
+    public List<DetalleVenta> getDetalleVentas() {
+        return detalleVentas;
     }
 
-
-    public void setFechaFacturacion(Date fechaFacturacion) {
-        this.fechaFacturacion = fechaFacturacion;
+    public void setDetalleVentas(List<DetalleVenta> detalleVentas) {
+        this.detalleVentas = detalleVentas;
     }
 
 

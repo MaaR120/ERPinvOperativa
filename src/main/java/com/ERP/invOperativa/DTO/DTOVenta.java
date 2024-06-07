@@ -15,7 +15,7 @@ import java.util.List;
 public class DTOVenta {
     private Date fechaFacturacion;
     private double totalVenta;
-    private List<DetalleDTO> detalles = new ArrayList<>();
+    private ArrayList<DTODetalleVenta> detalleVentas;
 
     // Getters y Setters
     public Date getFechaFacturacion() {
@@ -34,42 +34,15 @@ public class DTOVenta {
         this.totalVenta = totalVenta;
     }
 
-    public List<DetalleDTO> getDetalles() {
-        return detalles;
+    public ArrayList<DTODetalleVenta> getDetalleVentas() {
+        return detalleVentas;
     }
 
-    public void setDetalles(List<DetalleDTO> detalles) {
-        this.detalles = detalles;
+    public void setDetalleVentas(ArrayList<DTODetalleVenta> detalles) {
+        this.detalleVentas = detalles;
     }
 
-    public static class DetalleDTO {
-        private Long articuloId;
-        private int cantidad;
-        private double subtotal;
 
-        // Getters y Setters
-        public Long getArticuloId() {
-            return articuloId;
-        }
 
-        public void setArticuloId(Long articuloId) {
-            this.articuloId = articuloId;
-        }
 
-        public int getCantidad() {
-            return cantidad;
-        }
-
-        public void setCantidad(int cantidad) {
-            this.cantidad = cantidad;
-        }
-
-        public double getSubtotal() {
-            return subtotal;
-        }
-
-        public void setSubtotal(double subtotal) {
-            this.subtotal = subtotal;
-        }
-    }
 }
