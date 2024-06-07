@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -70,12 +71,22 @@ public class VentaController {
 
 
     //Agregar nueva venta
+
+    @GetMapping("/crear")
+    public String mostrarFormularioCrearVenta(Model model) {
+        List<Articulo> articulos = articuloService.findAll();
+        model.addAttribute("articulos", articulos);
+        model.addAttribute("venta", new DTOVenta());
+        return "NuevaVenta";
+    }
+
     @PostMapping("/add")
-    public ResponseEntity<?> crearVenta(@RequestBody DTOVenta dtoVenta){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(service.crearVenta(dtoVenta));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    public ModelAndView crearVenta(DTOVenta dtoVenta) {
+        try {
+            service.crearVenta(dtoVenta);
+            return new ModelAndView("redirect:/venta/listadoVentas"); // Redireccionar a la lista de ventas
+        } catch (Exception e) {
+            return new ModelAndView("error");
         }
 
     }

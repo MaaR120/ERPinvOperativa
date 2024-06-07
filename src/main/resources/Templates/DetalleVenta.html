@@ -22,7 +22,7 @@
                 </thead>
                 <tbody>
                 <tbody>
-                <tr th:each="detalle : ${venta.detallesVenta}">
+                <tr th:each="detalle : ${venta.detalleVentas}">
                     <td>
                         <span th:if="${detalle.articulo != null}" th:text="${detalle.articulo.NombreArticulo}">-</span>
                         <span th:unless="${detalle.articulo != null}">N/A</span>
