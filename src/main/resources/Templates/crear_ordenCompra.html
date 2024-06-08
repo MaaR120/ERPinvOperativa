@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <h1>Crear Orden de Compra</h1>
-    <form th:action="@{/ordenes}" th:object="${ordenDeCompra}" method="post">
+    <form th:action="@{/ordenCompra/crear}" th:object="${ordenCompra}" method="post">
         <div class="form-group">
             <label for="articulo">Artículo</label>
             <select id="articulo" name="articulo" class="form-control" onchange="cargarProveedores()">
@@ -21,12 +21,14 @@
                 <!-- Proveedores se cargarán dinámicamente -->
             </select>
         </div>
-<!--        <div class="form-group">-->
-<!--            <label for="fecha">Fecha</label>-->
-<!--            <input type="date" th:field="*{fecha}" class="form-control" id="fecha"> -->
-<!--        </div>-->
+
+        <!--El usuario va a poder cargar la fecha de inicio de la orden de compra, para poder programarla, por ejemplo-->
+      <div class="form-group">
+            <label for="fechaInicio">FechaInicio</label>
+            <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicio">
+        </div>
         <div class="form-group">
-            <label for="cantidad">Lote</label>
+            <label for="cantidad">Cantidad</label>
             <input type="text" th:field="*{cantidad}" class="form-control" id="cantidad">
         </div>
         <button type="button" class="btn btn-secondary" onclick="cargarPredeterminado()">Cargar Predeterminado</button>
@@ -38,7 +40,7 @@
 <script>
     function cargarProveedores() {
         let articuloId = document.getElementById('articulo').value;
-        fetch(`/ordenesCompra/proveedores?articuloId=${articuloId}`)
+        fetch(`/ordenCompra/proveedoresPorArticulo?articuloId=${articuloId}`)
             .then(response => response.json())
             .then(data => {
                 let proveedorSelect = document.getElementById('proveedor');
@@ -59,8 +61,8 @@
             .then(data => {
                 if (data) {
                     document.getElementById('proveedor').value = data.proveedor.id;
-                    document.getElementById('fecha').value = data.fecha;
-                    document.getElementById('lote').value = data.lote;
+                    document.getElementById('fechaInicio').value = data.fechaInicio;
+                    document.getElementById('cantidad').value = data.cantidad;
                 } else {
                     alert("No se encontró un proveedor predeterminado para este artículo.");
                 }

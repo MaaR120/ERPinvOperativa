@@ -58,7 +58,7 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
  @PostMapping("/ordenCompra/crear")
     public String crearOrdenCompra(@ModelAttribute OrdenCompra ordenDeCompra) {
         ordenCompraService.saveOrdenCompra(ordenDeCompra);
-        return "redirect:/ordenesdecompra";
+        return "redirect:/ordenCompra";
     }
 
     @GetMapping("/ordenCompra/eliminar/{id}")

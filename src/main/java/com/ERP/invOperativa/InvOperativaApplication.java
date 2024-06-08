@@ -62,10 +62,12 @@ public class InvOperativaApplication {
 		articuloRepository.save(articulo1);
 
 
+
 //Creo proveedor
 			Proveedor Proveedor1 = Proveedor.builder()
 					.nombreProveedor("Juan Gonzalez")
 					.build();
+
 //Guardo Proveedor
 			proveedorRepository.save(Proveedor1);
 //Primer intento de fecha vigente
