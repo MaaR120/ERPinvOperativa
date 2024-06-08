@@ -33,11 +33,11 @@
         </div>
         <button type="button" class="btn btn-secondary" onclick="cargarPredeterminado()">Cargar Predeterminado</button>
         <button type="submit" class="btn btn-primary">Guardar</button>
-        <button type="submit" class="btn btn-warning">Cambiar Predeterminado</button>
+        <button type="submit" class="btn btn-warning">Cargar Predeterminado</button>
 
     </form>
 </div>
-<script>
+<script th:inline="javascript">
     function cargarProveedores() {
         let articuloId = document.getElementById('articulo').value;
         fetch(`/ordenCompra/proveedoresPorArticulo?articuloId=${articuloId}`)

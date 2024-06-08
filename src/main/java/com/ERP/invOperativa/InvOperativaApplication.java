@@ -22,7 +22,8 @@ public class InvOperativaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(InvOperativaApplication.class, args);
 		System.out.println("Programa en Ejecucion");
-	}
+		}
+
 
 	@Autowired
 	ArticuloRepository articuloRepository;
@@ -73,11 +74,11 @@ public class InvOperativaApplication {
 //Primer intento de fecha vigente
 			Date FechaVigente = new Date(2024, 9, 21);
 //Creo articulo proveedor, asignandole su proveedor y su articulo
+			//falta agregar y solucionar lo de fecha
 			ArticuloProveedor articuloProveedor1 = ArticuloProveedor.builder()
 					.proveedor(Proveedor1)
 					.articulo(articulo1)
 					.precioArticuloProveedor(30.0)
-					.fechaVigencia(java.sql.Date.valueOf("2024-07-30"))
 					.predeterminado(true)
 					.build();
 //Guardo
