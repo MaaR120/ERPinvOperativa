@@ -29,6 +29,7 @@ public class Proveedor extends Base{
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
+    @Builder.Default
     private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
 
 

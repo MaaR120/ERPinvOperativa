@@ -12,7 +12,7 @@
         <div class="form-group">
             <label for="articulo">Artículo</label>
             <select id="articulo" name="articulo" class="form-control" onchange="cargarProveedores()">
-                <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.nombre}"></option>
+                <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.NombreArticulo}"></option>
             </select>
         </div>
         <div class="form-group">
@@ -21,13 +21,13 @@
                 <!-- Proveedores se cargarán dinámicamente -->
             </select>
         </div>
+<!--        <div class="form-group">-->
+<!--            <label for="fecha">Fecha</label>-->
+<!--            <input type="date" th:field="*{fecha}" class="form-control" id="fecha"> -->
+<!--        </div>-->
         <div class="form-group">
-            <label for="fecha">Fecha</label>
-            <input type="date" th:field="*{fecha}" class="form-control" id="fecha">
-        </div>
-        <div class="form-group">
-            <label for="lote">Lote</label>
-            <input type="text" th:field="*{lote}" class="form-control" id="lote">
+            <label for="cantidad">Lote</label>
+            <input type="text" th:field="*{cantidad}" class="form-control" id="cantidad">
         </div>
         <button type="button" class="btn btn-secondary" onclick="cargarPredeterminado()">Cargar Predeterminado</button>
         <button type="submit" class="btn btn-primary">Guardar</button>

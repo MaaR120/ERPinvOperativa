@@ -48,10 +48,12 @@ public class Articulo extends Base{
     //Los proximos dos metodos? a chequearlos
     @OneToMany(mappedBy = "articulo")
     @Getter
-    private List<ArticuloProveedor> articuloProveedores;
+    @Builder.Default
+    private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
 
     @OneToMany(mappedBy = "articulo")
     @Getter
+    @Builder.Default
     private List<OrdenCompra> ordenesCompra = new ArrayList<>();
 
     // Método para agregar un ArticuloProveedor a la lista
