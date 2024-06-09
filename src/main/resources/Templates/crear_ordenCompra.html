@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Crear Orden de Compra</title>
+    <link rel="icon" href="#">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
 </head>
 <body>
@@ -40,33 +41,35 @@
 <script th:inline="javascript">
     function cargarProveedores() {
         let articuloId = document.getElementById('articulo').value;
-        fetch(`/ordenCompra/proveedoresPorArticulo?articuloId=${articuloId}`)
+        fetch(`/ordenCompra/proveedoresPorArticulo/{articuloId}`)
             .then(response => response.json())
             .then(data => {
-                let proveedorSelect = document.getElementById('proveedor');
-                proveedorSelect.innerHTML = '';
-                data.forEach(proveedor => {
-                    let option = document.createElement('option');
-                    option.value = proveedor.id;
-                    option.textContent = proveedor.nombreProveedor;
-                    proveedorSelect.appendChild(option);
-                });
+            let proveedorSelect = document.getElementById('proveedor');
+            proveedorSelect.innerHTML = '';
+            data.forEach(proveedor => {
+                let option = document.createElement('option');
+                option.value = proveedor.id;
+                option.textContent = proveedor.nombreProveedor;
+                proveedorSelect.appendChild(option);
             });
+        })
+            .catch(error => console.error('Error al cargar proveedores:', error));
     }
+
 
     function cargarPredeterminado() {
         let articuloId = document.getElementById('articulo').value;
-        fetch(`/ordenCompra/predeterminado?articuloId=${articuloId}`)
+        fetch(`/ordenCompra/articulo/${articuloId}/predeterminado`)
             .then(response => response.json())
             .then(data => {
-                if (data) {
-                    document.getElementById('proveedor').value = data.proveedor.id;
-                    document.getElementById('fechaInicio').value = data.fechaInicio;
-                    document.getElementById('cantidad').value = data.cantidad;
-                } else {
-                    alert("No se encontró un proveedor predeterminado para este artículo.");
-                }
-            });
+            if (data) {
+                document.getElementById('proveedor').value = data.proveedor.id;
+                document.getElementById('fechaInicio').value = data.fechaInicio;
+                document.getElementById('cantidad').value = data.cantidad;
+            } else {
+                alert("No se encontró un proveedor predeterminado para este artículo.");
+            }
+        });
     }
 </script>
 </body>

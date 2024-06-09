@@ -71,8 +71,7 @@ public class InvOperativaApplication {
 
 //Guardo Proveedor
 			proveedorRepository.save(Proveedor1);
-//Primer intento de fecha vigente
-			Date FechaVigente = new Date(2024, 9, 21);
+			
 //Creo articulo proveedor, asignandole su proveedor y su articulo
 			//falta agregar y solucionar lo de fecha
 			ArticuloProveedor articuloProveedor1 = ArticuloProveedor.builder()

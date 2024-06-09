@@ -1,5 +1,6 @@
 package com.ERP.invOperativa.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -45,15 +46,15 @@ public class Articulo extends Base{
     private Date fechaBaja;
 
 
-    //Los proximos dos metodos? a chequearlos
+
     @OneToMany(mappedBy = "articulo")
-    @Getter
     @Builder.Default
+    @JsonIgnore
     private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
 
     @OneToMany(mappedBy = "articulo")
-    @Getter
     @Builder.Default
+    @JsonIgnore
     private List<OrdenCompra> ordenesCompra = new ArrayList<>();
 
     // Método para agregar un ArticuloProveedor a la lista

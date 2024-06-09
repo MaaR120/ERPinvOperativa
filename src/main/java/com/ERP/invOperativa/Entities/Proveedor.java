@@ -1,5 +1,6 @@
 package com.ERP.invOperativa.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -30,6 +31,7 @@ public class Proveedor extends Base{
     @Getter
     @Setter
     @Builder.Default
+    @JsonIgnore
     private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
 
 

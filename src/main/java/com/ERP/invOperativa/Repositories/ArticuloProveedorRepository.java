@@ -11,8 +11,12 @@ import java.util.Optional;
 
 @Repository
 public interface ArticuloProveedorRepository extends BaseRepository<ArticuloProveedor,Long>{
-    @Query("SELECT ap.proveedor FROM ArticuloProveedor ap WHERE ap.articulo = :articulo")
-    List<Proveedor> findProveedoresByArticulo(@Param("articulo") Articulo articulo);
+//    //Selecciono los proveedores de AP que esten asociado al articulo que le paso
+//    @Query("SELECT ap.proveedor FROM ArticuloProveedor ap WHERE ap.articulo = :articulo")
+//    List<Proveedor> findProveedoresByArticulo(@Param("articulo") Articulo articulo);
+
+//Supuestamente funciona por correlatividada de nombres en JPA , veremos
+    List<ArticuloProveedor> findByArticuloId(Long articuloId);
 
     @Query("SELECT ap FROM ArticuloProveedor ap WHERE ap.articulo = :articulo AND ap.predeterminado = true")
     ArticuloProveedor findPredeterminadoByArticulo(@Param("articulo") Articulo articulo);

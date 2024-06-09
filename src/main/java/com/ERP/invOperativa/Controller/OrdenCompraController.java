@@ -39,21 +39,27 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
     }
 
 
-    //REVISAR QUE FUNCIONE EL FIND BY ID
-    @GetMapping("/ordenCompra/proveedoresPorArticulo")
+//    //REVISAR QUE FUNCIONE EL FIND BY ID
+//    @GetMapping("/ordenCompra/proveedoresPorArticulo/{articuloId}")
+//    @ResponseBody
+//    public List<Proveedor> getProveedoresPorArticulo(@PathVariable("articuloId") Long articuloId) throws Exception {
+//        Articulo articulo = articuloService.findById(articuloId);
+//        return articuloProveedorService.getProveedoresPorArticulo(articulo);
+//    }
+
+    @GetMapping("/ordenCompra/proveedoresPorArticulo/{articuloId}")
     @ResponseBody
-    public List<Proveedor> getProveedoresPorArticulo(@RequestParam("articuloId") Long articuloId) throws Exception {
-        Articulo articulo = articuloService.findById(articuloId);
-        return articuloProveedorService.getProveedoresPorArticulo(articulo);
+    public List<Proveedor> getProveedoresPorArticulo(@PathVariable("articuloId") Long articuloId) {
+        return articuloProveedorService.getProveedoresPorArticulo(articuloId);
     }
 
-    @GetMapping("/ordenCompra/predeterminado")
+
+    @GetMapping("/ordenCompra/articulo/{articuloId}/predeterminado")
     @ResponseBody
-    public ArticuloProveedor getDatosPredeterminados(@RequestParam("articuloId") Long articuloId) throws Exception {
+    public ArticuloProveedor getDatosPredeterminados(@PathVariable("articuloId") Long articuloId) throws Exception {
         Articulo articulo = articuloService.findById(articuloId);
         return articuloProveedorService.getPredeterminadoPorArticulo(articulo);
     }
-
 
  @PostMapping("/ordenCompra/crear")
     public String crearOrdenCompra(@ModelAttribute OrdenCompra ordenDeCompra) {
