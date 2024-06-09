@@ -1,13 +1,12 @@
 package com.ERP.invOperativa.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name= "articulo")
@@ -39,6 +38,12 @@ public class Articulo extends Base{
     @ManyToOne
     @JoinColumn(name="FamiliaArticulo")
     private FamiliaArticulo familiaArticulo;
+
+
+    //Relacion con proveedores
+    @OneToMany(mappedBy = "articulo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
+
 
 
     // Métodos para calcular stockSeguridad, puntoPedido, loteOptimo

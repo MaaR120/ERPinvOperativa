@@ -52,6 +52,7 @@
         <td>
           <a th:href="@{/maestroarticulo/{id}(id=${articulo.id})}" class="btn btn-danger">Eliminar</a>
           <a th:href="@{/maestroarticulo/{id}/informacion_inventario(id=${articulo.id})}" class="btn btn-outline-primary">Ver Inventario</a>
+          <a th:href="@{maestroarticulo/{id}/articulo_proveedor(id=${articulo.id})}" class="btn btn-info">Proveedores</a>
 
         </td>
       </tr>

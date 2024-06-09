@@ -24,16 +24,13 @@ public class Proveedor extends Base{
     @Temporal(TemporalType.DATE)
     private Date fechaBaja;
 
-    @NotNull
+
     @Column(name = "Tiempo_Estimado_Entrega")
     @Temporal(TemporalType.TIMESTAMP)
     private Date TiempoEstimadoEntrega;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_proveedor")
-    @Builder.Default
-    private List<ArticuloProveedor> articuloProveedors = new ArrayList<>();
-    public void agregarArticuloProveedor(ArticuloProveedor articuloProveedor){
-        articuloProveedors.add(articuloProveedor);
-    }
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
+
 }
+
