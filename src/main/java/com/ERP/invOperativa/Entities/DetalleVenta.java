@@ -31,16 +31,12 @@ public class DetalleVenta extends Base {
     @JoinColumn(name = "venta_id")
     private Venta venta;
 
-    public Articulo getArticulo() {
-        return articulo;
-    }
+
     public void setArticulo(Articulo articulo) {
         this.articulo = articulo;
     }
 
-    public int getCantidad() {
-        return cantidad;
-    }
+
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
@@ -53,9 +49,7 @@ public class DetalleVenta extends Base {
         return subtotal;
     }
 
-    public Venta getVenta() {
-        return venta;
-    }
+
 
     public void setVenta(Venta venta) {
         this.venta = venta;
