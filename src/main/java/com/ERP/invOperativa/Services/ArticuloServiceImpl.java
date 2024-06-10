@@ -13,6 +13,7 @@ public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implemen
 
     @Autowired
     ArticuloRepository articuloRepository;
+
     public ArticuloServiceImpl(BaseRepository<Articulo, Long> baseRepository,ArticuloRepository articuloRepository) {
         super(baseRepository);
         this.articuloRepository=articuloRepository;
@@ -22,8 +23,8 @@ public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implemen
     public List<Articulo> findAll() {
         return articuloRepository.findAll();
 
-
     }
+
     @Override
     public List<Articulo> ListarArticulos() {
 

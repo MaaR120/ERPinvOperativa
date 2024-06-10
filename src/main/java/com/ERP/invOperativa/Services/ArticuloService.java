@@ -10,5 +10,5 @@ public interface ArticuloService extends BaseService<Articulo,Long> {
 
     public Articulo saveArticulo(Articulo articulo);
 
-    public Articulo deleteArticulo(Long id);
+    Articulo deleteArticulo(Long id);
 }

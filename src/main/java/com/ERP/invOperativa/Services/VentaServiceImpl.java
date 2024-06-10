@@ -8,8 +8,6 @@ import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.BaseRepository;
 import com.ERP.invOperativa.Repositories.DetalleVentaRepository;
 import com.ERP.invOperativa.Repositories.VentaRepository;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +27,7 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
 
     @Autowired
     private DetalleVentaRepository detalleVentaRepository;
+
     public VentaServiceImpl(BaseRepository<Venta, Long> baseRepository, VentaRepository ventaRepository) {
         super(baseRepository);
         this.ventaRepository=ventaRepository;
