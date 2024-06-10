@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Informacion Inventario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+//Esta pagina no tiene la logica hecha
+    <div class="container">
+        <h2>Gestion de inventario de articulo</h2>
+        <br>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="puntoPedido" class="form-label">Punto Pedido:</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" id="puntoPedido" th:value="${PuntoPedido}" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="stockSeguridad" class="form-label">Stock Seguridad:</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" id="stockSeguridad" th:value="${StockSeguridad}" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="loteOptimo" class="form-label">Lote Óptimo:</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" id="loteOptimo" th:value="${LoteOptimo}" class="form-control" readonly>
+                </div>
+            </div>
+        <a th:href="@{/}" class="btn btn-primary">Volver</a>
+    </div>
+</body>
+</html>

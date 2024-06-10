@@ -3,9 +3,9 @@ package com.ERP.invOperativa.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
-import lombok.Builder;
 
 import java.util.Date;
+
 
 @Entity
 @Table(name = "ArticuloProveedor")
@@ -19,13 +19,26 @@ public class ArticuloProveedor extends Base{
     @Temporal(TemporalType.DATE)
     private Date fechaVigencia;
 
-    //Costo de compra por articulo
+
+    @Column(name = "Tiempo_Demora")
+    private int tiempoDemora;
+
+
     @NotNull
     @Column(name = "precio_articulo_Proveedor")
     private double precioArticuloProveedor;
 
+    @NotNull
+    @Column(name = "predeterminado")
+    private boolean predeterminado;
+
     @ManyToOne()
-    @JoinColumn(name = "id_Articulo")
-    private Articulo Articulo;
+    @JoinColumn(name = "id_Articulo")  //Clave foranea de la entidad articulo
+    private Articulo articulo;
+
+
+    @ManyToOne()
+    @JoinColumn(name = "id_proveedor") //Clave foranea de la entidad proveedor
+    private Proveedor proveedor;
 
 }

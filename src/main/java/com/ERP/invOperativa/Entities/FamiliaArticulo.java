@@ -14,7 +14,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 @Setter
 @Builder
 public class FamiliaArticulo extends Base{
-
+    @NotNull
     @Column(name = "nombre_Familia", length = 50, nullable = false)
     private String nombreFamilia;
 
