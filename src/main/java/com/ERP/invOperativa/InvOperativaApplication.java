@@ -25,83 +25,84 @@ public class InvOperativaApplication {
 		SpringApplication.run(InvOperativaApplication.class, args);
 		System.out.println("Estoy funcionando");
 	}
-
-	@Autowired
-	ArticuloRepository articuloRepository;
-
-	@Autowired
-	FamiliaArticuloRepository familiaArticuloRepository;
-
-	@Autowired
-	ProveedorRepository proveedorRepository;
-
-	@Autowired
-	ArticuloProveedorRepository articuloProveedorRepository;
+}
+//
+//	@Autowired
+//	ArticuloRepository articuloRepository;
+//
+//	@Autowired
+//	FamiliaArticuloRepository familiaArticuloRepository;
+//
+//	@Autowired
+//	ProveedorRepository proveedorRepository;
+//
+//	@Autowired
+//	ArticuloProveedorRepository articuloProveedorRepository;
 
 	//Agregue esto para hacer pruebas
-	@Bean
-	CommandLineRunner init(ArticuloRepository ArticuloRepository1) {
-		return args -> {
+//	@Bean
+//	CommandLineRunner init(ArticuloRepository ArticuloRepository1) {
+//		return args -> {
 
-			FamiliaArticulo familia1 = FamiliaArticulo.builder()
-					.nombreFamilia("herramienta")
-					.modelo(Lote_fijo)
-					.build();
-			familiaArticuloRepository.save(familia1);
-
-			Articulo articulo1 = Articulo.builder()
-					.NombreArticulo("Tornillo")
-					.CostoAlmacenamiento(1500.0)
-					.precio(2500.0)
-					.familiaArticulo(familia1)
-					.build();
-			articuloRepository.save(articulo1);
-
-			Articulo articulo2 = Articulo.builder()
-					.NombreArticulo("ruleman")
-					.CostoAlmacenamiento(1500.0)
-					.precio(2500.0)
-					.familiaArticulo(familia1)
-					.build();
-			articuloRepository.save(articulo2);
-
-			Proveedor Proveedor1 = Proveedor.builder()
-					.nombreProveedor("Juan Gonzalez")
-					.build();
-			proveedorRepository.save(Proveedor1);
-
-			Proveedor Proveedor2 = Proveedor.builder()
-					.nombreProveedor("Juan Diaz")
-					.build();
-			proveedorRepository.save(Proveedor2);
-
-
-
-//Primer intento de fecha vigente
-			Date FechaVigente = new Date(2024, 9, 21);
-//Creo articulo proveedor, asignandole su proveedor y su articulo
-			//falta agregar y solucionar lo de fecha
-			ArticuloProveedor articuloProveedor1 = ArticuloProveedor.builder()
-					.proveedor(Proveedor1)
-					.articulo(articulo1)
-					.precioArticuloProveedor(30.0)
-					.predeterminado(true)
-					.build();
-//Guardo
-			articuloProveedorRepository.save(articuloProveedor1);
-
-//Asigno otro proveedor distinto al articulo
-			ArticuloProveedor articuloProveedor2 = ArticuloProveedor.builder()
-					.proveedor(Proveedor2)
-					.articulo(articulo1)
-					.precioArticuloProveedor(30.0)
-					.predeterminado(true)
-					.build();
-			articuloProveedorRepository.save(articuloProveedor2);
-
-		};
-	}
-
-}
+//			FamiliaArticulo familia1 = FamiliaArticulo.builder()
+//					.nombreFamilia("herramienta")
+//					.modelo(Lote_fijo)
+//					.build();
+//			familiaArticuloRepository.save(familia1);
+//
+//			Articulo articulo1 = Articulo.builder()
+//					.NombreArticulo("Tornillo")
+//					.CostoAlmacenamiento(1500.0)
+//					.precio(2500.0)
+//					.familiaArticulo(familia1)
+//					.build();
+//			articuloRepository.save(articulo1);
+//
+//			Articulo articulo2 = Articulo.builder()
+//					.NombreArticulo("ruleman")
+//					.CostoAlmacenamiento(1500.0)
+//					.precio(2500.0)
+//					.familiaArticulo(familia1)
+//					.build();
+//			articuloRepository.save(articulo2);
+//
+//			Proveedor Proveedor1 = Proveedor.builder()
+//					.nombreProveedor("Juan Gonzalez")
+//					.build();
+//			proveedorRepository.save(Proveedor1);
+//
+//			Proveedor Proveedor2 = Proveedor.builder()
+//					.nombreProveedor("Juan Diaz")
+//					.build();
+//			proveedorRepository.save(Proveedor2);
+//
+//
+//
+////Primer intento de fecha vigente
+//			Date FechaVigente = new Date(2024, 9, 21);
+////Creo articulo proveedor, asignandole su proveedor y su articulo
+//			//falta agregar y solucionar lo de fecha
+//			ArticuloProveedor articuloProveedor1 = ArticuloProveedor.builder()
+//					.proveedor(Proveedor1)
+//					.articulo(articulo1)
+//					.precioArticuloProveedor(30.0)
+//					.predeterminado(true)
+//					.build();
+////Guardo
+//			articuloProveedorRepository.save(articuloProveedor1);
+//
+////Asigno otro proveedor distinto al articulo
+//			ArticuloProveedor articuloProveedor2 = ArticuloProveedor.builder()
+//					.proveedor(Proveedor2)
+//					.articulo(articulo1)
+//					.precioArticuloProveedor(30.0)
+//					.predeterminado(true)
+//					.build();
+//			articuloProveedorRepository.save(articuloProveedor2);
+//
+//		};
+//		}
+//
+//	}
 
 

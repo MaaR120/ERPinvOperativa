@@ -283,3 +283,7 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/pauro/D
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 66 more
+2024-06-10 13:03:40.857858-03:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM ARTICULO VENTA [*]ARTICULO"
+Syntax error in SQL statement "SELECT * FROM ARTICULO VENTA [*]ARTICULO"; SQL statement:
+SELECT * FROM ARTICULO VENTA ARTICULO [42000-224]
