@@ -44,7 +44,7 @@ public class ArticuloController {
 
     @GetMapping("/maestroarticulo")
     public String listarArticulos(Model modelo) {
-        modelo.addAttribute("articulos", service.ListarArticulos());
+        modelo.addAttribute("articulos", serviceImp.ListarArticulos());
         return "MaestroArticulo"; // nos retorna al archivo html MaestroArticulo
     }
 
@@ -60,12 +60,12 @@ public class ArticuloController {
     public String saveArticulo(@ModelAttribute("articulo") Articulo articulo, @RequestParam("familiaArticulo.id") Long familiaId){
         FamiliaArticulo familiaArticulo = familiaservice.getFamiliaArticuloById(familiaId);
         articulo.setFamiliaArticulo(familiaArticulo);
-        service.saveArticulo(articulo);
+        serviceImp.saveArticulo(articulo);
         return "redirect:/maestroarticulo";
     }
 
     @GetMapping("/maestroarticulo/{id}")
-    public String EliminarArticulo(@PathVariable Long id){
+    public String eliminarArticulo(@PathVariable Long id){
         serviceImp.deleteArticulo(id);
         return "redirect:/maestroarticulo";
     }

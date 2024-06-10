@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ArticuloService extends BaseService<Articulo,Long> {
     List<Articulo> findAll();
-    public List<Articulo> ListarArticulos();
+    List<Articulo> ListarArticulos();
 
-    public Articulo saveArticulo(Articulo articulo);
+    Articulo saveArticulo(Articulo articulo);
 
     Articulo deleteArticulo(Long id);
 }
