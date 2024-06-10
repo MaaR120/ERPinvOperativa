@@ -1,12 +1,20 @@
 package com.ERP.invOperativa.Entities;
 
+import com.ERP.invOperativa.DTO.DTODetalleVenta;
+import com.ERP.invOperativa.DTO.DTOVenta;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import lombok.Builder;
+import java.sql.Date;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Venta")
@@ -15,7 +23,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class Venta extends Base{
+public class Venta extends Base {
+
     @NotNull
     @Column(name = "fecha_Venta")
     @Temporal(TemporalType.DATE)
@@ -33,4 +42,32 @@ public class Venta extends Base{
     public void agregarDetalleVenta(DetalleVenta detalleVenta){
         detalleVentas.add(detalleVenta);
     }
+    public Date getFechaFacturacion() {
+        return fechaFacturacion;
+    }
+
+    public void setFechaFacturacion(Date fechaFacturacion) {
+        this.fechaFacturacion = fechaFacturacion;
+    }
+
+    public double getTotalVenta() {
+        return totalVenta;
+    }
+
+    public void setTotalVenta(double totalVenta) {
+        this.totalVenta = totalVenta;
+    }
+
+    public List<DetalleVenta> getDetalleVentas() {
+        return detalleVentas;
+    }
+
+    public void setDetalleVentas(List<DetalleVenta> detalleVentas) {
+        this.detalleVentas = detalleVentas;
+    }
+
+
+
 }
+
+

@@ -1,6 +1,7 @@
 package com.ERP.invOperativa.Services;
 
 import com.ERP.invOperativa.Entities.Base;
+import com.ERP.invOperativa.Entities.Venta;
 import com.ERP.invOperativa.Repositories.BaseRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
     }
 
     @Override
-    @Transactional
     public List<E> findAll() throws Exception {
         try {
             List<E> entities = baseRepository.findAll();
@@ -27,6 +27,12 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
             throw new Exception(e.getMessage());
         }
     }
+
+    @Override
+    public Optional<E> findById(ID id) {
+        return baseRepository.findById(id);
+    }
+
     @Override
     @Transactional
     public Page<E> findAll(Pageable pageable) throws Exception {
@@ -37,16 +43,6 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
             throw new Exception(e.getMessage());
         }
 
-    }
-    @Override
-    @Transactional
-    public E findById(ID id) throws Exception {
-        try{
-            Optional<E> entityOptional = baseRepository.findById(id);
-            return entityOptional.get();
-        } catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
     }
 
     @Override
@@ -75,7 +71,7 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
 
     @Override
     @Transactional
-    public boolean delete(ID id) throws Exception {
+    public Boolean delete(ID id) throws Exception {
         try{
             if(baseRepository.existsById(id)){
                 baseRepository.deleteById(id);
@@ -87,4 +83,7 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
             throw new Exception(e.getMessage());
         }
     }
+
+
+
 }

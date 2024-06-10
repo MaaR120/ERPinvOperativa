@@ -8,8 +8,11 @@ import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.BaseRepository;
 import com.ERP.invOperativa.Repositories.DetalleVentaRepository;
 import com.ERP.invOperativa.Repositories.VentaRepository;
+import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,21 +20,44 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements VentaService  {
-    @Autowired
-    protected VentaRepository ventaRepository;
-    @Autowired
-    protected ArticuloRepository articuloRepository;
+public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements VentaService {
 
     @Autowired
-    protected DetalleVentaRepository detalleVentaRepository;
+    private VentaRepository ventaRepository;
 
+    @Autowired
+    private ArticuloRepository articuloRepository;
+
+    @Autowired
+    private DetalleVentaRepository detalleVentaRepository;
     public VentaServiceImpl(BaseRepository<Venta, Long> baseRepository, VentaRepository ventaRepository) {
         super(baseRepository);
         this.ventaRepository=ventaRepository;
     }
 
-@Override
+
+    //Listar todas las ventas
+    @Override
+    public List<Venta> findAll() {
+        return ventaRepository.findAll();
+    }
+
+    //Ver los detalles de las ventas
+    @Override
+    public Optional<Venta> findById(Long id) {
+        return super.findById(id);
+    }
+
+    //Borrar venta
+    @Override
+    public Venta deleteVenta(Long id) {
+        ventaRepository.deleteById(id);
+        return null;
+    }
+
+
+
+    @Override
     public Venta crearVenta(DTOVenta dtoVenta) throws Exception {
         try{
             Venta newVenta=new Venta();
