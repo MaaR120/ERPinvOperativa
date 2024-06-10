@@ -18,9 +18,17 @@ public class PrediccionDemandaController {
     @Autowired
     protected PrediccionDemandaImpl service;
     @GetMapping("/PM")
-    public ResponseEntity<?> obtenerHistoricoVentas(@RequestBody RequestPrediccionDemanda requestPrediccionDemanda) {
+    public ResponseEntity<?> promedioMovil(@RequestBody RequestPrediccionDemanda requestPrediccionDemanda) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.promedioMovil(requestPrediccionDemanda));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage() + "\"}"));
+        }
+    }
+    @GetMapping("/PMP")
+    public ResponseEntity<?> promedioMovilPonderado(@RequestBody RequestPrediccionDemanda requestPrediccionDemanda) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.promedioMovilPonderado(requestPrediccionDemanda));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage() + "\"}"));
         }
