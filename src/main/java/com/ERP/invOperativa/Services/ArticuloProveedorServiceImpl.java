@@ -19,6 +19,8 @@ public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProvee
         super(baseRepository);
         this.articuloProveedorRepository=articuloProveedorRepository;
     }
+
+    // METODO VIEJO IGNORAR
 //    public List<Proveedor> getProveedoresPorArticulo(Articulo articulo) {
 //        return articuloProveedorRepository.findProveedoresByArticulo(articulo);
 //    }

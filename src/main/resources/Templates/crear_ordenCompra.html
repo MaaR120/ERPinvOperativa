@@ -9,16 +9,16 @@
 <body>
 <div class="container">
     <h1>Crear Orden de Compra</h1>
-    <form th:action="@{/ordenCompra/crear}" th:object="${ordenCompra}" method="post">
+    <form th:action="@{/ordenCompra/crear}" th:object="${ordenCompra}" method="POST">
         <div class="form-group">
-            <label for="articulo">Artículo</label>
-            <select id="articulo" name="articulo" class="form-control" onchange="cargarProveedores()">
+            <label for="articuloSelect">Artículo</label>
+            <select id="articuloSelect" name="articulo" class="form-control" onchange="cargarProveedores()">
                 <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.NombreArticulo}"></option>
             </select>
         </div>
         <div class="form-group">
-            <label for="proveedor">Proveedor</label>
-            <select id="proveedor" name="proveedor" class="form-control">
+            <label for="proveedorSelect">Proveedor</label>
+            <select id="proveedorSelect" name="proveedor" class="form-control">
                 <!-- Proveedores se cargarán dinámicamente -->
             </select>
         </div>
@@ -26,44 +26,54 @@
         <!--El usuario va a poder cargar la fecha de inicio de la orden de compra, para poder programarla, por ejemplo-->
       <div class="form-group">
             <label for="fechaInicio">FechaInicio</label>
-            <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicio">
+            <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicio" disabled>
         </div>
         <div class="form-group">
             <label for="cantidad">Cantidad</label>
             <input type="text" th:field="*{cantidad}" class="form-control" id="cantidad">
         </div>
+
+        <div class="box-footer">
         <button type="button" class="btn btn-secondary" onclick="cargarPredeterminado()">Cargar Predeterminado</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <button type="submit" class="btn btn-warning">Cargar Predeterminado</button>
+        <button class="btn btn-primary">Guardar</button>
+            <a th:href="@{/ordenCompra}" class="btn btn-danger">Cancelar</a>
+        </div>
 
     </form>
 </div>
-<script th:inline="javascript">
-    function cargarProveedores() {
-        let articuloId = document.getElementById('articulo').value;
-        fetch(`/ordenCompra/proveedoresPorArticulo/{articuloId}`)
-            .then(response => response.json())
-            .then(data => {
-            let proveedorSelect = document.getElementById('proveedor');
-            proveedorSelect.innerHTML = '';
-            data.forEach(proveedor => {
-                let option = document.createElement('option');
-                option.value = proveedor.id;
-                option.textContent = proveedor.nombreProveedor;
-                proveedorSelect.appendChild(option);
-            });
-        })
-            .catch(error => console.error('Error al cargar proveedores:', error));
-    }
 
+<script th:inline="javascript">
+
+function cargarProveedores() {
+    let articuloId = document.getElementById('articuloSelect').value;
+    fetch(`/ordenCompra/proveedoresPorArticulo/${articuloId}`) // Aquí he corregido el uso de las comillas invertidas para que `${articuloId}` se evalúe correctamente.
+        .then(response => {
+        if (!response.ok) {
+            throw new Error('La solicitud no fue exitosa');
+        }
+        return response.json();
+    })
+        .then(data => {
+        console.log('Datos recibidos:', data); // Aquí imprimo los datos recibidos en la consola.
+        let proveedorSelect = document.getElementById('proveedorSelect');
+        proveedorSelect.innerHTML = '';
+        data.forEach(proveedor => {
+            let option = document.createElement('option');
+            option.value = proveedor.id;
+            option.textContent = proveedor.nombreProveedor;
+            proveedorSelect.appendChild(option);
+        });
+    })
+        .catch(error => console.error('Error al cargar proveedores:', error));
+}
 
     function cargarPredeterminado() {
-        let articuloId = document.getElementById('articulo').value;
+        let articuloId = document.getElementById('articuloSelect').value;
         fetch(`/ordenCompra/articulo/${articuloId}/predeterminado`)
             .then(response => response.json())
             .then(data => {
             if (data) {
-                document.getElementById('proveedor').value = data.proveedor.id;
+                document.getElementById('proveedorSelect').value = data.proveedor.id;
                 document.getElementById('fechaInicio').value = data.fechaInicio;
                 document.getElementById('cantidad').value = data.cantidad;
             } else {
@@ -71,6 +81,9 @@
             }
         });
     }
+window.onload = function() {
+    document.getElementById('articuloSelect').selectedIndex = -1;
+};
 </script>
 </body>
 </html>

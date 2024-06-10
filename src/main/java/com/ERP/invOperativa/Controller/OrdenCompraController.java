@@ -32,6 +32,11 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
         model.addAttribute("articulos", articuloService.ListarArticulos());
         return "crear_ordenCompra";
     }
+    @PostMapping("/ordenCompra/crear")
+    public String crearOrdenCompra(@ModelAttribute("ordenCompra") OrdenCompra ordenCompra) {
+        ordenCompraService.saveOrdenCompra(ordenCompra);
+        return "redirect:/ordenCompra";
+    }
     @GetMapping("/ordenCompra")
     public String listarOrdenes(Model modelo){
         modelo.addAttribute("ordenes", ordenCompraService.ListarOrdenes());
@@ -39,7 +44,7 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
     }
 
 
-//    //REVISAR QUE FUNCIONE EL FIND BY ID
+//    METODO VIEJO, IGNORAR
 //    @GetMapping("/ordenCompra/proveedoresPorArticulo/{articuloId}")
 //    @ResponseBody
 //    public List<Proveedor> getProveedoresPorArticulo(@PathVariable("articuloId") Long articuloId) throws Exception {
@@ -61,11 +66,7 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
         return articuloProveedorService.getPredeterminadoPorArticulo(articulo);
     }
 
- @PostMapping("/ordenCompra/crear")
-    public String crearOrdenCompra(@ModelAttribute OrdenCompra ordenDeCompra) {
-        ordenCompraService.saveOrdenCompra(ordenDeCompra);
-        return "redirect:/ordenCompra";
-    }
+
 
     @GetMapping("/ordenCompra/eliminar/{id}")
     public String eliminarOrdenCompra(@PathVariable long id){

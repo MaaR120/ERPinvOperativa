@@ -62,6 +62,14 @@ public class InvOperativaApplication {
 					.build();
 		articuloRepository.save(articulo1);
 
+			Articulo articulo2 = Articulo.builder()
+					.NombreArticulo("Celular")
+					.CostoAlmacenamiento(1600.0)
+					.precio(2000.0)
+					.familiaArticulo(familia1)
+					.build();
+			articuloRepository.save(articulo2);
+
 
 
 //Creo proveedor
@@ -80,11 +88,21 @@ public class InvOperativaApplication {
 					.precioArticuloProveedor(30.0)
 					.predeterminado(true)
 					.build();
+
+			ArticuloProveedor articuloProveedor2 = ArticuloProveedor.builder()
+					.proveedor(Proveedor1)
+					.articulo(articulo2)
+					.precioArticuloProveedor(50.0)
+					.predeterminado(true)
+					.build();
 //Guardo
 			articuloProveedorRepository.save(articuloProveedor1);
+			articuloProveedorRepository.save(articuloProveedor2);
 //Obtengo la lista de articuloProveedores de proveedor y le agrego el aP que cree recientemente
 			Proveedor1.addArticuloProveedor(articuloProveedor1);
 			articulo1.addArticuloProveedor(articuloProveedor1);
+			Proveedor1.addArticuloProveedor(articuloProveedor2);
+			articulo2.addArticuloProveedor(articuloProveedor2);
 
 //Creo OC
 			OrdenCompra ordencompra1 = OrdenCompra.builder()

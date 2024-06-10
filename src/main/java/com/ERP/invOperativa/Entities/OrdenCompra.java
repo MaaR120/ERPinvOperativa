@@ -32,11 +32,11 @@ public class OrdenCompra extends Base{
     @Temporal(TemporalType.DATE)
     private Date fechaUltimoCambio;
 
-    @NotNull
+    //Notnull
     @Column(name = "total_Orden_Compra")
     private double totalOrden;
 
-    @NotNull
+    //Not null
     @Column(name = "Estado_Orden")
     @Enumerated(EnumType.STRING)
     private EstadoOrdenCompra estadoOrdenCompra;
