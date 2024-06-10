@@ -1,6 +1,7 @@
 package com.ERP.invOperativa.Services;
 
 import com.ERP.invOperativa.Entities.Articulo;
+import com.ERP.invOperativa.Entities.Venta;
 
 import java.util.List;
 

@@ -6,6 +6,7 @@ import com.ERP.invOperativa.Entities.DetalleVenta;
 import com.ERP.invOperativa.DTO.VentasPorMesDTO;
 import com.ERP.invOperativa.Entities.Venta;
 import com.ERP.invOperativa.Services.ArticuloService;
+import com.ERP.invOperativa.Services.ArticuloServiceImpl;
 import com.ERP.invOperativa.Services.VentaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,7 +36,7 @@ import java.awt.print.Pageable;
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "venta")
-public class VentaController {
+public class VentaController extends BaseControllerImpl<Venta, VentaServiceImpl>{
 
     @Autowired
     private VentaServiceImpl service;
