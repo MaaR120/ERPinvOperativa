@@ -20,7 +20,7 @@ public class PrediccionDemandaController {
     @GetMapping("/PM")
     public ResponseEntity<?> obtenerHistoricoVentas(@RequestBody RequestPrediccionDemanda requestPrediccionDemanda) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.promedioMovilv2(requestPrediccionDemanda));
+            return ResponseEntity.status(HttpStatus.OK).body(service.promedioMovil(requestPrediccionDemanda));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage() + "\"}"));
         }
