@@ -19,6 +19,7 @@ public class ArticuloProveedor extends Base{
     @Temporal(TemporalType.DATE)
     private Date fechaVigencia;
 
+    //Costo de compra por articulo
     @NotNull
     @Column(name = "precio_articulo_Proveedor")
     private double precioArticuloProveedor;
