@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PrediccionDemanda {
     public List<DTOPrediccion> promedioMovil(RequestPrediccionDemanda requestPrediccionDemanda) throws Exception;
+
+    public List<DTOPrediccion> promedioMovilv2(RequestPrediccionDemanda requestPrediccionDemanda) throws Exception;
 }
