@@ -11,8 +11,9 @@ import lombok.Setter;
 @Setter
 public class DTOPrediccion {
     public String mes;
-    public int cantidad;
 
-    public int prediccionCantidad;
+    public int cantidadReal;
+
+    public int cantidadPrediccion;
 
 }

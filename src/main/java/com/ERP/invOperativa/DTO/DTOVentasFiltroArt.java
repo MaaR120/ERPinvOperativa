@@ -17,31 +17,4 @@ public class DTOVentasFiltroArt {
     private int cantidad;
     private Long idArt;
 
-    public Date getFechaFactruacion() {
-        return fechaFactruacion;
-    }
-
-    public void setFechaFactruacion(Date fechaFactruacion) {
-        this.fechaFactruacion = fechaFactruacion;
-    }
-
-
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public Long getIdArt() {
-        return idArt;
-    }
-
-    public void setIdArt(Long idArt) {
-        this.idArt = idArt;
-    }
-
-
 }

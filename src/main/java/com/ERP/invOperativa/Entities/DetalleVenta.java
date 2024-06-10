@@ -27,39 +27,10 @@ public class DetalleVenta extends Base {
     @JoinColumn(name = "articulo_id")
     private Articulo articulo;
 
-    @ManyToOne
-    @JoinColumn(name = "venta_id")
-    private Venta venta;
-
-    public Articulo getArticulo() {
-        return articulo;
-    }
-    public void setArticulo(Articulo articulo) {
-        this.articulo = articulo;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public void setSubtotal(double subtotal) {
-        this.subtotal = subtotal;
-    }
-
-    public Double getSubtotal() {
-        return subtotal;
-    }
-
-    public Venta getVenta() {
-        return venta;
-    }
-
-    public void setVenta(Venta venta) {
-        this.venta = venta;
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "venta_id")
+//    private Venta venta;
+//
 
 
 

@@ -14,9 +14,9 @@ import java.util.List;
 @Repository
 public interface VentaRepository extends BaseRepository<Venta,Long>{
 
-    @Query(value = "SELECT v.fecha_Venta as fechaFacturacion, dv.cantidad, dv.articulo as idArt " +
+    @Query(value = "SELECT v.fecha_Venta as fechaFacturacion, dv.cantidad, dv.articulo_id as idArt " +
             "FROM Venta v JOIN Detalle_Venta dv ON v.id = dv.venta_id " +
-            "WHERE dv.articulo = :idArt " +
+            "WHERE dv.articulo_id = :idArt " +
             "AND v.fecha_Venta BETWEEN :fechaIni AND :fechaFin " +
             "ORDER BY v.fecha_Venta",
             nativeQuery = true)
@@ -28,7 +28,7 @@ public interface VentaRepository extends BaseRepository<Venta,Long>{
         @Query(value = "SELECT FORMATDATETIME(v.fecha_Venta, 'yyyy-MM') as mes, SUM(dv.cantidad) as cantidad " +
                 "FROM Venta v " +
                 "JOIN Detalle_Venta dv ON v.id = dv.venta_id " +
-                "WHERE dv.articulo = :idArt " +
+                "WHERE dv.articulo_id = :idArt " +
                 "AND v.fecha_Venta BETWEEN :fechaIni AND :fechaFin " +
                 "GROUP BY FORMATDATETIME(v.fecha_Venta, 'yyyy-MM') " +
                 "ORDER BY FORMATDATETIME(v.fecha_Venta, 'yyyy-MM')",
