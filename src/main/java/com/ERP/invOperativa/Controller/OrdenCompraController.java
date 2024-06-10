@@ -10,6 +10,7 @@ import com.ERP.invOperativa.Services.ArticuloServiceImpl;
 import com.ERP.invOperativa.Services.OrdenCompraService;
 import com.ERP.invOperativa.Services.OrdenCompraServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -74,7 +75,16 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
         return articuloProveedorService.getPrecioPorArticuloProveedor(articuloId, proveedorId);
     }
 
+    @GetMapping("/ordenCompra/estado/{articuloId}")
 
+    public ResponseEntity<String> obtenerEstadoOrdenCompra(@PathVariable Long articuloId) {
+        boolean enPreparacion = ordenCompraService.existeOrdenEnPreparacion(articuloId);
+        if (enPreparacion) {
+            return ResponseEntity.ok("En preparación");
+        } else {
+            return ResponseEntity.ok("Disponible");
+        }
+    }
     @GetMapping("/ordenCompra/eliminar/{id}")
     public String eliminarOrdenCompra(@PathVariable long id){
         ordenCompraService.deleteOrdenCompra(id);

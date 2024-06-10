@@ -11,4 +11,6 @@ public interface OrdenCompraService extends BaseService<OrdenCompra,Long>{
     public OrdenCompra saveOrdenCompra(OrdenCompra ordenCompra);
 
     public OrdenCompra deleteOrdenCompra(Long id);
+
+    public boolean existeOrdenEnPreparacion(Long articuloId);
 }
