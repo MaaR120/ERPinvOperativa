@@ -26,9 +26,10 @@
             <th scope="col">Articulo</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Proveedor</th>
+<!--            NO SERAN MOSTRADOS HASTA TENER SU FUNCIONALIDAD-->
             <!--<th scope="col">FechaInicio</th> ME PARECIO IRRELEVANTE PARA EL USUARIO ESTE DATO-->
-            <th scope="col">FechaUltimoCambio</th>
-            <th scope="col">FechaEntrega</th>
+<!--            <th scope="col">FechaUltimoCambio</th>-->
+<!--            <th scope="col">FechaEntrega</th>-->
             <th scope="col">EstadoOrden</th>
             <th scope="col">Total</th>
             <th scope="col">Acciones</th>
@@ -38,16 +39,16 @@
         <tr th:each="ordenCompra :${ordenes}">
             <td th:text="${ordenCompra.articulo.NombreArticulo}"></td>
             <td th:text="${ordenCompra.cantidad}"></td>
-          <!--<td th:text="${ordenCompra.proveedor.nombreProveedor}"></td>-->
+          <td th:text="${ordenCompra.proveedor.nombreProveedor}"></td>
             <!--<td th:text="${ordenCompra.fechaInicio}"></td>-->
-            <td th:text="${ordenCompra.fechaUltimoCambio}"></td>
-            <td th:text="${ordenCompra.fechaEntrega}"></td>
+<!--            <td th:text="${ordenCompra.fechaUltimoCambio}"></td>-->
+<!--            <td th:text="${ordenCompra.fechaEntrega}"></td>-->
             <td th:text="${ordenCompra.estadoOrdenCompra}"></td>
             <td th:text="${ordenCompra.totalOrden}"></td>
 
             <td>
                 <a class="btn btn-warning">Modificar</a>
-                <a th:href="@{/ordenCompra/{id}(id=${ordenCompra.id})}" class="btn btn-danger">Eliminar</a>
+                <a th:href="@{/ordenCompra/eliminar/{id}(id=${ordenCompra.id})}" class="btn btn-danger">Eliminar</a>
                 <!--Podria crear un boton que diga "CREAR SIMILAR" que nos redirija al formulario de ALTA, pero con los datos, del proveedor, del articulo inicializados-->
 
             </td>

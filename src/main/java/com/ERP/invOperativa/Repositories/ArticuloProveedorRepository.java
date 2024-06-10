@@ -17,4 +17,7 @@ public interface ArticuloProveedorRepository extends BaseRepository<ArticuloProv
 
     @Query("SELECT ap FROM ArticuloProveedor ap WHERE ap.articulo = :articulo AND ap.predeterminado = true")
     ArticuloProveedor findPredeterminadoByArticulo(@Param("articulo") Articulo articulo);
+
+    @Query("SELECT ap FROM ArticuloProveedor ap WHERE ap.articulo.id =:articuloId AND ap.proveedor.id =:proveedorId")
+    ArticuloProveedor findByArticuloYProveedor(@Param("articuloId") Long articuloId, @Param("proveedorId") Long proveedorId);
 }

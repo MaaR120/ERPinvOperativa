@@ -23,14 +23,23 @@
             </select>
         </div>
 
-        <!--El usuario va a poder cargar la fecha de inicio de la orden de compra, para poder programarla, por ejemplo-->
+        <!--El usuario va a poder cargar la fecha de inicio de la orden de compra, para poder programarla, por ejemplo
+        DESABILITADA POR EL MOPMENTO POR NO TENER EL TIPO D DATO CORRECTO-->
       <div class="form-group">
             <label for="fechaInicio">FechaInicio</label>
             <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicio" disabled>
         </div>
+
+
         <div class="form-group">
-            <label for="cantidad">Cantidad</label>
-            <input type="text" th:field="*{cantidad}" class="form-control" id="cantidad">
+            <label for="cantidadIngreso">Cantidad</label>
+            <input type="text" th:field="*{cantidad}" class="form-control" id="cantidadIngreso" onchange="calcularTotal()">
+        </div>
+
+        <div class="form-group">
+            <div id="precioProveedor" class="mb-2"></div>
+            <label for="totalOrdenSelect">Total Orden</label>
+            <input type="text" th:field="*{totalOrden}" class="form-control" id="totalOrdenSelect" readonly>
         </div>
 
         <div class="box-footer">
@@ -66,21 +75,51 @@ function cargarProveedores() {
     })
         .catch(error => console.error('Error al cargar proveedores:', error));
 }
+function cargarPredeterminado() {
+    let articuloId = document.getElementById('articuloSelect').value;
+    fetch(`/ordenCompra/articulo/${articuloId}/predeterminado`)
+        .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('No se encontró un proveedor predeterminado para este artículo');
+        }
+    })
+        .then(data => {
+        document.getElementById('proveedorSelect').value = data.proveedor.id;
+//        document.getElementById('fechaInicio').value = data.fechaInicio;
+//        document.getElementById('cantidad').value = data.cantidad;
+        //Llamo al calcular total cuando actualizo el campo de proveedor
+        calcularTotal();
+    })
+        .catch(error => {
+        alert(error.message); // Mostrar mensaje de error al usuario
+    });
+}
 
-    function cargarPredeterminado() {
-        let articuloId = document.getElementById('articuloSelect').value;
-        fetch(`/ordenCompra/articulo/${articuloId}/predeterminado`)
-            .then(response => response.json())
-            .then(data => {
-            if (data) {
-                document.getElementById('proveedorSelect').value = data.proveedor.id;
-                document.getElementById('fechaInicio').value = data.fechaInicio;
-                document.getElementById('cantidad').value = data.cantidad;
-            } else {
-                alert("No se encontró un proveedor predeterminado para este artículo.");
+function calcularTotal(){
+    let cantidad = document.getElementById('cantidadIngreso').value;
+    let articuloId = document.getElementById('articuloSelect').value;
+    let proveedorId = document.getElementById('proveedorSelect').value;
+
+    if(articuloId && proveedorId && cantidad){
+        fetch(`/ordenCompra/precioUnitario/${articuloId}/${proveedorId}`)
+        .then(response =>{
+            if(!response.ok){
+                throw new Error('La solicitud no fue exitosa');
             }
-        });
+        return response.json();
+})
+  .then(precioArticuloProveedor=>{
+            let total = cantidad * precioArticuloProveedor;
+            document.getElementById('totalOrdenSelect').value = total.toFixed(2);
+            document.getElementById('precioProveedor').innerText =  `Total en base al precio del proveedor de: $ ${precioArticuloProveedor.toFixed(2)} por unidad`;
+        })
+        .catch(error=> console.error('Error al calcular el total:', error));
     }
+
+
+}
 window.onload = function() {
     document.getElementById('articuloSelect').selectedIndex = -1;
 };

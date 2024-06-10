@@ -20,14 +20,10 @@ public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProvee
         this.articuloProveedorRepository=articuloProveedorRepository;
     }
 
-    // METODO VIEJO IGNORAR
-//    public List<Proveedor> getProveedoresPorArticulo(Articulo articulo) {
-//        return articuloProveedorRepository.findProveedoresByArticulo(articulo);
-//    }
 
     public List<Proveedor> getProveedoresPorArticulo(Long articuloId) {
 
-        //El siguiente metodo no se como funciona, supuestamente por nombres del JPA lo relaciona
+
         List<ArticuloProveedor> articuloProveedores = articuloProveedorRepository.findByArticuloId(articuloId);
         return articuloProveedores.stream()
                 .map(ArticuloProveedor::getProveedor)
@@ -36,5 +32,13 @@ public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProvee
 
     public ArticuloProveedor getPredeterminadoPorArticulo(Articulo articulo) {
         return articuloProveedorRepository.findPredeterminadoByArticulo(articulo);
+    }
+
+    public double getPrecioPorArticuloProveedor(Long articuloId, Long proveedorId) {
+        ArticuloProveedor articuloProveedor = articuloProveedorRepository.findByArticuloYProveedor(articuloId, proveedorId);
+        if(articuloProveedor != null){
+            return articuloProveedor.getPrecioArticuloProveedor();
+        }else return 0.0;
+//        return articuloProveedor != null ? articuloProveedor.getPrecioArticuloProveedor() : 0.0;
     }
 }
