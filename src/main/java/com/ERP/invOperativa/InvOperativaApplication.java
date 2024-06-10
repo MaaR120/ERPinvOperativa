@@ -3,9 +3,7 @@ package com.ERP.invOperativa;
 import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.VentaRepository;
 import com.ERP.invOperativa.Services.VentaService;
-import com.ERP.invOperativa.Entities.Articulo;
-import com.ERP.invOperativa.Entities.DetalleVenta;
-import com.ERP.invOperativa.Entities.Venta;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
