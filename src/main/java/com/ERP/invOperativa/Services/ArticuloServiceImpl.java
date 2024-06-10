@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implements ArticuloService{
+
     @Autowired
     ArticuloRepository articuloRepository;
     public ArticuloServiceImpl(BaseRepository<Articulo, Long> baseRepository,ArticuloRepository articuloRepository) {
@@ -16,17 +18,17 @@ public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implemen
         this.articuloRepository=articuloRepository;
     }
 
+    @Override
+    public List<Articulo> findAll() {
+        return articuloRepository.findAll();
 
 
-
-
+    }
     @Override
     public List<Articulo> ListarArticulos() {
 
         return articuloRepository.findAll();
     }
-
-//
 
     @Override
     public Articulo saveArticulo(Articulo articulo) {
@@ -38,18 +40,5 @@ public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implemen
     public Articulo deleteArticulo(Long id) {
         articuloRepository.deleteById(id);
         return null;
-    }
-
-    @Override
-    public List<Articulo> findAll() {
-        return articuloRepository.findAll();
-
-
-    }
-
-
-    @Override
-    public List<Articulo> listarArticulos() {
-        return articuloRepository.findAll();
     }
 }

@@ -21,7 +21,6 @@ import java.util.Optional;
 
 @Service
 public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements VentaService {
-
     @Autowired
     private VentaRepository ventaRepository;
 
@@ -116,6 +115,7 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
             return ventasFiltro;
         }else throw new Exception("No se encontraron ventas para este articulo en las fechas indicadas...");
     }
+
 
 
 }

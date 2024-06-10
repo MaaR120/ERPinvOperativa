@@ -8,7 +8,6 @@ import com.ERP.invOperativa.Repositories.ArticuloProveedorRepository;
 import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.ProveedorRepository;
 import com.ERP.invOperativa.Services.ArticuloService;
-import com.ERP.invOperativa.Services.ArticuloServiceImpl;
 import com.ERP.invOperativa.Services.FamilaArticuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
-public class ArticuloController extends BaseControllerImpl<Articulo, ArticuloServiceImpl>{
+public class ArticuloController {
     @Autowired
     private ArticuloService service;
 
