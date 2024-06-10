@@ -3,11 +3,10 @@ package com.ERP.invOperativa.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
-import lombok.Builder;
 
+import java.util.ArrayList;
 import java.util.Date;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
 
 @Entity
 @Table(name= "articulo")
@@ -18,29 +17,22 @@ import lombok.Setter;
 @Builder
 public class Articulo extends Base{
 
-    @Column(name = "NombreArticulo")
+    @NotNull
     private String NombreArticulo;
 
-    @Column(name = "CostoAlmacenamiento")
     private Double CostoAlmacenamiento;
 
-    @Column(name = "Stock")
     private int Stock;
 
-    @Column(name = "StockSeguridad")
     private int StockSeguridad;
 
-    @Column(name = "PuntoPedido")
     private int PuntoPedido;
 
-    @Column(name = "LoteOptimo")
     private int LoteOptimo;
 
-    @Column(name = "precio")
     @NotNull
     private double precio;
 
-    @Column(name = "fechaBaja")
     private Date fechaBaja;
 
     @ManyToOne
@@ -48,20 +40,11 @@ public class Articulo extends Base{
     private FamiliaArticulo familiaArticulo;
 
 
-    public Double getPrecio() {
-        return precio;
-    }
+    //Relacion con proveedores
+    @OneToMany(mappedBy = "articulo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
 
-    public String getNombreArticulo(){
-        return NombreArticulo;
-    }
-    public void setNombreArticulo(String nombreArticulo) {
-        this.NombreArticulo = nombreArticulo;
-    }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
 
     // Métodos para calcular stockSeguridad, puntoPedido, loteOptimo
     public int calcularStockSeguridad() {

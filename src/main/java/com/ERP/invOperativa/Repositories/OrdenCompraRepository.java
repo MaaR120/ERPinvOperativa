@@ -1,7 +1,7 @@
 package com.ERP.invOperativa.Repositories;
-import com.ERP.invOperativa.Entities.OrdenCompra;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface OrdenCompraRepository extends BaseRepository<OrdenCompra,Long>{
+
+import com.ERP.invOperativa.Entities.OrdenCompra;
+
+public interface OrdenCompraRepository extends BaseRepository<OrdenCompra, Long> {
 }
