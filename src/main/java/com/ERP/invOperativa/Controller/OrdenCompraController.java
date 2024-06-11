@@ -61,7 +61,7 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
         return articuloProveedorService.getProveedoresPorArticulo(articuloId);
     }
 
-
+// ACA ESTA EL ERROR - si comentan esto corre perfecto el programa pero no anda el predeterminado
     @GetMapping("/ordenCompra/articulo/{articuloId}/predeterminado")
     @ResponseBody
     public ArticuloProveedor getDatosPredeterminados(@PathVariable("articuloId") Long articuloId) throws Exception {
