@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Date;
 
+
 @Entity
 @Table(name = "ArticuloProveedor")
 @NoArgsConstructor
@@ -17,6 +18,11 @@ public class ArticuloProveedor extends Base{
     @Column(name = "fecha_Vigencia")
     @Temporal(TemporalType.DATE)
     private Date fechaVigencia;
+
+
+    @Column(name = "Tiempo_Demora")
+    private int tiempoDemora;
+
 
     @NotNull
     @Column(name = "Tiempo_Demora")

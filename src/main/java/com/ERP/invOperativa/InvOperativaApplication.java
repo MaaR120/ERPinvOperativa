@@ -3,6 +3,14 @@ package com.ERP.invOperativa;
 import com.ERP.invOperativa.Entities.*;
 import com.ERP.invOperativa.Enum.EstadoOrdenCompra;
 import com.ERP.invOperativa.Repositories.*;
+import com.ERP.invOperativa.Entities.Articulo;
+import com.ERP.invOperativa.Entities.ArticuloProveedor;
+import com.ERP.invOperativa.Entities.FamiliaArticulo;
+import com.ERP.invOperativa.Entities.Proveedor;
+import com.ERP.invOperativa.Repositories.ArticuloProveedorRepository;
+import com.ERP.invOperativa.Repositories.ArticuloRepository;
+import com.ERP.invOperativa.Repositories.FamiliaArticuloRepository;
+import com.ERP.invOperativa.Repositories.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -41,9 +49,7 @@ public class InvOperativaApplication {
 	@Autowired
 	ArticuloProveedorRepository articuloProveedorRepository;
 
-
-
-//Agregue esto para hacer pruebas
+	//Agregue esto para hacer pruebas
 	@Bean
 	CommandLineRunner init(ArticuloRepository ArticuloRepository1,OrdenCompraRepository OrdenCompraRepository1 ) {
 		return args -> {
@@ -57,15 +63,17 @@ public class InvOperativaApplication {
 	Articulo articulo1 = Articulo.builder()
 					.NombreArticulo("Tornillo")
 					.CostoAlmacenamiento(1500.0)
+					.Stock(800)
 					.precio(2500.0)
 					.familiaArticulo(familia1)
 					.build();
 		articuloRepository.save(articulo1);
 
 			Articulo articulo2 = Articulo.builder()
-					.NombreArticulo("Celular")
-					.CostoAlmacenamiento(1600.0)
-					.precio(2000.0)
+					.NombreArticulo("ruleman")
+					.CostoAlmacenamiento(1500.0)
+					.Stock(400)
+					.precio(2500.0)
 					.familiaArticulo(familia1)
 					.build();
 			articuloRepository.save(articulo2);

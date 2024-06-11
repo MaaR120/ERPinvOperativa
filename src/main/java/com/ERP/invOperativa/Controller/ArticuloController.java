@@ -1,7 +1,12 @@
 package com.ERP.invOperativa.Controller;
 
 import com.ERP.invOperativa.Entities.Articulo;
+import com.ERP.invOperativa.Entities.ArticuloProveedor;
 import com.ERP.invOperativa.Entities.FamiliaArticulo;
+import com.ERP.invOperativa.Entities.Proveedor;
+import com.ERP.invOperativa.Repositories.ArticuloProveedorRepository;
+import com.ERP.invOperativa.Repositories.ArticuloRepository;
+import com.ERP.invOperativa.Repositories.ProveedorRepository;
 import com.ERP.invOperativa.Services.ArticuloService;
 import com.ERP.invOperativa.Services.FamilaArticuloService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class ArticuloController {
@@ -18,6 +25,16 @@ public class ArticuloController {
 
     @Autowired
     private FamilaArticuloService familiaservice;
+
+    @Autowired
+    private ArticuloRepository articuloRepository;
+
+    @Autowired
+    private ProveedorRepository proveedorRepository;
+
+    @Autowired
+    private ArticuloProveedorRepository articuloProveedorRepository;
+
 
     @GetMapping("/maestroarticulo")
     public String listarArticulos(Model modelo) {
@@ -42,14 +59,33 @@ public class ArticuloController {
     }
 
     @GetMapping("/maestroarticulo/{id}")
-    public String eliminarArticulo(@PathVariable Long id){
+    public String deleteArticulo(@PathVariable Long id){
         service.deleteArticulo(id);
         return "redirect:/maestroarticulo";
     }
     /*
-    @GetMapping("/informacion_inventario/{id}")
+    @GetMapping("maestroarticulo/informacion_inventario/{id}")
     public String mostrarInventarioArticulo(@PathVariable Long id){
 
     }*/
 
+    @GetMapping("maestroarticulo/{id}/articulo_proveedor")
+    public String verProveedores(@PathVariable Long id, Model model) {
+        Optional<Articulo> optionalArticulo = articuloRepository.findById(id);
+        if (optionalArticulo.isPresent()) {
+            Articulo articulo = optionalArticulo.get();
+            List<Proveedor> proveedores = articulo.getArticuloProveedores().stream()
+                    .map(ArticuloProveedor::getProveedor)
+                    .collect(Collectors.toList());
+            model.addAttribute("articulo", articulo);
+            model.addAttribute("proveedores", proveedores);
+            return "articulo_proveedor"; // Devuelve el nombre de la vista
+        } else {
+            // Manejar el caso en el que no se encuentra el artículo
+            return "redirect:/maestroarticulo"; // Por ejemplo, redirigir a la página principal de los artículos
+        }
+    }
+
+
 }
+

@@ -40,5 +40,8 @@ public class Proveedor extends Base{
         articuloProveedores.add(articuloProveedor);
         articuloProveedor.setProveedor(this);
     }
-
+    @Column(name = "Tiempo_Estimado_Entrega")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date TiempoEstimadoEntrega;
 }
+

@@ -23,10 +23,10 @@ public class Articulo extends Base{
     @Column
     private String NombreArticulo;
 
-    @Column
+    @NotNull
     private Double CostoAlmacenamiento;
 
-    @Column
+    @NotNull
     private int Stock;
 
     @Column
@@ -72,6 +72,12 @@ public class Articulo extends Base{
     @ManyToOne
     @JoinColumn(name="FamiliaArticulo")
     private FamiliaArticulo familiaArticulo;
+
+
+    //Relacion con proveedores
+    @OneToMany(mappedBy = "articulo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
+
 
 
     // Métodos para calcular stockSeguridad, puntoPedido, loteOptimo
