@@ -52,6 +52,7 @@ public class InvOperativaApplication {
 			Articulo articulo1 = Articulo.builder()
 					.NombreArticulo("Tornillo")
 					.CostoAlmacenamiento(1500.0)
+					.Stock(800)
 					.precio(2500.0)
 					.familiaArticulo(familia1)
 					.build();
@@ -60,6 +61,7 @@ public class InvOperativaApplication {
 			Articulo articulo2 = Articulo.builder()
 					.NombreArticulo("ruleman")
 					.CostoAlmacenamiento(1500.0)
+					.Stock(400)
 					.precio(2500.0)
 					.familiaArticulo(familia1)
 					.build();

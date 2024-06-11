@@ -23,6 +23,7 @@ public class Articulo extends Base{
     @NotNull
     private Double CostoAlmacenamiento;
 
+    @NotNull
     private int Stock;
 
     private int StockSeguridad;
