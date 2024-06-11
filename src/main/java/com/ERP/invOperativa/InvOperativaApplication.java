@@ -26,7 +26,14 @@ import static com.ERP.invOperativa.Enum.Modelo.Lote_fijo;
 
 @SpringBootApplication
 public class InvOperativaApplication {
+	@Autowired
+	private VentaService ventaService;
 
+	@Autowired
+	private ArticuloRepository articuloRepository;
+	@Autowired
+
+	private VentaRepository ventaRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(InvOperativaApplication.class, args);
 		System.out.println("Programa en Ejecucion");

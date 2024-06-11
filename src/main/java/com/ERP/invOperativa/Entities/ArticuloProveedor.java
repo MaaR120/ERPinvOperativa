@@ -3,6 +3,7 @@ package com.ERP.invOperativa.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import lombok.Builder;
 
 import java.util.Date;
 

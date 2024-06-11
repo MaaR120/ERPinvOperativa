@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name= "articulo")
@@ -19,30 +22,29 @@ import java.util.Set;
 @Builder
 public class Articulo extends Base{
 
-    @NotNull
-    @Column
+    @Column(name = "NombreArticulo")
     private String NombreArticulo;
 
-    @NotNull
+    @Column(name = "CostoAlmacenamiento")
     private Double CostoAlmacenamiento;
 
-    @NotNull
+    @Column(name = "Stock")
     private int Stock;
 
-    @Column
+    @Column(name = "StockSeguridad")
     private int StockSeguridad;
 
-    @Column
+    @Column(name = "PuntoPedido")
     private int PuntoPedido;
 
-    @Column
+    @Column(name = "LoteOptimo")
     private int LoteOptimo;
 
-    @Column
+    @Column(name = "precio")
     @NotNull
     private double precio;
 
-    @Column
+    @Column(name = "fechaBaja")
     private Date fechaBaja;
 
 

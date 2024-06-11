@@ -35,4 +35,16 @@ public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implemen
         articuloRepository.deleteById(id);
         return null;
     }
+
+    @Override
+    public List<Articulo> findAll() {
+        return articuloRepository.findAll();
+
+
+    }
+
+    @Override
+    public List<Articulo> listarArticulos() {
+        return articuloRepository.findAll();
+    }
 }
