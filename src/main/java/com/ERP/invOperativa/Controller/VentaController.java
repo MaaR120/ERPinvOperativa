@@ -6,6 +6,8 @@ import com.ERP.invOperativa.Entities.Articulo;
 import com.ERP.invOperativa.Entities.Venta;
 import com.ERP.invOperativa.Services.ArticuloService;
 import com.ERP.invOperativa.Services.VentaServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.HttpStatus;
@@ -90,7 +92,7 @@ public class VentaController extends BaseControllerImpl<Venta,VentaServiceImpl>{
     }
 
     @GetMapping("/filtro")
-    public ResponseEntity<?> filtroVentaArtFecha(@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date fechaIni,@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date fechaFin, @RequestParam Long idArt){
+    public ResponseEntity<?> filtroVentaArtFecha(@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date fechaIni, @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date fechaFin, @RequestParam Long idArt){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.filtroVentaArtFecha(fechaIni,fechaFin,idArt));
         }catch (Exception e){
