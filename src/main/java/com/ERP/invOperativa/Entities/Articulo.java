@@ -47,7 +47,7 @@ public class Articulo extends Base{
 
 
 
-    @OneToMany(mappedBy = "articulo")
+    @OneToMany(mappedBy = "articulo",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     @JsonIgnore
     private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
@@ -74,9 +74,6 @@ public class Articulo extends Base{
     private FamiliaArticulo familiaArticulo;
 
 
-    //Relacion con proveedores
-    @OneToMany(mappedBy = "articulo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
 
 
 
