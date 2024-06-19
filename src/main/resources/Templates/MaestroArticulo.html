@@ -17,12 +17,13 @@
     <div class="row">
       <h1> Lista de Articulos</h1>
     </div>
+    <hr th:replace="~{ListadoVentas :: separador}">
     <div class="row">
       <div class="col-md-4">
-        <a th:href="@{/maestroarticulo/nuevo}" class="btn btn-primary">Agregar Articulo</a>
+        <a th:href="@{/maestroarticulo/nuevo}" class="btn btn-success">+ Agregar Articulo</a>
       </div>
       <div class="col-md-4 ms-auto">
-        <a th:href="@{/familiaarticulo}" class="btn btn-secondary">Agregar Familia de Articulo</a>
+        <a th:href="@{/familiaarticulo}" class="btn btn-secondary">+ Agregar Familia de Articulo</a>
       </div>
     </div>
     <br>
