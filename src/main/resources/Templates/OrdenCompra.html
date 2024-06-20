@@ -53,7 +53,7 @@
             <td th:text="${ordenCompra.totalOrden}"></td>
 
             <td>
-                <a class="btn btn-warning">Modificar</a>
+                <a th:href="@{/ordenCompra/modificar/{id}(id=${ordenCompra.id})} "class="btn btn-warning">Modificar</a>
                 <a th:href="@{/ordenCompra/eliminar/{id}(id=${ordenCompra.id})}" class="btn btn-danger">Eliminar</a>
                 <!--Podria crear un boton que diga "CREAR SIMILAR" que nos redirija al formulario de ALTA, pero con los datos, del proveedor, del articulo inicializados-->
 

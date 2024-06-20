@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Orden de Compra</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Modificar Orden de Compra</h1>
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <form th:action="@{/ordenCompra/actualizar}" th:object="${ordenCompra}" method="post">
+        <div class="form-group">
+            <label for="articulo">Artículo</label>
+            <input type="text" th:field="*{articulo.NombreArticulo}" class="form-control" id="articulo" readonly>
+        </div>
+        <div class="form-group">
+            <label for="cantidad">Cantidad</label>
+            <input type="number" th:field="*{cantidad}" class="form-control" id="cantidad" readonly>
+        </div>
+        <div class="form-group">
+            <label for="proveedor">Proveedor</label>
+            <input type="text" th:field="*{proveedor.nombreProveedor}" class="form-control" id="proveedor" readonly>
+        </div>
+        <div class="form-group">
+            <label for="estadoOrdenCompra">Estado de la Orden</label>
+            <select th:field="*{estadoOrdenCompra}" class="form-control" id="estadoOrdenCompra">
+                <option th:each="estado : ${estadosOrdenCompra}" th:value="${estado}" th:text="${estado}"
+                        th:selected="${estado == ordenCompra.estadoOrdenCompra}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="totalOrden">Total</label>
+            <input type="number" th:field="*{totalOrden}" class="form-control" id="totalOrden" readonly>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+</div>
+</body>
+</html>

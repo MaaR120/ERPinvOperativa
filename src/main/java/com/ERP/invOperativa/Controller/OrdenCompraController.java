@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,11 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
 
     @Autowired
     private ArticuloProveedorServiceImpl articuloProveedorService;
+
+    @ModelAttribute("estadosOrdenCompra")
+    public EstadoOrdenCompra[] estadosOrdenCompra() {
+        return EstadoOrdenCompra.values();
+    }
 
     @GetMapping("/ordenCompra/form")
     public String mostrarFormularioDeCreacion(Model model) {
@@ -47,14 +53,32 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
         return "OrdenCompra";
     }
 
+    //Metodo para mostrar el formulario de modificacion
+    @GetMapping("/ordenCompra/modificar/{id}")
+    public String mostrarFormularioModificar(@PathVariable("id") Long id, Model model) {
+        Optional<OrdenCompra> ordenCompraOptional = ordenCompraService.findById(id);
+        if (ordenCompraOptional.isPresent()) {
+            model.addAttribute("ordenCompra", ordenCompraOptional.get());
+        } else {
+            model.addAttribute("errorMessage", "No se pudo encontrar la orden de compra con ID " + id);
+            return "error";
+        }
+        return "modificarOrdenCompra";
+    }
 
-//    METODO VIEJO, IGNORAR
-//    @GetMapping("/ordenCompra/proveedoresPorArticulo/{articuloId}")
-//    @ResponseBody
-//    public List<Proveedor> getProveedoresPorArticulo(@PathVariable("articuloId") Long articuloId) throws Exception {
-//        Articulo articulo = articuloService.findById(articuloId);
-//        return articuloProveedorService.getProveedoresPorArticulo(articulo);
-//    }
+    @PostMapping("/ordenCompra/actualizar")
+    public String actualizarOrdenCompra(@ModelAttribute OrdenCompra ordenCompra, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "modificarOrdenCompra";
+        }
+        try {
+            ordenCompraService.save(ordenCompra);
+        } catch (Exception e) {
+            result.rejectValue(null, "error.ordenCompra", e.getMessage());
+            return "modificarOrdenCompra";
+        }
+        return "redirect:/ordenCompra";
+    }
 
     @GetMapping("/ordenCompra/proveedoresPorArticulo/{articuloId}")
     @ResponseBody
@@ -62,7 +86,6 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
         return articuloProveedorService.getProveedoresPorArticulo(articuloId);
     }
 
-// ACA ESTA EL ERROR - si comentan esto corre perfecto el programa pero no anda el predeterminado
     @GetMapping("/ordenCompra/articulo/{articuloId}/predeterminado")
     @ResponseBody
     public ArticuloProveedor getDatosPredeterminados(@PathVariable("articuloId") Long articuloId) throws Exception {
