@@ -15,4 +15,6 @@ public interface ArticuloService extends BaseService<Articulo,Long> {
     List<Articulo> findAll();
     List<Articulo> listarArticulos();
 
+
+
 }

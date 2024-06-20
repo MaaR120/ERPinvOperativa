@@ -10,6 +10,7 @@ import com.ERP.invOperativa.Services.ArticuloServiceImpl;
 import com.ERP.invOperativa.Services.OrdenCompraService;
 import com.ERP.invOperativa.Services.OrdenCompraServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, OrdenCompraServiceImpl>{
+public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, OrdenCompraServiceImpl> {
     @Autowired
     private OrdenCompraService ordenCompraService;
 
@@ -41,14 +42,16 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
         model.addAttribute("articulos", articuloService.ListarArticulos());
         return "crear_ordenCompra";
     }
+
     @PostMapping("/ordenCompra/crear")
     public String crearOrdenCompra(@ModelAttribute("ordenCompra") OrdenCompra ordenCompra) {
         ordenCompra.setEstadoOrdenCompra(EstadoOrdenCompra.Preparacion);
         ordenCompraService.saveOrdenCompra(ordenCompra);
         return "redirect:/ordenCompra";
     }
+
     @GetMapping("/ordenCompra")
-    public String listarOrdenes(Model modelo){
+    public String listarOrdenes(Model modelo) {
         modelo.addAttribute("ordenes", ordenCompraService.ListarOrdenes());
         return "OrdenCompra";
     }
@@ -90,10 +93,9 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
     @ResponseBody
     public ArticuloProveedor getDatosPredeterminados(@PathVariable("articuloId") Long articuloId) throws Exception {
         Optional<Articulo> articulo = articuloService.findById(articuloId);
-        if (articulo.isPresent()){
+        if (articulo.isPresent()) {
             return articuloProveedorService.getPredeterminadoPorArticulo(articulo.get());
-        }
-        else throw new Exception("Error al buscar el articulo");
+        } else throw new Exception("Error al buscar el articulo");
     }
 
     @GetMapping("/ordenCompra/precioUnitario/{articuloId}/{proveedorId}")
@@ -112,9 +114,40 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
             return ResponseEntity.ok("Disponible");
         }
     }
+
     @GetMapping("/ordenCompra/eliminar/{id}")
-    public String eliminarOrdenCompra(@PathVariable long id){
+    public String eliminarOrdenCompra(@PathVariable long id) {
         ordenCompraService.deleteOrdenCompra(id);
         return "redirect:/ordenCompra";
     }
+
+//    @PostMapping("/ordenCompra/actualizarStock/{ordenCompraId}")
+//    public boolean actualizarStock(@PathVariable Long ordenCompraId) throws Exception{
+//        Optional <OrdenCompra> ordenCompra = ordenCompraService.findById(ordenCompraId);
+//        if(ordenCompra.isPresent()) {
+//            double cantidadOrden = ordenCompra.get().getCantidad();
+//            Articulo articuloOrden = ordenCompra.get().getArticulo();
+//            boolean stockActualizado = articuloService.actualizarStock(cantidadOrden,articuloOrden);
+//            }else return false;
+//
+//        }else throw new Exception("Error al buscar el articulo");
+
+
+@PostMapping("/ordenCompra/actualizarStock/{ordenCompraId}")
+public ResponseEntity<?> actualizarStock(@PathVariable("ordenCompraId") Long ordenCompraId, @RequestBody OrdenCompra ordenCompra) throws Exception {
+    Optional<OrdenCompra> ordenCompraOptional = ordenCompraService.findById(ordenCompraId);
+    if (ordenCompraOptional.isPresent()) {
+        OrdenCompra existingOrdenCompra = ordenCompraOptional.get();
+        if (ordenCompra.getEstadoOrdenCompra() == EstadoOrdenCompra.Entregado) {
+            Articulo articulo = existingOrdenCompra.getArticulo();
+            int nuevaCantidad = articulo.getStock() + existingOrdenCompra.getCantidad();
+            articulo.setStock(nuevaCantidad);
+            articuloService.save(articulo);
+        }
+        return ResponseEntity.ok().body("{\"success\": true}");
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"success\": false, \"message\": \"Orden de compra no encontrada.\"}");
+    }
 }
+}
+

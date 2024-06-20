@@ -5,7 +5,7 @@ import com.ERP.invOperativa.Entities.OrdenCompra;
 
 import java.util.List;
 
-public interface OrdenCompraService extends BaseService<OrdenCompra,Long>{
+public interface OrdenCompraService extends BaseService<OrdenCompra,Long> {
     public List<OrdenCompra> ListarOrdenes();
 
     public OrdenCompra saveOrdenCompra(OrdenCompra ordenCompra);
@@ -13,4 +13,7 @@ public interface OrdenCompraService extends BaseService<OrdenCompra,Long>{
     public OrdenCompra deleteOrdenCompra(Long id);
 
     public boolean existeOrdenEnPreparacion(Long articuloId);
+
 }
+
+

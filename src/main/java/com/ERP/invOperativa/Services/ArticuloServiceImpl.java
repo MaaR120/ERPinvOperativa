@@ -47,4 +47,8 @@ public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implemen
     public List<Articulo> listarArticulos() {
         return articuloRepository.findAll();
     }
+
+
 }
+
+
