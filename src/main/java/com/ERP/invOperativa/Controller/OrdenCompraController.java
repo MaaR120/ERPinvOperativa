@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, OrdenCompraServiceImpl>{
@@ -62,12 +63,15 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
     }
 
 // ACA ESTA EL ERROR - si comentan esto corre perfecto el programa pero no anda el predeterminado
-//    @GetMapping("/ordenCompra/articulo/{articuloId}/predeterminado")
-//    @ResponseBody
-//    public ArticuloProveedor getDatosPredeterminados(@PathVariable("articuloId") Long articuloId) throws Exception {
-//        Articulo articulo = articuloService.findById(articuloId);
-//        return articuloProveedorService.getPredeterminadoPorArticulo(articulo);
-//    }
+    @GetMapping("/ordenCompra/articulo/{articuloId}/predeterminado")
+    @ResponseBody
+    public ArticuloProveedor getDatosPredeterminados(@PathVariable("articuloId") Long articuloId) throws Exception {
+        Optional<Articulo> articulo = articuloService.findById(articuloId);
+        if (articulo.isPresent()){
+            return articuloProveedorService.getPredeterminadoPorArticulo(articulo.get());
+        }
+        else throw new Exception("Error al buscar el articulo");
+    }
 
     @GetMapping("/ordenCompra/precioUnitario/{articuloId}/{proveedorId}")
     @ResponseBody
