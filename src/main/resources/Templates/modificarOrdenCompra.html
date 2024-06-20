@@ -12,9 +12,11 @@
         <p th:text="${errorMessage}"></p>
     </div>
     <form th:action="@{/ordenCompra/actualizar}" th:object="${ordenCompra}" method="post">
+        <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
             <label for="articulo">Artículo</label>
-            <input type="text" th:field="*{articulo.NombreArticulo}" class="form-control" id="articulo" readonly>
+            <input type="text" th:value="*{articulo.NombreArticulo}" class="form-control" id="articulo" readonly>
+            <input type="hidden" th:field="*{articulo.id}">
         </div>
         <div class="form-group">
             <label for="cantidad">Cantidad</label>
@@ -22,7 +24,8 @@
         </div>
         <div class="form-group">
             <label for="proveedor">Proveedor</label>
-            <input type="text" th:field="*{proveedor.nombreProveedor}" class="form-control" id="proveedor" readonly>
+            <input type="text" th:value="*{proveedor.nombreProveedor}" class="form-control" id="proveedor" readonly>
+            <input type="hidden" th:field="*{proveedor.id}">
         </div>
         <div class="form-group">
             <label for="estadoOrdenCompra">Estado de la Orden</label>
