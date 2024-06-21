@@ -7,7 +7,8 @@ import com.ERP.invOperativa.Entities.Proveedor;
 import com.ERP.invOperativa.Repositories.ArticuloProveedorRepository;
 import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.ProveedorRepository;
-import com.ERP.invOperativa.Services.*;
+import com.ERP.invOperativa.Services.ArticuloService;
+import com.ERP.invOperativa.Services.FamilaArticuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Controller
-public class ArticuloController extends BaseControllerImpl<Articulo, ArticuloServiceImpl> {
-
-    @Autowired
-    private ArticuloServiceImpl serviceImp;
-
+public class ArticuloController {
     @Autowired
     private ArticuloService service;
 
@@ -40,7 +38,7 @@ public class ArticuloController extends BaseControllerImpl<Articulo, ArticuloSer
 
     @GetMapping("/maestroarticulo")
     public String listarArticulos(Model modelo) {
-        modelo.addAttribute("articulos", serviceImp.ListarArticulos());
+        modelo.addAttribute("articulos", service.ListarArticulos());
         return "MaestroArticulo"; // nos retorna al archivo html MaestroArticulo
     }
 
@@ -56,14 +54,13 @@ public class ArticuloController extends BaseControllerImpl<Articulo, ArticuloSer
     public String saveArticulo(@ModelAttribute("articulo") Articulo articulo, @RequestParam("familiaArticulo.id") Long familiaId){
         FamiliaArticulo familiaArticulo = familiaservice.getFamiliaArticuloById(familiaId);
         articulo.setFamiliaArticulo(familiaArticulo);
-        serviceImp.saveArticulo(articulo);
+        service.saveArticulo(articulo);
         return "redirect:/maestroarticulo";
     }
 
-
     @GetMapping("/maestroarticulo/{id}")
-    public String eliminarArticulo(@PathVariable Long id){
-        serviceImp.deleteArticulo(id);
+    public String deleteArticulo(@PathVariable Long id){
+        service.deleteArticulo(id);
         return "redirect:/maestroarticulo";
     }
     /*
@@ -88,6 +85,7 @@ public class ArticuloController extends BaseControllerImpl<Articulo, ArticuloSer
             return "redirect:/maestroarticulo"; // Por ejemplo, redirigir a la página principal de los artículos
         }
     }
+
 
 
 }

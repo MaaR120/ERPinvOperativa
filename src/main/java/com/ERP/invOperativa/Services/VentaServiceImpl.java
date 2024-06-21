@@ -8,6 +8,7 @@ import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.BaseRepository;
 import com.ERP.invOperativa.Repositories.DetalleVentaRepository;
 import com.ERP.invOperativa.Repositories.VentaRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements VentaService {
+
     @Autowired
     private VentaRepository ventaRepository;
 
@@ -27,7 +29,6 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
 
     @Autowired
     private DetalleVentaRepository detalleVentaRepository;
-
     public VentaServiceImpl(BaseRepository<Venta, Long> baseRepository, VentaRepository ventaRepository) {
         super(baseRepository);
         this.ventaRepository=ventaRepository;
@@ -56,12 +57,13 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
 
 
     @Override
-    public Venta crearVenta(DTOVenta dtoVenta) throws Exception {
+    public Venta crearVenta(DTOVentaBACK dtoVenta) throws Exception {
         try{
             Venta newVenta=new Venta();
             double total=0;
             newVenta.setFechaFacturacion(dtoVenta.getFechaFacturacion());
-            for (DTODetalleVenta dtoDetalleVenta:dtoVenta.getDetalleVentas()){
+
+            for (DTODetalleVentaBACK dtoDetalleVenta:dtoVenta.getDetalleVentas()){
                 Optional<Articulo> articulo=articuloRepository.findById(dtoDetalleVenta.getIdArticulo());
                 if(articulo.isPresent()) {
                     DetalleVenta detalleVenta = new DetalleVenta();
@@ -114,7 +116,6 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
             return ventasFiltro;
         }else throw new Exception("No se encontraron ventas para este articulo en las fechas indicadas...");
     }
-
 
 
 }

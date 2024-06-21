@@ -20,6 +20,7 @@ public class ArticuloProveedor extends Base{
     private Date fechaVigencia;
 
 
+
     @Column(name = "Tiempo_Demora")
     private int tiempoDemora;
 
@@ -35,6 +36,7 @@ public class ArticuloProveedor extends Base{
     @ManyToOne()
     @JoinColumn(name = "id_Articulo")  //Clave foranea de la entidad articulo
     private Articulo articulo;
+
 
 
     @ManyToOne()

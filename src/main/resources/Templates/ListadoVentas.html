@@ -20,14 +20,14 @@
 </head>
 <body>
 <!-- Header  -->
-<footer th:replace="~{Home :: header}"></footer>
+<header th:replace="Home :: header"> </header>
 
 <!-- Contenido -->
 <div class="container">
     <div class="row titulo">
         <h2>Lista de Ventas</h2>
     </div>
-    <hr class="separador">
+    <hr th:fragment="separador" class="separador">
     <div class="row">
         <div class="col-lg-3">
             <a th:href="@{/venta/crear}" class="btn btn-success">+ Agregar Venta</a>

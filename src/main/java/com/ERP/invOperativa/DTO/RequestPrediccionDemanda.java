@@ -11,9 +11,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Setter
 @Getter
-public class VentasPorMesDTO {
-    private String mes;
-    private int cantidad;
-
+public class RequestPrediccionDemanda {
+    private int cantidadCorridas;
+    private Long articuloId;
+    private Date fechaInicio;
 
 }
