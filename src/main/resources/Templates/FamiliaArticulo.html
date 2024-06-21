@@ -40,7 +40,7 @@
                 <td th:text="${familias.nombreFamilia}"></td>
                 <td th:text="${familias.modelo}"></td>
                 <td>
-                    <a class="btn btn-warning">Modificar</a>
+                    <a th:href="@{/familiaarticulo/editar/{id}(id=${familias.id})}" class="btn btn-warning">Modificar</a>
                     <a th:href="@{/familiaarticulo/eliminar/{id}(id=${familias.id})}" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>

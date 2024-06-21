@@ -21,10 +21,10 @@
                             <a class="nav-link fs-6" aria-current="page" th:href="@{/maestroarticulo}">Articulos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fs-6" href="#">Proveedores</a>
+                            <a class="nav-link fs-6" th:href="@{/venta/listadoVentas}">Ventas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fs-6" href="#">Algo mas?</a>
+                            <a class="nav-link fs-6" th:href="@{/ordenCompra}">OrdenesCompra</a>
                         </li>
 
                     </ul>
@@ -83,7 +83,7 @@
             <div class="mt-3 text-center ms-5 col-lg-3">
                 <div class="card">
                     <div class="card-body">
-                        <a th:href="@{/}" class="btn btn-success"><i class="bi bi-person-lines-fill"></i> Acceder a Proveedores</a>
+                        <a th:href="@{/proveedor/listado}" class="btn btn-success"><i class="bi bi-person-lines-fill"></i> Acceder a Proveedores</a>
                     </div>
                 </div>
             </div>

@@ -41,4 +41,23 @@ public class FamiliaArticuloController {
         service.deleteFamiliaArticulo(id);
         return "redirect:/familiaarticulo";
     }
+
+    @GetMapping("/familiaarticulo/editar/{id}")
+    public String formularioEditarFamilia(@PathVariable Long id, Model model){
+        model.addAttribute("familias", service.getFamiliaArticuloById(id));
+        model.addAttribute("modelos", Modelo.values());
+        return "modificarFamiliaArticulo";
+    }
+
+    @PostMapping("/familiaarticulo/{id}")
+    public String actualizarFamiliaArticulo(@PathVariable Long id,
+                                            @ModelAttribute("familias") FamiliaArticulo familiaArticulo,
+                                            Model model){
+        FamiliaArticulo familiaArticuloExistente = service.getFamiliaArticuloById(id);
+        familiaArticuloExistente.setId(id);
+        familiaArticuloExistente.setNombreFamilia(familiaArticulo.getNombreFamilia());
+        familiaArticuloExistente.setModelo(familiaArticulo.getModelo());
+        service.actualizarFamiliaArticulo(familiaArticuloExistente);
+        return "redirect:/familiaarticulo";
+    }
 }

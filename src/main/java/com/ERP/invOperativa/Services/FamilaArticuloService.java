@@ -13,4 +13,6 @@ public interface FamilaArticuloService extends BaseService<FamiliaArticulo,Long>
     public FamiliaArticulo deleteFamiliaArticulo(Long id);
 
     FamiliaArticulo getFamiliaArticuloById(Long id);
+
+    public FamiliaArticulo actualizarFamiliaArticulo(FamiliaArticulo familiaArticulo);
 }

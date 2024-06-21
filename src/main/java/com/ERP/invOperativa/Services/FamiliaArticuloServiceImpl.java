@@ -33,6 +33,11 @@ public class FamiliaArticuloServiceImpl extends BaseServiceImpl<FamiliaArticulo,
     }
 
     @Override
+    public FamiliaArticulo actualizarFamiliaArticulo(FamiliaArticulo familiaArticulo) {
+        return familiaArticuloRepository.save(familiaArticulo);
+    }
+
+    @Override
     public FamiliaArticulo deleteFamiliaArticulo(Long id) {
         familiaArticuloRepository.deleteById(id);
         return null;
