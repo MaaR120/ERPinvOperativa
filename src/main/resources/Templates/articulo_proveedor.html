@@ -24,6 +24,7 @@
                     <th scope="col">Nombre del Proveedor</th>
                     <th scope="col">Precio del Artículo al Proveedor</th>
                     <th scope="col">Predeterminado</th>
+                    <th scope="col">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,7 +32,11 @@
                     <td th:text="${articuloProveedor.proveedor.nombreProveedor}"></td>
                     <td th:text="${articuloProveedor.precioArticuloProveedor}"></td>
                     <td th:text="${articuloProveedor.predeterminado}"></td>
+                    <td>
+                        <a th:href="@{|/articulo/${articulo.id}/proveedor/eliminar/${articuloProveedor.id}|}" class="btn btn-danger">Eliminar</a>
+                    </td>
                 </tr>
+
                 </tbody>
             </table>
             <div>

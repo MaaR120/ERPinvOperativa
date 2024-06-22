@@ -55,4 +55,17 @@ public class ArticuloProveedorController extends BaseControllerImpl<ArticuloProv
 
     }
 
+    @GetMapping("/eliminar/{id}")
+    public String eliminarProveedorArticulo(@PathVariable Long articuloId,@PathVariable Long id) throws Exception {
+        service.delete(id);
+        return "redirect:/maestroarticulo";
+
+    }
+//    @GetMapping("/eliminar/{id}")
+//    public String eliminarProveedor(@PathVariable Long id){
+//        serviceImpl.deleteProveedor(id);
+//        return "redirect:/proveedor/listado";
+//    }
+
+
 }

@@ -10,7 +10,7 @@
     <h1>Nuevo Proveedor para Artículo</h1>
     <form th:action="@{/articulo/{articuloId}/proveedor/guardar(articuloId=${articulo.id})}" method="post" th:object="${articulo}" >
         <div class="mb-3">
-            <input type="hidden" th:field="*{id}" th:name="${'articuloId'}">
+            <input type="hidden" th:field="*{id}" th:name="${'articuloId'}" id="articuloSelect">
             <label for="nombreProveedor" class="form-label">Nombre del Proveedor</label>
             <input type="text" class="form-control" id="nombreProveedor" name="nombreProveedor" required>
         </div>
@@ -23,7 +23,7 @@
             <input type="number" step="0.01" class="form-control" id="precioArticuloProveedor" name="precioArticuloProveedor"  required>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="predeterminado" name="predeterminado" >
+            <input class="form-check-input" type="checkbox" id="predeterminado" name="predeterminado" onchange="verificarPredeterminado()">
             <label class="form-check-label" for="predeterminado">
                 Predeterminado
             </label>
@@ -34,8 +34,52 @@
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
+    <!-- Modal de error -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Ya existe un proveedor predeterminado para este artículo.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
+<script th:inline="javascript">
+    function verificarPredeterminado() {
+        if (document.getElementById('predeterminado').checked) {
+            var articuloId = document.getElementById('articuloSelect').value;
+
+            $.ajax({
+                url: `/ordenCompra/articulo/${articuloId}/predeterminado`,
+                method: 'GET',
+                success: function(articuloProveedor) {
+                    if (articuloProveedor){
+                        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                        errorModal.show();
+                        // Desmarcar el checkbox
+                        document.getElementById('predeterminado').checked = false;
+                    }
+                },
+                error: function() {
+                    alert('Error al verificar el proveedor predeterminado.');
+                }
+            });
+        }
+    }
+</script>
+
+
 </html>

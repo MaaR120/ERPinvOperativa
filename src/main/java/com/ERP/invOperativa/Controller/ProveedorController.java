@@ -49,6 +49,8 @@ public class ProveedorController extends BaseControllerImpl<Proveedor,ProveedorS
         return "redirect:/proveedor/listado";
     }
 
+
+
     @GetMapping("/editar/{id}")
     public String formularioEditarProveedor(@PathVariable Long id, Model model){
         model.addAttribute("proveedor", serviceImpl.getProveedorById(id));
