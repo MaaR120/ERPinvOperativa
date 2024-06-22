@@ -8,13 +8,23 @@ import com.ERP.invOperativa.Repositories.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProveedor,Long> implements ArticuloProveedorService{
+
+   @Autowired
+    private ProveedorService proveedorService;
+
+    @Autowired
+    private ArticuloService articuloService;
     @Autowired
     protected ArticuloProveedorRepository articuloProveedorRepository;
+
+
     public ArticuloProveedorServiceImpl(BaseRepository<ArticuloProveedor, Long> baseRepository,ArticuloProveedorRepository articuloProveedorRepository) {
         super(baseRepository);
         this.articuloProveedorRepository=articuloProveedorRepository;
@@ -41,4 +51,28 @@ public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProvee
         }else return 0.0;
 //        return articuloProveedor != null ? articuloProveedor.getPrecioArticuloProveedor() : 0.0;
     }
+
+    public void guardarProveedorYRelacion(Long articuloId, String nombreProveedor, Date fechaVigencia,
+                                          double precioArticuloProveedor, boolean predeterminado, int tiempoDemora) throws Exception {
+
+        Articulo articulo = articuloService.findById(articuloId).orElseThrow(() -> new IllegalArgumentException("Invalid article ID"));
+
+        Proveedor proveedor = Proveedor.builder()
+            .nombreProveedor(nombreProveedor)
+            .build();
+        proveedorService.save(proveedor); // Guardar el nuevo proveedor
+
+        ArticuloProveedor articuloProveedor = ArticuloProveedor.builder()
+                .articulo(articulo)
+                .proveedor(proveedor)
+                .fechaVigencia(fechaVigencia)
+                .precioArticuloProveedor(precioArticuloProveedor)
+                .predeterminado(predeterminado)
+                .tiempoDemora(tiempoDemora)
+                .build();
+
+        articuloProveedorRepository.save(articuloProveedor); // Guardar la relación
+    }
+
+
 }

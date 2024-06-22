@@ -7,8 +7,10 @@ import com.ERP.invOperativa.Entities.Proveedor;
 import com.ERP.invOperativa.Repositories.ArticuloProveedorRepository;
 import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.ProveedorRepository;
+import com.ERP.invOperativa.Services.ArticuloProveedorService;
 import com.ERP.invOperativa.Services.ArticuloService;
 import com.ERP.invOperativa.Services.FamilaArticuloService;
+import com.ERP.invOperativa.Services.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +37,11 @@ public class ArticuloController {
     @Autowired
     private ArticuloProveedorRepository articuloProveedorRepository;
 
+    @Autowired
+    private ProveedorService proveedorService;
+
+    @Autowired
+    private ArticuloProveedorService articuloProveedorService;
 
     @GetMapping("/maestroarticulo")
     public String listarArticulos(Model modelo) {
@@ -85,6 +92,19 @@ public class ArticuloController {
             return "redirect:/maestroarticulo"; // Por ejemplo, redirigir a la página principal de los artículos
         }
     }
+
+
+
+
+//    @PostMapping("/guardarProv")
+//    public String saveProveedor(@ModelAttribute("proveedor") Proveedor proveedor){
+//        serviceImpl.saveProveedor(proveedor);
+//        return "redirect:/proveedor/listado";
+//    }
+
+
+
+
 
 
 

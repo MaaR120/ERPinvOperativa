@@ -1,13 +1,18 @@
 package com.ERP.invOperativa.Controller;
 
+import com.ERP.invOperativa.Entities.Articulo;
+import com.ERP.invOperativa.Entities.OrdenCompra;
 import com.ERP.invOperativa.Entities.Proveedor;
 import com.ERP.invOperativa.Services.ProveedorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+
+import java.util.Optional;
 
 
 @Controller
@@ -30,11 +35,13 @@ public class ProveedorController extends BaseControllerImpl<Proveedor,ProveedorS
         return "crear_proveedor";
     }
 
+
     @PostMapping("/guardarProv")
     public String saveProveedor(@ModelAttribute("proveedor") Proveedor proveedor){
         serviceImpl.saveProveedor(proveedor);
         return "redirect:/proveedor/listado";
     }
+
 
     @GetMapping("/eliminar/{id}")
     public String eliminarProveedor(@PathVariable Long id){
