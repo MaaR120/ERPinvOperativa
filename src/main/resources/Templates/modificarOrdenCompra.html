@@ -13,6 +13,8 @@
     </div>
     <form th:action="@{/ordenCompra/actualizar}" th:object="${ordenCompra}" method="post" id="ordenCompraForm">
         <input type="hidden" th:field="*{id}" id="ordenCompraId"/>
+        <input type="hidden" th:field="*{fechaUltimoCambio}" />
+
         <div class="form-group">
             <label for="articulo">Artículo</label>
             <input type="text" th:value="*{articulo.NombreArticulo}" class="form-control" id="articulo" readonly>
@@ -21,6 +23,10 @@
         <div class="form-group">
             <label for="cantidad">Cantidad</label>
             <input type="number" th:field="*{cantidad}" class="form-control" id="cantidad" readonly>
+        </div>
+        <div class="form-group">
+            <label for="fechaInicio">Fecha Inicio</label>
+            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" th:field="*{fechaInicio}" readonly>
         </div>
         <div class="form-group">
             <label for="proveedor">Proveedor</label>

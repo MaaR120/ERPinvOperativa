@@ -17,7 +17,7 @@
     <form th:action="@{/ordenCompra/crear}" th:object="${ordenCompra}" method="POST">
         <div class="form-group">
             <label for="articuloSelect">Artículo</label>
-            <select id="articuloSelect" name="articulo" class="form-control" onchange="cargarProveedores(); verificarOrdenCompra()">
+            <select id="articuloSelect" name="articulo" class="form-control" onchange="cargarProveedores(); verificarOrdenCompra()" required>
                 <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.NombreArticulo}"></option>
             </select>
         </div>
@@ -32,13 +32,13 @@
         DESABILITADA POR EL MOPMENTO POR NO TENER EL TIPO D DATO CORRECTO-->
       <div class="form-group">
             <label for="fechaInicio">FechaInicio</label>
-            <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicio" disabled>
+            <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicio" required>
         </div>
 
 
         <div class="form-group">
             <label for="cantidadIngreso">Cantidad</label>
-            <input type="text" th:field="*{cantidad}" class="form-control" id="cantidadIngreso" onchange="calcularTotal()">
+            <input type="text" th:field="*{cantidad}" class="form-control" id="cantidadIngreso" onchange="calcularTotal()" required>
         </div>
 
         <div class="form-group">

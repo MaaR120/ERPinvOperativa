@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,6 +76,7 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
             return "modificarOrdenCompra";
         }
         try {
+            ordenCompra.setFechaUltimoCambio(new Date());
             ordenCompraService.save(ordenCompra);
         } catch (Exception e) {
             result.rejectValue(null, "error.ordenCompra", e.getMessage());

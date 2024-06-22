@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container mt-4">
-    <h1>Nuevo Proveedor para Artículo</h1>
+    <h1>Nuevo Proveedor para Artículo: <span th:text="${articulo.nombreArticulo}"></span></h1>
     <form th:action="@{/articulo/{articuloId}/proveedor/guardar(articuloId=${articulo.id})}" method="post" th:object="${articulo}" >
         <div class="mb-3">
             <input type="hidden" th:field="*{id}" th:name="${'articuloId'}" id="articuloSelect">

@@ -4,6 +4,8 @@ import com.ERP.invOperativa.Enum.EstadoOrdenCompra;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -25,11 +27,14 @@ public class OrdenCompra extends Base{
 //    @NotNull
     @Column(name = "fecha_Inicio")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaInicio;
 
 //    @NotNull
     @Column(name = "fecha_Ultimo_Cambio")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @LastModifiedDate
     private Date fechaUltimoCambio;
 
     //Notnull
