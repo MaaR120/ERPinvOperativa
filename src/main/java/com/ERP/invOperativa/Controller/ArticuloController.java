@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,7 +87,18 @@ public class ArticuloController {
         }
     }
 
+    @GetMapping("/maestroarticulo/reponer")
+    public String listarArticulosAReponer(Model model) {
+        List<Articulo> articuloReponer = service.listarArticuloReponer();
+        model.addAttribute("articuloReponer", articuloReponer);
+        return "Articulo_Reponer"; // Nombre de la vista correspondiente
+    }
 
-
+    @GetMapping("/maestroarticulo/faltantes")
+    public String listarArticulosFaltantes(Model model) {
+        List<Articulo> articuloFaltante = service.listarArticuloFaltantes();
+        model.addAttribute("productosFaltantes", articuloFaltante);
+        return "Articulo_Faltante"; // Nombre de la vista correspondiente
+    }
 }
 

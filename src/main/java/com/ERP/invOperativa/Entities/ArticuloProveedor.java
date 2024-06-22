@@ -24,6 +24,7 @@ public class ArticuloProveedor extends Base{
     @Column(name = "Tiempo_Demora")
     private int tiempoDemora;
 
+    //precio compra del producto
 
     @NotNull
     @Column(name = "precio_articulo_Proveedor")
