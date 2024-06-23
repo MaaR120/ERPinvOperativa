@@ -10,7 +10,11 @@ import java.util.List;
 
 public interface InventarioService {
     public List<DTOInventario> calcularLoteOptimo();
-    public List<DTOInventario> calcularStockSeguridad();
-    public List<DTOInventario> calcularPuntoPedido();
+//    public List<DTOInventario> calcularStockSeguridad();
+//    public List<DTOInventario> calcularPuntoPedido();
     public List<Double> obtenerCantidadesVendidas(List<DetalleVenta> detallesVenta);
+
+
+    List<Articulo> obtenerArticulosFaltantes();
+    List<Articulo> obtenerArticulosReponer();
 }

@@ -17,6 +17,8 @@ import java.util.List;
 
 @Service
 public class InventarioServiceImpl implements InventarioService{
+    @Autowired
+    private ArticuloServiceImpl articuloService;
 
     @Autowired
     protected ArticuloRepository articuloRepository;
@@ -30,6 +32,33 @@ public class InventarioServiceImpl implements InventarioService{
     protected DetalleVentaRepository detalleVentaRepository;
 
 
+    @Override
+    public List<Articulo> obtenerArticulosFaltantes() {
+        List<Articulo> articulosFaltantes = new ArrayList<>();
+        List<Articulo> articulos = articuloRepository.findAll();
+
+        for (Articulo articulo : articulos) {
+            if (articulo.getStock() <= articulo.getStockSeguridad()) {
+                articulosFaltantes.add(articulo);
+            }
+        }
+
+        return articulosFaltantes;
+    }
+
+    @Override
+    public List<Articulo> obtenerArticulosReponer() {
+        List<Articulo> articulosReponer = new ArrayList<>();
+        List<Articulo> articulos = articuloRepository.findAll();
+
+        for (Articulo articulo : articulos) {
+            if (articulo.getStock() <= articulo.getPuntoPedido()) {
+                articulosReponer.add(articulo);
+            }
+        }
+
+        return articulosReponer;
+    }
 
 
     @Override
@@ -39,7 +68,6 @@ public class InventarioServiceImpl implements InventarioService{
 
         for (Articulo articulo : articulos) {
             List<ArticuloProveedor> articuloProveedores = articulo.getArticuloProveedores();
-
             for (ArticuloProveedor articuloProveedor : articuloProveedores) {
                 DTOInventario dtoInventario = new DTOInventario();
                 dtoInventario.idArticulo = articulo.getId();
@@ -80,13 +108,17 @@ public class InventarioServiceImpl implements InventarioService{
                 dtoInventario.stockSeguridad = factorZ * dtoInventario.desviacionDemanda * Math.sqrt(dtoInventario.tiempoDemora);
                 dtoInventario.CGI = costoCompra + costoAlmacenamiento * (lote/2) + costoPedido * (demandaAnual/lote) ;
                 dtoInventario.stock = articulo.getStock();
+
                 loteOptimo.add(dtoInventario);
 
                 articulo.setPuntoPedido(dtoInventario.puntoPedido);
                 articulo.setStockSeguridad(dtoInventario.stockSeguridad);
+
             }
+
         }
 
+        articuloRepository.saveAll(articulos);
         return loteOptimo;
     }
 
@@ -101,74 +133,71 @@ public class InventarioServiceImpl implements InventarioService{
         return cantidadesVendidas;
     }
 
-    @Override
-    public List<DTOInventario> calcularStockSeguridad() {
-        List<DTOInventario> stockSeguridad = new ArrayList<>();
-        List<Articulo> articulos = articuloRepository.findAll();
-
-        for (Articulo articulo : articulos) {
-            List<ArticuloProveedor> proveedores = articulo.getArticuloProveedores();
-
-            if (proveedores == null || proveedores.isEmpty()) {
-                continue; // Si no hay proveedores, saltar al siguiente artículo
-            }
-
-            ArticuloProveedor articuloProveedor = proveedores.get(0);
-
-            DTOInventario dtoInventario = new DTOInventario();
-            dtoInventario.tiempoDemora = articuloProveedor.getTiempoDemora();
-            List<DetalleVenta> detalles = detalleVentaRepository.findByArt(articulo.getId());
-            List<Double> demandasHistoricas = obtenerCantidadesVendidas(detalles);
-
-            if (demandasHistoricas.isEmpty()) {
-                continue; // Si no hay datos de ventas, saltar al siguiente artículo
-            }
-
-            dtoInventario.demandaPromedio = StatisticsUtils.calcularMedia(demandasHistoricas);
-            dtoInventario.desviacionDemanda = StatisticsUtils.calcularDesviacionEstandar(demandasHistoricas);
-
-            double factorZ = 1.64; // Nivel de servicio del 95%
-
-            dtoInventario.stockSeguridad = factorZ * dtoInventario.desviacionDemanda * Math.sqrt(dtoInventario.tiempoDemora);
-
-            stockSeguridad.add(dtoInventario);
-        }
-
-        return stockSeguridad;
-    }
-
-
-    @Override
-    public List<DTOInventario> calcularPuntoPedido() {
-        List<DTOInventario> inventarioCompleto  = new ArrayList<>();
-        List<Articulo> articulos = articuloRepository.findAll();
-
-        for (Articulo articulo : articulos) {
-            ArticuloProveedor articuloProveedor = articulo.getArticuloProveedores().get(0);
-
-            DTOInventario dtoInventario = new DTOInventario();
-            dtoInventario.tiempoDemora = articuloProveedor.getTiempoDemora();
-
-            //COSTO DE PEDIDO DONDE LO GUARDAMOS?
-
-
-            // Calcular Lote Óptimo (EOQ - Economic Order Quantity)
-
-            //VER QUE DEMANDA USO
-            double demandaAnual = articulo.getStock();
-            double tiempoDemora = dtoInventario.tiempoDemora;
-
-            dtoInventario.puntoPedido = demandaAnual*tiempoDemora ;
-
-            inventarioCompleto .add(dtoInventario);
-        }
-        return inventarioCompleto ;
-    }
-
+//    @Override
+//    public List<DTOInventario> calcularStockSeguridad() {
+//        List<DTOInventario> stockSeguridad = new ArrayList<>();
+//        List<Articulo> articulos = articuloRepository.findAll();
+//
+//        for (Articulo articulo : articulos) {
+//            List<ArticuloProveedor> proveedores = articulo.getArticuloProveedores();
+//
+//            if (proveedores == null || proveedores.isEmpty()) {
+//                continue; // Si no hay proveedores, saltar al siguiente artículo
+//            }
+//
+//            ArticuloProveedor articuloProveedor = proveedores.get(0);
+//
+//            DTOInventario dtoInventario = new DTOInventario();
+//            dtoInventario.tiempoDemora = articuloProveedor.getTiempoDemora();
+//            List<DetalleVenta> detalles = detalleVentaRepository.findByArt(articulo.getId());
+//            List<Double> demandasHistoricas = obtenerCantidadesVendidas(detalles);
+//
+//            if (demandasHistoricas.isEmpty()) {
+//                continue; // Si no hay datos de ventas, saltar al siguiente artículo
+//            }
+//
+//            dtoInventario.demandaPromedio = StatisticsUtils.calcularMedia(demandasHistoricas);
+//            dtoInventario.desviacionDemanda = StatisticsUtils.calcularDesviacionEstandar(demandasHistoricas);
+//
+//            double factorZ = 1.64; // Nivel de servicio del 95%
+//
+//            dtoInventario.stockSeguridad = factorZ * dtoInventario.desviacionDemanda * Math.sqrt(dtoInventario.tiempoDemora);
+//
+//            stockSeguridad.add(dtoInventario);
+//        }
+//
+//        return stockSeguridad;
+//    }
 
 
 
 }
+//@Override
+//    public List<DTOInventario> calcularPuntoPedido() {
+//        List<DTOInventario> inventarioCompleto  = new ArrayList<>();
+//        List<Articulo> articulos = articuloRepository.findAll();
+//
+//        for (Articulo articulo : articulos) {
+//            ArticuloProveedor articuloProveedor = articulo.getArticuloProveedores().get(0);
+//
+//            DTOInventario dtoInventario = new DTOInventario();
+//            dtoInventario.tiempoDemora = articuloProveedor.getTiempoDemora();
+//
+//            //COSTO DE PEDIDO DONDE LO GUARDAMOS?
+//
+//
+//            // Calcular Lote Óptimo (EOQ - Economic Order Quantity)
+//
+//            //VER QUE DEMANDA USO
+//            double demandaAnual = articulo.getStock();
+//            double tiempoDemora = dtoInventario.tiempoDemora;
+//
+//            dtoInventario.puntoPedido = demandaAnual*tiempoDemora ;
+//
+//            inventarioCompleto .add(dtoInventario);
+//        }
+//        return inventarioCompleto ;
+//    }
 
 
 

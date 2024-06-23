@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Artículos Faltantes</title>
+    <title>Artículos a Reponer</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
@@ -25,7 +25,7 @@
 <!-- Contenido -->
 <div class="container">
     <div class="row titulo">
-        <h2>Artículos Faltantes</h2>
+        <h2>Artículos a Reponer</h2>
     </div>
     <hr th:fragment="separador" class="separador">
     <br>
@@ -40,16 +40,16 @@
             <th scope="col">ID</th>
             <th scope="col">Nombre</th>
             <th scope="col">Stock</th>
-            <th scope="col">Stock de Seguridad</th>
+            <th scope="col">Punto de Pedido</th>
             <th scope="col">Acciones</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="articulo : ${articulosFaltantes}">
+        <tr th:each="articulo : ${articulosReponer}">
             <td th:text="${articulo.id}"></td>
             <td th:text="${articulo.nombreArticulo}"></td>
             <td th:text="${articulo.stock}"></td>
-            <td th:text="${articulo.stockSeguridad}"></td>
+            <td th:text="${articulo.puntoPedido}"></td>
             <td>
                 <a th:href="@{/ordenCompra/form}" class="btn btn-primary">Nueva Orden de Compra</a>
             </td>

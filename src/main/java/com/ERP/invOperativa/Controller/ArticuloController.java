@@ -86,18 +86,18 @@ public class ArticuloController {
         }
     }
 
-    @GetMapping("/reponer")
-    public String listarArticulosAReponer(Model model) {
-        List<Articulo> articuloReponer = service.listarArticuloReponer();
-        model.addAttribute("articuloReponer", articuloReponer);
-        return "Producto_Reponer"; // Nombre de la vista correspondiente
+    @GetMapping("/faltantes")
+    public String mostrarArticulosFaltantes(Model model) {
+        List<Articulo> articulosFaltantes = inventarioService.obtenerArticulosFaltantes();
+        model.addAttribute("articulosFaltantes", articulosFaltantes);
+        return "Articulo_Faltante"; // Nombre de la vista HTML
     }
 
-    @GetMapping("/faltantes")
-    public String listarArticulosFaltantes(Model model) {
-        List<Articulo> articuloFaltante = service.listarArticuloFaltantes();
-        model.addAttribute("productosFaltantes", articuloFaltante);
-        return "Articulo_Faltante"; // Nombre de la vista correspondiente
+    @GetMapping("/reponer")
+    public String mostrarArticulosReponer(Model model) {
+        List<Articulo> articulosReponer = inventarioService.obtenerArticulosReponer();
+        model.addAttribute("articulosReponer", articulosReponer);
+        return "Articulo_Reponer"; // Nombre de la vista HTML
     }
 
     @GetMapping("/maestroarticulo/{id}/informacion_inventario")

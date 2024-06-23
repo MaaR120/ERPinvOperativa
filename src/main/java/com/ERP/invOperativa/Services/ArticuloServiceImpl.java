@@ -49,6 +49,11 @@ public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implemen
         return articuloRepository.findAll();
     }
 
+    public void actualizarPuntoPedido(Articulo articulo, double nuevoPuntoPedido) {
+        articulo.setPuntoPedido(nuevoPuntoPedido);
+        articuloRepository.save(articulo);
+    }
+
     @Override
     public List<Articulo> listarArticuloReponer() {
         return articuloRepository.findAll().stream()
