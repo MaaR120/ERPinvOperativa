@@ -5,10 +5,9 @@ import com.ERP.invOperativa.DTO.StatisticsUtils;
 import com.ERP.invOperativa.Entities.Articulo;
 import com.ERP.invOperativa.Entities.ArticuloProveedor;
 import com.ERP.invOperativa.Entities.DetalleVenta;
-import com.ERP.invOperativa.Repositories.ArticuloProveedorRepository;
-import com.ERP.invOperativa.Repositories.ArticuloRepository;
-import com.ERP.invOperativa.Repositories.DetalleVentaRepository;
-import com.ERP.invOperativa.Repositories.ProveedorRepository;
+import com.ERP.invOperativa.Entities.OrdenCompra;
+import com.ERP.invOperativa.Enum.EstadoOrdenCompra;
+import com.ERP.invOperativa.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,8 @@ public class InventarioServiceImpl implements InventarioService{
     @Autowired
     protected DetalleVentaRepository detalleVentaRepository;
 
-
+    @Autowired
+    private OrdenCompraRepository ordenCompraRepository;
     @Override
     public List<Articulo> obtenerArticulosFaltantes() {
         List<Articulo> articulosFaltantes = new ArrayList<>();
@@ -46,20 +46,25 @@ public class InventarioServiceImpl implements InventarioService{
         return articulosFaltantes;
     }
 
+
     @Override
     public List<Articulo> obtenerArticulosReponer() {
         List<Articulo> articulosReponer = new ArrayList<>();
         List<Articulo> articulos = articuloRepository.findAll();
 
         for (Articulo articulo : articulos) {
-            if (articulo.getStock() <= articulo.getPuntoPedido()) {
+            // Verificar si el artículo tiene una orden de compra en estado "Preparacion"
+            List<OrdenCompra> ordenesEnPreparacion = ordenCompraRepository.findByArticuloIdAndEstadoOrdenCompra(
+                    articulo.getId(), EstadoOrdenCompra.Preparacion);
+
+            // Si no hay órdenes de compra en estado "Preparacion", agregar el artículo a la lista
+            if (articulo.getStock() <= articulo.getPuntoPedido() && ordenesEnPreparacion.isEmpty()) {
                 articulosReponer.add(articulo);
             }
         }
 
         return articulosReponer;
     }
-
 
     @Override
     public List<DTOInventario> calcularLoteOptimo() {
