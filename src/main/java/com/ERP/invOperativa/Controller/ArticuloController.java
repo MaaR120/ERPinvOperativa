@@ -100,27 +100,61 @@ public class ArticuloController {
         return "Articulo_Reponer"; // Nombre de la vista HTML
     }
 
+
     @GetMapping("/maestroarticulo/{id}/informacion_inventario")
     public String verInventario(@PathVariable Long id, Model model) {
         // Obtén el artículo por su ID
         Optional<Articulo> optionalArticulo = articuloRepository.findById(id);
         if (optionalArticulo.isPresent()) {
             Articulo articulo = optionalArticulo.get();
-            List<DTOInventario> inventario = inventarioService.calcularLoteOptimo().stream()
-                    .filter(dto -> dto.idArticulo.equals(id))
-                    .collect(Collectors.toList());
 
-            if (!inventario.isEmpty()) {
-                model.addAttribute("inventario", inventario.get(0));
-                return "informacion_inventario"; // Nombre de la vista HTML
+            // Calcular el inventario óptimo para todos los artículos
+            List<DTOInventario> inventario = inventarioService.calcularLoteOptimo();
+
+            // Filtrar el inventario para el artículo específico
+            Optional<DTOInventario> inventarioArticulo = inventario.stream()
+                    .filter(dto -> dto.idArticulo.equals(id))
+                    .findFirst();
+
+            if (inventarioArticulo.isPresent()) {
+                model.addAttribute("inventario", inventarioArticulo.get());
             } else {
-                // Manejar el caso en el que no se encuentra el inventario
-                return "redirect:/maestroarticulo";
+                // Si no se encuentra inventario para el artículo se agrega un DTOInventario vacío
+                DTOInventario dtoVacio = new DTOInventario();
+                dtoVacio.setIdArticulo(id);
+                dtoVacio.setPuntoPedido(10);//PRUEBO CARGARLE VALORES PREDETERMINADOS
+                model.addAttribute("inventario", dtoVacio);
             }
+
+            return "informacion_inventario"; // Nombre de la vista HTML
         } else {
             // Manejar el caso en el que no se encuentra el artículo
             return "redirect:/maestroarticulo";
         }
     }
+
+
+//    @GetMapping("/maestroarticulo/{id}/informacion_inventario")
+//    public String verInventario(@PathVariable Long id, Model model) {
+//        // Obtén el artículo por su ID
+//        Optional<Articulo> optionalArticulo = articuloRepository.findById(id);
+//        if (optionalArticulo.isPresent()) {
+//            Articulo articulo = optionalArticulo.get();
+//            List<DTOInventario> inventario = inventarioService.calcularLoteOptimo().stream()
+//                    .filter(dto -> dto.idArticulo.equals(id))
+//                    .collect(Collectors.toList());
+//
+//            if (!inventario.isEmpty()) {
+//                model.addAttribute("inventario", inventario.get(0));
+//                return "informacion_inventario"; // Nombre de la vista HTML
+//            } else {
+//                // Manejar el caso en el que no se encuentra el inventario
+//                return "redirect:/maestroarticulo";
+//            }
+//        } else {
+//            // Manejar el caso en el que no se encuentra el artículo
+//            return "redirect:/maestroarticulo";
+//        }
+//    }
 }
 
