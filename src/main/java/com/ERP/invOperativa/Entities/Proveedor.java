@@ -25,6 +25,8 @@ public class Proveedor extends Base{
     @Temporal(TemporalType.DATE)
     private Date fechaBaja;
 
+    @Column(name = "costoPedido")
+    private Integer costoPedido = 20;
 
 
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)

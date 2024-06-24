@@ -1,10 +1,12 @@
 package com.ERP.invOperativa.Entities;
 
-import com.ERP.invOperativa.Enum.EstadoOrdenCompra;
 import com.ERP.invOperativa.Enum.Modelo;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "FamiliaArticulo")
@@ -22,5 +24,14 @@ public class FamiliaArticulo extends Base{
     @Column(name = "Modelo")
     @Enumerated(EnumType.STRING)
     private Modelo modelo;
+
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    @JoinColumn(name = "FamiliaArticulo")
+    @Builder.Default
+    private List<Articulo> articulos = new ArrayList<>();
+
+    public void agregarArticulos(Articulo articulo){
+        articulos.add(articulo);
+    }
 
 }

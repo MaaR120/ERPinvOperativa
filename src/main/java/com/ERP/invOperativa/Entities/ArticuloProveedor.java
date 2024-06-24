@@ -3,7 +3,6 @@ package com.ERP.invOperativa.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
-import lombok.Builder;
 
 import java.util.Date;
 
@@ -25,6 +24,7 @@ public class ArticuloProveedor extends Base{
     @Column(name = "Tiempo_Demora")
     private int tiempoDemora;
 
+    //precio compra del producto
 
     @NotNull
     @Column(name = "precio_articulo_Proveedor")
@@ -43,5 +43,12 @@ public class ArticuloProveedor extends Base{
     @ManyToOne()
     @JoinColumn(name = "id_proveedor") //Clave foranea de la entidad proveedor
     private Proveedor proveedor;
+
+    // Método para calcular el costo de almacenamiento basado en el precio del producto y un interés constante
+    public double calcularCostoAlmacenamiento() {
+        return this.precioArticuloProveedor * 0.20;
+    }
+
+
 
 }

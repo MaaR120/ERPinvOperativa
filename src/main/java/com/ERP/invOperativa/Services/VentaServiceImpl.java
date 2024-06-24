@@ -54,37 +54,51 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
         return null;
     }
 
-
-
     @Override
     public Venta crearVenta(DTOVentaBACK dtoVenta) throws Exception {
-        try{
-            Venta newVenta=new Venta();
-            double total=0;
+        try {
+            Venta newVenta = new Venta();
+            double total = 0;
             newVenta.setFechaFacturacion(dtoVenta.getFechaFacturacion());
 
-            for (DTODetalleVentaBACK dtoDetalleVenta:dtoVenta.getDetalleVentas()){
-                Optional<Articulo> articulo=articuloRepository.findById(dtoDetalleVenta.getIdArticulo());
-                if(articulo.isPresent()) {
+            // Lista para almacenar detalles de venta modificados
+            List<DetalleVenta> detallesActualizados = new ArrayList<>();
+
+            for (DTODetalleVentaBACK dtoDetalleVenta : dtoVenta.getDetalleVentas()) {
+                Optional<Articulo> optionalArticulo = articuloRepository.findById(dtoDetalleVenta.getIdArticulo());
+                if (optionalArticulo.isPresent()) {
+                    Articulo articulo = optionalArticulo.get();
                     DetalleVenta detalleVenta = new DetalleVenta();
-                    detalleVenta.setArticulo(articulo.get());
+                    detalleVenta.setArticulo(articulo);
                     detalleVenta.setCantidad(dtoDetalleVenta.getCantidad());
-                    detalleVenta.setSubtotal(articulo.get().getPrecio() * dtoDetalleVenta.getCantidad());
-                    total = total + detalleVenta.getSubtotal();
+                    detalleVenta.setSubtotal(articulo.getPrecio() * dtoDetalleVenta.getCantidad());
+                    total += detalleVenta.getSubtotal();
                     newVenta.agregarDetalleVenta(detalleVenta);
+
+                    // Actualizar el stock del artículo
+                    int nuevoStock = articulo.getStock() - dtoDetalleVenta.getCantidad();
+                    articulo.setStock(nuevoStock);
+                    articuloRepository.save(articulo); // Guardar el artículo actualizado en la base de datos
+
+                    // Guardar el detalleVenta en la lista para actualizar
+                    detallesActualizados.add(detalleVenta);
                 } else {
                     throw new Exception("Artículo no encontrado con id: " + dtoDetalleVenta.getIdArticulo());
                 }
             }
 
-
             newVenta.setTotalVenta(total);
             ventaRepository.save(newVenta);
+
+            // Guardar los detalles de venta actualizados
+            detalleVentaRepository.saveAll(detallesActualizados);
+
             return newVenta;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
+        } catch (Exception e) {
+            throw new Exception("Error al crear venta: " + e.getMessage());
         }
     }
+    
 
     @Override
     public List<DTOVentasFiltroArt> filtroVentaArtFecha(Date fechaIni, Date fechaFin, Long idArt) throws Exception {
@@ -116,6 +130,5 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
             return ventasFiltro;
         }else throw new Exception("No se encontraron ventas para este articulo en las fechas indicadas...");
     }
-
 
 }

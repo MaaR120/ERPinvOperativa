@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implements ArticuloService{
@@ -47,6 +48,26 @@ public class ArticuloServiceImpl extends BaseServiceImpl<Articulo,Long> implemen
     public List<Articulo> listarArticulos() {
         return articuloRepository.findAll();
     }
+
+    public void actualizarPuntoPedido(Articulo articulo, double nuevoPuntoPedido) {
+        articulo.setPuntoPedido(nuevoPuntoPedido);
+        articuloRepository.save(articulo);
+    }
+
+    @Override
+    public List<Articulo> listarArticuloReponer() {
+        return articuloRepository.findAll().stream()
+                .filter(articulo -> articulo.getStock() <= articulo.getPuntoPedido())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Articulo> listarArticuloFaltantes() {
+        return articuloRepository.findAll().stream()
+                .filter(articulo -> articulo.getStock() <= articulo.getStockSeguridad())
+                .collect(Collectors.toList());
+    }
+
 
 
 }

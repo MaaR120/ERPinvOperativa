@@ -32,10 +32,10 @@ public class Articulo extends Base{
     private int Stock;
 
     @Column(name = "StockSeguridad")
-    private int StockSeguridad;
+    private double StockSeguridad;
 
     @Column(name = "PuntoPedido")
-    private int PuntoPedido;
+    private double PuntoPedido;
 
     @Column(name = "LoteOptimo")
     private int LoteOptimo;
@@ -75,23 +75,4 @@ public class Articulo extends Base{
     @JoinColumn(name="FamiliaArticulo")
     private FamiliaArticulo familiaArticulo;
 
-
-
-
-
-    // Métodos para calcular stockSeguridad, puntoPedido, loteOptimo
-    public int calcularStockSeguridad() {
-        // retornar el calculo
-        return 0;
-    }
-
-    public int calcularPuntoPedido() {
-        // retornar el calculo
-        return 0;
-    }
-
-    public int calcularLoteOptimo() {
-        // retornar el calculo
-        return 0;
-    }
 }
