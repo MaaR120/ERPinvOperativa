@@ -20,9 +20,11 @@ public class ArticuloProveedor extends Base{
     private Date fechaVigencia;
 
 
+
     @Column(name = "Tiempo_Demora")
     private int tiempoDemora;
 
+    //precio compra del producto
 
     @NotNull
     @Column(name = "precio_articulo_Proveedor")
@@ -37,8 +39,16 @@ public class ArticuloProveedor extends Base{
     private Articulo articulo;
 
 
+
     @ManyToOne()
     @JoinColumn(name = "id_proveedor") //Clave foranea de la entidad proveedor
     private Proveedor proveedor;
+
+    // Método para calcular el costo de almacenamiento basado en el precio del producto y un interés constante
+    public double calcularCostoAlmacenamiento() {
+        return this.precioArticuloProveedor * 0.20;
+    }
+
+
 
 }
