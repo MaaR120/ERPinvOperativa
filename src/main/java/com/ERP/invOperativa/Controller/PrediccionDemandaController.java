@@ -33,4 +33,12 @@ public class PrediccionDemandaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage() + "\"}"));
         }
     }
+    @PostMapping("/asignarPrediccion")
+    public ResponseEntity<?> asignarPrediccion(@RequestBody RequestPrediccionDemanda requestPrediccionDemanda) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.asignarPrediccion(requestPrediccionDemanda));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage() + "\"}"));
+        }
+    }
 }

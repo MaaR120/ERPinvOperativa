@@ -11,11 +11,7 @@ import com.ERP.invOperativa.Repositories.VentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements VentaService {
@@ -128,6 +124,38 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
             }
             return ventasFiltro;
         }else throw new Exception("No se encontraron ventas para este articulo en las fechas indicadas...");
+    }
+
+    @Override
+    public double obtenerDemandaArt(Long idArt, int anio) throws Exception {
+        try{
+            double demandaAnual = 0.0;
+            // Crear una fecha de inicio como el 1 de enero del año proporcionado
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(anio, Calendar.JANUARY, 1, 0, 0, 0);
+            Date fechaInicio = calendar.getTime();
+
+            // Calcular la fecha de fin como un año después de la fecha de inicio
+            calendar.add(Calendar.YEAR, 1);
+            Date fechaFin = calendar.getTime();
+
+            List<VentasPorMesDTO> ventasAnuales;
+            try {
+                ventasAnuales = obtenerVentasPorMes(fechaInicio,fechaFin,idArt);
+            } catch (Exception e) {
+                // Manejar el error de obtenerVentasPorMes, por ejemplo, registrando el error y continuar con una lista vacía
+                System.err.println("Error al obtener ventas por mes: " + e.getMessage());
+                ventasAnuales = new ArrayList<>();
+            }
+
+            for (VentasPorMesDTO venta : ventasAnuales) {
+                demandaAnual += venta.getCantidad();
+            }
+            return demandaAnual;
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+
     }
 
 }

@@ -29,4 +29,6 @@ public interface VentaService extends BaseService<Venta,Long>{
     //Filtros
     public List<DTOVentasFiltroArt> filtroVentaArtFecha(Date fechaIni, Date fechaFin,Long idArt) throws Exception;
     public List<VentasPorMesDTO> obtenerVentasPorMes(Date fechaIni, Date fechaFin, Long idArt) throws Exception;
+
+    public double obtenerDemandaArt(Long idArt, int anio) throws Exception;
 }

@@ -16,4 +16,6 @@ public class DTOPrediccion {
 
     public int cantidadPrediccion;
 
+    public double error;
+
 }

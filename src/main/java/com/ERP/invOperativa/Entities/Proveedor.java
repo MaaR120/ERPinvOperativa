@@ -25,6 +25,7 @@ public class Proveedor extends Base{
     @Temporal(TemporalType.DATE)
     private Date fechaBaja;
 
+    @Builder.Default
     @Column(name = "costoPedido")
     private Integer costoPedido = 20;
 
