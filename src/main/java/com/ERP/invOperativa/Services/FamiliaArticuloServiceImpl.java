@@ -6,6 +6,8 @@ import com.ERP.invOperativa.Repositories.FamiliaArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FamiliaArticuloServiceImpl extends BaseServiceImpl<FamiliaArticulo,Long> implements FamilaArticuloService {
     @Autowired
@@ -16,7 +18,25 @@ public class FamiliaArticuloServiceImpl extends BaseServiceImpl<FamiliaArticulo,
 
     }
 
+    @Override
+    public List<FamiliaArticulo> ListarFamiliaArticulo() {
+        return familiaArticuloRepository.findAll();
+    }
 
-    //AGUANTE MESSI
-    
+    @Override
+    public FamiliaArticulo saveFamiliaArticulo(FamiliaArticulo familiaArticulo) {
+        return familiaArticuloRepository.save(familiaArticulo);
+    }
+
+    public FamiliaArticulo getFamiliaArticuloById(Long id) {
+        return familiaArticuloRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public FamiliaArticulo deleteFamiliaArticulo(Long id) {
+        familiaArticuloRepository.deleteById(id);
+        return null;
+    }
+
+
 }

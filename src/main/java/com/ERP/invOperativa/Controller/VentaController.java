@@ -5,6 +5,7 @@ import com.ERP.invOperativa.DTO.DTOVentaBACK;
 import com.ERP.invOperativa.Entities.Articulo;
 import com.ERP.invOperativa.Entities.Venta;
 import com.ERP.invOperativa.Services.ArticuloService;
+import com.ERP.invOperativa.Services.ArticuloServiceImpl;
 import com.ERP.invOperativa.Services.VentaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,7 +28,10 @@ import java.util.Date;
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "venta")
-public class VentaController extends BaseControllerImpl<Venta,VentaServiceImpl>{
+public class VentaController extends BaseControllerImpl<Venta, VentaServiceImpl>{
+
+    @Autowired
+    private VentaServiceImpl service;
 
     @Autowired
     private ArticuloService articuloService;

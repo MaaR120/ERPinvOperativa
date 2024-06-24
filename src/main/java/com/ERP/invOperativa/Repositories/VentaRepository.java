@@ -1,12 +1,10 @@
 package com.ERP.invOperativa.Repositories;
-import com.ERP.invOperativa.DTO.DTOVentasFiltroArt;
+
 import com.ERP.invOperativa.DTO.DTOVentasFiltroArtProjection;
-import com.ERP.invOperativa.DTO.VentasPorMesDTO;
 import com.ERP.invOperativa.DTO.VentasPorMesDTOProjection;
 import com.ERP.invOperativa.Entities.Venta;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
