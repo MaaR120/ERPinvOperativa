@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+
 public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, OrdenCompraServiceImpl> {
     @Autowired
     private OrdenCompraService ordenCompraService;

@@ -33,6 +33,7 @@
                     <td th:text="${articuloProveedor.precioArticuloProveedor}"></td>
                     <td th:text="${articuloProveedor.predeterminado}"></td>
                     <td>
+                        <a th:href="@{|/articulo/${articulo.id}/proveedor/editar/${articuloProveedor.id}|}" class="btn btn-warning">Modificar</a>
                         <a th:href="@{|/articulo/${articulo.id}/proveedor/eliminar/${articuloProveedor.id}|}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
