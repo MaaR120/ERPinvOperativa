@@ -1,3 +1,230 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Crear Orden de Compra</title>-->
+<!--    <link rel="icon" href="#">-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">-->
+<!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">-->
+<!--</head>-->
+<!--<body>-->
+<!--&lt;!&ndash; Header  &ndash;&gt;-->
+<!--<header th:replace="Home :: header"> </header>-->
+
+<!--&lt;!&ndash; Contenido &ndash;&gt;-->
+<!--<div class="container">-->
+<!--    <h1>Crear Orden de Compra</h1>-->
+<!--    <form th:action="@{/ordenCompra/crear}" th:object="${ordenCompra}" method="POST">-->
+<!--        <div class="form-group">-->
+<!--            <label for="articuloSelect">Artículo</label>-->
+<!--            <select id="articuloSelect" name="articulo" class="form-control" onchange="cargarProveedores(); verificarOrdenCompra()">-->
+<!--                <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.NombreArticulo}"></option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="proveedorSelect">Proveedor</label>-->
+<!--            <select id="proveedorSelect" name="proveedor" class="form-control" onchange="mostrarLoteOptimo()">-->
+<!--                &lt;!&ndash; Proveedores se cargarán dinámicamente &ndash;&gt;-->
+<!--            </select>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="fechaInicio">FechaInicio</label>-->
+<!--            <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicio" disabled>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="cantidadIngreso">Cantidad</label>-->
+<!--            <input type="text" th:field="*{cantidad}" class="form-control" id="cantidadIngreso" onchange="calcularTotal()">-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <div id="precioProveedor" class="mb-2"></div>-->
+<!--            <label for="totalOrdenSelect">Total Orden</label>-->
+<!--            <input type="text" th:field="*{totalOrden}" class="form-control" id="totalOrdenSelect" readonly>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <div id="loteOptimoProveedor" class="mb-2"></div>-->
+<!--        </div>-->
+
+<!--        <br>-->
+<!--        <div class="box-footer">-->
+<!--            <button type="button" class="btn btn-secondary" onclick="cargarPredeterminado()">Cargar Predeterminado</button>-->
+<!--            <button class="btn btn-success" >Guardar</button>-->
+<!--            <a th:href="@{/ordenCompra}" class="btn btn-danger">Cancelar</a>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Modal &ndash;&gt;-->
+<!--        <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true">-->
+<!--            <div class="modal-dialog">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h5 class="modal-title" id="warningModalLabel">Advertencia</h5>-->
+<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                        Ya existe una orden de compra en preparación para este artículo.-->
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Modal de error de proveedor predeterminado &ndash;&gt;-->
+<!--        <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">-->
+<!--            <div class="modal-dialog">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h5 class="modal-title" id="errorModalLabel">Error</h5>-->
+<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                        No se encontró un proveedor predeterminado para este artículo.-->
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--<script th:inline="javascript">-->
+<!--    function cargarProveedores() {-->
+<!--        let articuloId = document.getElementById('articuloSelect').value;-->
+<!--        console.log('Cargar proveedores para Articulo ID:', articuloId); // Log para depuración-->
+<!--        fetch(`/ordenCompra/proveedoresPorArticulo/${articuloId}`)-->
+<!--            .then(response => {-->
+<!--                if (!response.ok) {-->
+<!--                    throw new Error('La solicitud no fue exitosa');-->
+<!--                }-->
+<!--                return response.json();-->
+<!--            })-->
+<!--            .then(data => {-->
+<!--                let proveedorSelect = document.getElementById('proveedorSelect');-->
+<!--                proveedorSelect.innerHTML = '';-->
+<!--                data.forEach(proveedor => {-->
+<!--                    let option = document.createElement('option');-->
+<!--                    option.value = proveedor.id;-->
+<!--                    option.textContent = proveedor.nombreProveedor;-->
+<!--                    proveedorSelect.appendChild(option);-->
+<!--                });-->
+<!--            })-->
+<!--            .catch(error => console.error('Error al cargar proveedores:', error));-->
+<!--    }-->
+
+<!--    function mostrarLoteOptimo() {-->
+<!--        let articuloId = document.getElementById('articuloSelect').value;-->
+<!--        let proveedorId = document.getElementById('proveedorSelect').value;-->
+
+<!--        console.log('Mostrar Lote Óptimo llamado para Articulo ID:', articuloId, 'Proveedor ID:', proveedorId); // Log para depuración-->
+
+<!--        if (articuloId && proveedorId) {-->
+<!--            fetch(`/ordenCompra/loteOptimo/${articuloId}/${proveedorId}`)-->
+<!--                .then(response => {-->
+<!--                    if (!response.ok) {-->
+<!--                        throw new Error('La solicitud no fue exitosa');-->
+<!--                    }-->
+<!--                    return response.json();-->
+<!--                })-->
+<!--                .then(loteOptimo => {-->
+<!--                    console.log('Lote Óptimo:', loteOptimo); // Log para depuración-->
+
+<!--                    let loteOptimoDiv = document.getElementById('loteOptimoProveedor');-->
+<!--                    loteOptimoDiv.innerText = `Lote Óptimo: ${loteOptimo.toFixed(2)}`;-->
+<!--                })-->
+<!--                .catch(error => console.error('Error al calcular el lote óptimo:', error));-->
+<!--        }-->
+<!--    }-->
+
+<!--    function cargarPredeterminado() {-->
+<!--        let articuloId = document.getElementById('articuloSelect').value;-->
+<!--        fetch(`/ordenCompra/proveedorPredeterminado/${articuloId}`)-->
+<!--            .then(response => {-->
+<!--                if (!response.ok) {-->
+<!--                    throw new Error('No se pudo encontrar un proveedor predeterminado');-->
+<!--                }-->
+<!--                return response.json();-->
+<!--            })-->
+<!--            .then(data => {-->
+<!--                if (data) {-->
+<!--                    document.getElementById('proveedorSelect').value = data.proveedor.id;-->
+<!--                } else {-->
+<!--                    var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));-->
+<!--                    errorModal.show();-->
+<!--                }-->
+<!--                calcularTotal();-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Error al cargar proveedor predeterminado:', error);-->
+<!--                alert('Hubo un error al cargar el proveedor predeterminado.');-->
+<!--            });-->
+<!--    }-->
+
+<!--    function calcularTotal() {-->
+<!--        let cantidad = document.getElementById('cantidadIngreso').value;-->
+<!--        let articuloId = document.getElementById('articuloSelect').value;-->
+<!--        let proveedorId = document.getElementById('proveedorSelect').value;-->
+
+<!--        if (articuloId && proveedorId && cantidad) {-->
+<!--            fetch(`/ordenCompra/precioUnitario/${articuloId}/${proveedorId}`)-->
+<!--                .then(response => {-->
+<!--                    if (!response.ok) {-->
+<!--                        throw new Error('La solicitud no fue exitosa');-->
+<!--                    }-->
+<!--                    return response.json();-->
+<!--                })-->
+<!--                .then(precioArticuloProveedor => {-->
+<!--                    let total = cantidad * precioArticuloProveedor;-->
+<!--                    document.getElementById('totalOrdenSelect').value = total.toFixed(2);-->
+<!--                    document.getElementById('precioProveedor').innerText = `Total en base al precio del proveedor de: $ ${precioArticuloProveedor.toFixed(2)} por unidad`;-->
+<!--                })-->
+<!--                .catch(error => console.error('Error al calcular el total:', error));-->
+<!--        }-->
+<!--    }-->
+
+<!--    window.onload = function() {-->
+<!--        document.getElementById('articuloSelect').selectedIndex = -1;-->
+<!--    };-->
+
+<!--    function verificarOrdenCompra() {-->
+<!--        let articuloId = document.getElementById('articuloSelect').value;-->
+<!--        fetch(`/ordenCompra/estado/${articuloId}`)-->
+<!--            .then(response => {-->
+<!--                if (!response.ok) {-->
+<!--                    throw new Error('La solicitud no fue exitosa');-->
+<!--                }-->
+<!--                return response.text();-->
+<!--            })-->
+<!--            .then(data => {-->
+<!--                if (data === "En preparación") {-->
+<!--                    var warningModal = new bootstrap.Modal(document.getElementById('warningModal'));-->
+<!--                    warningModal.show();-->
+<!--                }-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                if (error.message !== 'La solicitud no fue exitosa') {-->
+<!--                    console.error('Error al verificar el estado de la orden de compra:', error);-->
+<!--                    alert('Hubo un error al verificar el estado de la orden de compra.');-->
+<!--                }-->
+<!--            });-->
+<!--    }-->
+
+<!--    function guardarDeTodosModos() {-->
+<!--        document.getElementById('ordenCompraForm').submit();-->
+<!--    }-->
+<!--</script>-->
+
+<!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -17,13 +244,13 @@
     <form th:action="@{/ordenCompra/crear}" th:object="${ordenCompra}" method="POST">
         <div class="form-group">
             <label for="articuloSelect">Artículo</label>
-            <select id="articuloSelect" name="articulo" class="form-control" onchange="cargarProveedores(); verificarOrdenCompra()">
+            <select id="articuloSelect" name="articulo" class="form-control" onchange="cargarProveedores(); verificarOrdenCompra(); mostrarLoteOptimo()">
                 <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.NombreArticulo}"></option>
             </select>
         </div>
         <div class="form-group">
             <label for="proveedorSelect">Proveedor</label>
-            <select id="proveedorSelect" name="proveedor" class="form-control">
+            <select id="proveedorSelect" name="proveedor" class="form-control" onchange="mostrarLoteOptimo()">
                 <!-- Proveedores se cargarán dinámicamente -->
             </select>
         </div>
@@ -38,8 +265,11 @@
 
         <div class="form-group">
             <label for="cantidadIngreso">Cantidad</label>
-            <input type="text" th:field="*{cantidad}" class="form-control" id="cantidadIngreso" onchange="calcularTotal()">
+            <input type="text" th:field="*{cantidad}" class="form-control" id="cantidadIngreso" onchange="calcularTotal(); mostrarLoteOptimo()">
         </div>
+<div class="form-group">
+    <div id="loteOptimoProveedor" class="mb-2"></div>
+</div>
 
         <div class="form-group">
             <div id="precioProveedor" class="mb-2"></div>
@@ -115,6 +345,31 @@ function cargarProveedores() {
     })
         .catch(error => console.error('Error al cargar proveedores:', error));
 }
+
+function mostrarLoteOptimo() {
+        let articuloId = document.getElementById('articuloSelect').value;
+        let proveedorId = document.getElementById('proveedorSelect').value;
+
+        console.log('Mostrar Lote Óptimo llamado para Articulo ID:', articuloId, 'Proveedor ID:', proveedorId); // Log para depuración
+
+        if (articuloId && proveedorId) {
+        fetch(`/ordenCompra/loteOptimo/${articuloId}/${proveedorId}`)
+        .then(response => {
+        if (!response.ok) {
+        throw new Error('La solicitud no fue exitosa');
+}
+return response.json();
+                })
+            .then(loteOptimo => {
+            console.log('Lote Óptimo:', loteOptimo); // Log para depuración
+
+            let loteOptimoDiv = document.getElementById('loteOptimoProveedor');
+            loteOptimoDiv.innerText = `Lote Óptimo: ${loteOptimo.toFixed(2)}`;
+        })
+        .catch(error => console.error('Error al calcular el lote óptimo:', error));
+    }
+}
+
 //function cargarPredeterminado() {
 //    let articuloId = document.getElementById('articuloSelect').value;
 //    fetch(`/ordenCompra/articulo/${articuloId}/predeterminado`)

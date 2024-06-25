@@ -1,14 +1,12 @@
 package com.ERP.invOperativa.Controller;
 
+import com.ERP.invOperativa.DTO.DTOInventario;
 import com.ERP.invOperativa.Entities.Articulo;
 import com.ERP.invOperativa.Entities.ArticuloProveedor;
 import com.ERP.invOperativa.Entities.OrdenCompra;
 import com.ERP.invOperativa.Entities.Proveedor;
 import com.ERP.invOperativa.Enum.EstadoOrdenCompra;
-import com.ERP.invOperativa.Services.ArticuloProveedorServiceImpl;
-import com.ERP.invOperativa.Services.ArticuloServiceImpl;
-import com.ERP.invOperativa.Services.OrdenCompraService;
-import com.ERP.invOperativa.Services.OrdenCompraServiceImpl;
+import com.ERP.invOperativa.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +28,10 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
 
     @Autowired
     private ArticuloProveedorServiceImpl articuloProveedorService;
+
+    @Autowired
+    private VentaServiceImpl ventaService;
+
 
     @ModelAttribute("estadosOrdenCompra")
     public EstadoOrdenCompra[] estadosOrdenCompra() {
@@ -149,5 +151,37 @@ public ResponseEntity<?> actualizarStock(@PathVariable("ordenCompraId") Long ord
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"success\": false, \"message\": \"Orden de compra no encontrada.\"}");
     }
 }
+
+
+    @GetMapping("ordenCompra/loteOptimo/{articuloId}/{proveedorId}")
+    public ResponseEntity<Double> getLoteOptimo(@PathVariable Long articuloId, @PathVariable Long proveedorId) {
+        try {
+            double loteOptimo = calcularLoteOptimoPorProveedor(articuloId, proveedorId);
+            return ResponseEntity.ok(loteOptimo);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    private double calcularLoteOptimoPorProveedor(Long articuloId, Long proveedorId) throws Exception {
+        Articulo articulo = articuloService.findById(articuloId).orElseThrow(() -> new Exception("Articulo no encontrado"));
+//        double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
+        ArticuloProveedor articuloProveedor = articulo.getArticuloProveedores().stream()
+                .filter(ap -> ap.getProveedor().getId().equals(proveedorId))
+                .findFirst()
+                .orElseThrow(() -> new Exception("Proveedor no encontrado para este articulo"));
+
+        double demandaAnual = 25000;
+        double costoPedido = articuloProveedor.getProveedor().getCostoPedido() != null ? articuloProveedor.getProveedor().getCostoPedido() : 1000;
+        double costoAlmacenamiento = articulo.getCostoAlmacenamiento() * DTOInventario.INTERES_ALMACENAMIENTO;
+        double tiempoDemora = articuloProveedor.getTiempoDemora();
+        double precioArticuloProveedor = articuloProveedor.getPrecioArticuloProveedor();
+
+        double loteOptimo = Math.sqrt((2 * demandaAnual * costoPedido) / costoAlmacenamiento);
+        return loteOptimo;
+    }
+
+
+
 }
 
