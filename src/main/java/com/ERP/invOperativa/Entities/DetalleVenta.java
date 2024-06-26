@@ -27,10 +27,9 @@ public class DetalleVenta extends Base {
     @JoinColumn(name = "articulo_id")
     private Articulo articulo;
 
-//    @ManyToOne
-//    @JoinColumn(name = "venta_id")
-//    private Venta venta;
-//
+    @ManyToOne
+    @JoinColumn(name = "venta_id")
+    private Venta venta;
 
 
 

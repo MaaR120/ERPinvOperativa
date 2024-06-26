@@ -17,13 +17,13 @@
     <form th:action="@{/ordenCompra/crear}" th:object="${ordenCompra}" method="POST">
         <div class="form-group">
             <label for="articuloSelect">Artículo</label>
-            <select id="articuloSelect" name="articulo" class="form-control" onchange="cargarProveedores(); verificarOrdenCompra()" required>
+            <select id="articuloSelect" name="articulo" class="form-control" onchange="cargarProveedores(); verificarOrdenCompra(); mostrarLoteOptimo()">
                 <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.NombreArticulo}"></option>
             </select>
         </div>
         <div class="form-group">
             <label for="proveedorSelect">Proveedor</label>
-            <select id="proveedorSelect" name="proveedor" class="form-control">
+            <select id="proveedorSelect" name="proveedor" class="form-control" onchange="mostrarLoteOptimo()">
                 <!-- Proveedores se cargarán dinámicamente -->
             </select>
         </div>
@@ -40,6 +40,9 @@
             <label for="cantidadIngreso">Cantidad</label>
             <input type="text" th:field="*{cantidad}" class="form-control" id="cantidadIngreso" onchange="calcularTotal()" required>
         </div>
+<div class="form-group">
+    <div id="loteOptimoProveedor" class="mb-2"></div>
+</div>
 
         <div class="form-group">
             <div id="precioProveedor" class="mb-2"></div>
@@ -115,6 +118,31 @@ function cargarProveedores() {
     })
         .catch(error => console.error('Error al cargar proveedores:', error));
 }
+
+function mostrarLoteOptimo() {
+        let articuloId = document.getElementById('articuloSelect').value;
+        let proveedorId = document.getElementById('proveedorSelect').value;
+
+        console.log('Mostrar Lote Óptimo llamado para Articulo ID:', articuloId, 'Proveedor ID:', proveedorId); // Log para depuración
+
+        if (articuloId && proveedorId) {
+        fetch(`/ordenCompra/loteOptimo/${articuloId}/${proveedorId}`)
+        .then(response => {
+        if (!response.ok) {
+        throw new Error('La solicitud no fue exitosa');
+}
+return response.json();
+                })
+            .then(loteOptimo => {
+            console.log('Lote Óptimo:', loteOptimo); // Log para depuración
+
+            let loteOptimoDiv = document.getElementById('loteOptimoProveedor');
+            loteOptimoDiv.innerText = `Lote Óptimo: ${loteOptimo.toFixed(2)}`;
+        })
+        .catch(error => console.error('Error al calcular el lote óptimo:', error));
+    }
+}
+
 //function cargarPredeterminado() {
 //    let articuloId = document.getElementById('articuloSelect').value;
 //    fetch(`/ordenCompra/articulo/${articuloId}/predeterminado`)

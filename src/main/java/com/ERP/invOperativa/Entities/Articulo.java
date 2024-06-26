@@ -75,4 +75,8 @@ public class Articulo extends Base{
     @JoinColumn(name="FamiliaArticulo")
     private FamiliaArticulo familiaArticulo;
 
+    @OneToOne
+    @JoinColumn(name = "Prediccion")
+    private Prediccion prediccion=null;
+
 }

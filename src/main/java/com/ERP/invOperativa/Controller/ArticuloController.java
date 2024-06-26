@@ -115,22 +115,28 @@ public class ArticuloController {
         if (optionalArticulo.isPresent()) {
             Articulo articulo = optionalArticulo.get();
 
-            // Calcular el inventario óptimo para todos los artículos
-            List<DTOInventario> inventario = inventarioService.calcularLoteOptimo();
+            try {
+                // Calcular el inventario óptimo para todos los artículos
+                List<DTOInventario> inventario = inventarioService.calcularLoteOptimo();
 
-            // Filtrar el inventario para el artículo específico
-            Optional<DTOInventario> inventarioArticulo = inventario.stream()
-                    .filter(dto -> dto.idArticulo.equals(id))
-                    .findFirst();
+                // Filtrar el inventario para el artículo específico
+                Optional<DTOInventario> inventarioArticulo = inventario.stream()
+                        .filter(dto -> dto.idArticulo.equals(id))
+                        .findFirst();
 
-            if (inventarioArticulo.isPresent()) {
-                model.addAttribute("inventario", inventarioArticulo.get());
-            } else {
-                // Si no se encuentra inventario para el artículo se agrega un DTOInventario vacío
-                DTOInventario dtoVacio = new DTOInventario();
-                dtoVacio.setIdArticulo(id);
-                dtoVacio.setPuntoPedido(10);//PRUEBO CARGARLE VALORES PREDETERMINADOS
-                model.addAttribute("inventario", dtoVacio);
+                if (inventarioArticulo.isPresent()) {
+                    model.addAttribute("inventario", inventarioArticulo.get());
+                } else {
+                    // Si no se encuentra inventario para el artículo se agrega un DTOInventario vacío
+                    DTOInventario dtoVacio = new DTOInventario();
+                    dtoVacio.setIdArticulo(id);
+                    dtoVacio.setPuntoPedido(10); // Valores predeterminados para prueba
+                    model.addAttribute("inventario", dtoVacio);
+                }
+
+            } catch (Exception e) {
+                // Manejar la excepción y agregar un mensaje de error al modelo
+                model.addAttribute("error", "Error al calcular el inventario óptimo: " + e.getMessage());
             }
 
             return "informacion_inventario"; // Nombre de la vista HTML

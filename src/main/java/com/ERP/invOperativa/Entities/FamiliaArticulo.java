@@ -1,6 +1,7 @@
 package com.ERP.invOperativa.Entities;
 
 import com.ERP.invOperativa.Enum.Modelo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -28,6 +29,7 @@ public class FamiliaArticulo extends Base{
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "FamiliaArticulo")
     @Builder.Default
+    @JsonIgnore
     private List<Articulo> articulos = new ArrayList<>();
 
     public void agregarArticulos(Articulo articulo){
