@@ -53,7 +53,7 @@ public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProvee
     }
 
     public void guardarProveedorYRelacion(Long articuloId, String nombreProveedor, Date fechaVigencia,
-                                          double precioArticuloProveedor, boolean predeterminado, int tiempoDemora) throws Exception {
+                                          double precioArticuloProveedor, boolean predeterminado, int tiempoDemora, Integer cantidadPredeterminada) throws Exception {
 
         Articulo articulo = articuloService.findById(articuloId).orElseThrow(() -> new IllegalArgumentException("Invalid article ID"));
 
@@ -69,6 +69,7 @@ public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProvee
                 .precioArticuloProveedor(precioArticuloProveedor)
                 .predeterminado(predeterminado)
                 .tiempoDemora(tiempoDemora)
+                .cantidadPredeterminada(cantidadPredeterminada)
                 .build();
 
         articuloProveedorRepository.save(articuloProveedor); // Guardar la relación

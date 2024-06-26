@@ -156,8 +156,7 @@ function cargarPredeterminado() {
         .then(data => {
         if (data) {
             document.getElementById('proveedorSelect').value = data.proveedor.id;
-//            document.getElementById('fechaInicio').value = data.fechaInicio;
-//            document.getElementById('cantidad').value = data.cantidad;
+            document.getElementById('cantidadIngreso').value = data.cantidadPredeterminada;
         } else {
             // Mostrar el modal de error
             var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));

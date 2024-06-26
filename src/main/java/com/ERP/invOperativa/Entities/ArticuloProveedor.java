@@ -34,6 +34,9 @@ public class ArticuloProveedor extends Base{
     @Column(name = "predeterminado")
     private boolean predeterminado;
 
+    @Column(name = "cantidad_Predeterminada")
+    private Integer cantidadPredeterminada;
+
     @ManyToOne()
     @JoinColumn(name = "id_Articulo")  //Clave foranea de la entidad articulo
     private Articulo articulo;

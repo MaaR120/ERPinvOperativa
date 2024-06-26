@@ -53,8 +53,14 @@ public class ArticuloProveedorController extends BaseControllerImpl<ArticuloProv
                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaVigencia,
                                         @RequestParam double precioArticuloProveedor,
                                         @RequestParam(defaultValue = "false") boolean predeterminado,
-                                        @RequestParam int tiempoDemora) throws Exception {
-        articuloProveedorService.guardarProveedorYRelacion(articuloId, nombreProveedor, fechaVigencia, precioArticuloProveedor, predeterminado, tiempoDemora);
+                                        @RequestParam int tiempoDemora,
+                                        @RequestParam (required = false) Integer cantidadPredeterminada) throws Exception {
+        if (!predeterminado) {
+            cantidadPredeterminada = null; // Si no es predeterminado, establecer cantidadPredeterminada como null
+        } else if (cantidadPredeterminada == null) {
+            cantidadPredeterminada = 0; // Si es predeterminado y no se establece cantidadPredeterminada, establecer como 0
+        }
+        articuloProveedorService.guardarProveedorYRelacion(articuloId, nombreProveedor, fechaVigencia, precioArticuloProveedor, predeterminado, tiempoDemora, cantidadPredeterminada);
         return "redirect:/maestroarticulo" ; //redirije a la lista de proveedores
 
 
