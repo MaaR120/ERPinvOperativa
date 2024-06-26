@@ -143,27 +143,6 @@ return response.json();
     }
 }
 
-//function cargarPredeterminado() {
-//    let articuloId = document.getElementById('articuloSelect').value;
-//    fetch(`/ordenCompra/articulo/${articuloId}/predeterminado`)
-//        .then(response => {
-//        if (response.ok) {
-//            return response.json();
-//        } else {
-//            throw new Error('No se encontró un proveedor predeterminado para este artículo');
-//        }
-//    })
-//        .then(data => {
-//        document.getElementById('proveedorSelect').value = data.proveedor.id;
-////        document.getElementById('fechaInicio').value = data.fechaInicio;
-////        document.getElementById('cantidad').value = data.cantidad;
-//        //Llamo al calcular total cuando actualizo el campo de proveedor
-//        calcularTotal();
-//    })
-//        .catch(error => {
-//        alert(error.message); // Mostrar mensaje de error al usuario
-//    });
-//}
 function cargarPredeterminado() {
     let articuloId = document.getElementById('articuloSelect').value;
     fetch(`/ordenCompra/articulo/${articuloId}/predeterminado`)
