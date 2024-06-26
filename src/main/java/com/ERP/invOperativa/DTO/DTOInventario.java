@@ -20,6 +20,7 @@ public class DTOInventario {
 
     public static final double DISTRUBUCION = 1.64; // z constante
 
+    public String proveedor;
 
     //precio compra del prod
     public double precioArticuloProveedor;
