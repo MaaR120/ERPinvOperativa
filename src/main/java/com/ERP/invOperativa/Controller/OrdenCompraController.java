@@ -168,13 +168,13 @@ public ResponseEntity<?> actualizarStock(@PathVariable("ordenCompraId") Long ord
 
     private double calcularLoteOptimoPorProveedor(Long articuloId, Long proveedorId) throws Exception {
         Articulo articulo = articuloService.findById(articuloId).orElseThrow(() -> new Exception("Articulo no encontrado"));
+        double demandaAnual = ventaService.obtenerDemandaArt(articulo.getId(), 2024);
 //        double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
         ArticuloProveedor articuloProveedor = articulo.getArticuloProveedores().stream()
                 .filter(ap -> ap.getProveedor().getId().equals(proveedorId))
                 .findFirst()
                 .orElseThrow(() -> new Exception("Proveedor no encontrado para este articulo"));
 
-        double demandaAnual = 25000;
         double costoPedido = articuloProveedor.getProveedor().getCostoPedido() != null ? articuloProveedor.getProveedor().getCostoPedido() : 1000;
         double costoAlmacenamiento = articulo.getCostoAlmacenamiento() * DTOInventario.INTERES_ALMACENAMIENTO;
         double tiempoDemora = articuloProveedor.getTiempoDemora();
