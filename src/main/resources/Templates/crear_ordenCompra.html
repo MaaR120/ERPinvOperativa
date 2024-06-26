@@ -17,7 +17,7 @@
     <form th:action="@{/ordenCompra/crear}" th:object="${ordenCompra}" method="POST">
         <div class="form-group">
             <label for="articuloSelect">Artículo</label>
-            <select id="articuloSelect" name="articulo" class="form-control" onchange="cargarProveedores(); verificarOrdenCompra(); mostrarLoteOptimo()">
+            <select id="articuloSelect" name="articulo" class="form-control" onchange="cargarProveedores(); verificarOrdenCompra()">
                 <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.NombreArticulo}"></option>
             </select>
         </div>
@@ -115,6 +115,7 @@ function cargarProveedores() {
             option.textContent = proveedor.nombreProveedor;
             proveedorSelect.appendChild(option);
         });
+        mostrarLoteOptimo();
     })
         .catch(error => console.error('Error al cargar proveedores:', error));
 }
