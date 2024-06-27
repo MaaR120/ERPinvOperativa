@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Predicción</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Header  -->
+<header th:replace="~{Home :: header}"></header>
+
+<!-- Contenido -->
+<div class="container mt-5">
+    <h1 class="text-center">Crear Predicción de Demanda</h1>
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4>Ingrese los Datos para la Predicción</h4>
+        </div>
+        <div class="card-body">
+            <form id="prediccionForm">
+                <input type="hidden" id="articuloId" th:value="${articulo.id}">
+
+                <div class="form-group">
+                    <label for="fechaInicio">Fecha de Inicio</label>
+                    <input type="date" class="form-control" id="fechaInicio" required>
+                </div>
+                <div class="form-group">
+                    <label for="cantidadCorridas">Cantidad de Corridas</label>
+                    <input type="number" class="form-control" id="cantidadCorridas" required>
+                </div><br>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-success" onclick="submitForm()">Generar Predicción</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function submitForm() {
+        const articuloId = document.getElementById('articuloId').value;
+        const fechaInicio = document.getElementById('fechaInicio').value;
+        const cantidadCorridas = document.getElementById('cantidadCorridas').value;
+
+        const data = {
+            articuloId: articuloId,
+            fechaInicio: fechaInicio,
+            cantidadCorridas: cantidadCorridas
+        };
+
+        console.log('Datos enviados:', data); // Depuración: Ver los datos antes de enviarlos
+
+        fetch('/prediccion/asignarPrediccion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = `/maestroarticulo/verPrediccion/${articuloId}`;
+            } else {
+                return response.json().then(data => {
+                    console.error('Error en la respuesta:', data);
+                    alert(`Error: ${data.error}`);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al generar la predicción.');
+        });
+    }
+</script>
+</body>
+</html>
+
+

@@ -45,8 +45,25 @@ public class VentaServiceImpl extends BaseServiceImpl<Venta, Long> implements Ve
     //Borrar venta
     @Override
     public Venta deleteVenta(Long id) {
-        ventaRepository.deleteById(id);
-        return null;
+        // Recuperar la venta antes de eliminarla
+        Optional<Venta> optionalVenta = ventaRepository.findById(id);
+        if (optionalVenta.isPresent()) {
+            Venta venta = optionalVenta.get();
+
+            // Reintegrar el stock de los artículos asociados a la venta eliminada
+            for (DetalleVenta detalle : venta.getDetalleVentas()) {
+                Articulo articulo = detalle.getArticulo();
+                int cantidadVendida = detalle.getCantidad();
+                articulo.setStock(articulo.getStock() + cantidadVendida);
+                articuloRepository.save(articulo); // Guardar los cambios en el stock del artículo
+            }
+
+            // Eliminar la venta
+            ventaRepository.deleteById(id);
+            return venta;
+        } else {
+            throw new RuntimeException("Venta no encontrada con id: " + id);
+        }
     }
 
     @Override

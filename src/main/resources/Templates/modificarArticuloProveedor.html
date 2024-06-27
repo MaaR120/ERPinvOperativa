@@ -35,6 +35,12 @@
                         <label>NombreProveedor</label>
                         <input type="text" name="nombre" th:field="*{proveedor.nombreProveedor}" class="form-control" readonly>
                     </div><br>
+
+                    <div class="form-group">
+                        <label>Costo Pedido</label>
+                        <input type="number" name="costoPedido" th:field="*{proveedor.costoPedido}" class="form-control"readonly>
+                    </div><br>
+
                     <div class="form-group">
                         <label>NombreArticulo</label>
                         <input type="text" name="nombre" th:field="*{articulo.NombreArticulo}" class="form-control" readonly>
@@ -55,6 +61,7 @@
 
                     <div class="box-footer mb-4">
                         <button class="btn btn-success">Guardar</button>
+                        <a th:href="@{/proveedor/listado}" class="btn btn-secondary">Acceder a Proveedores</a>
                     </div>
                 </form>
 

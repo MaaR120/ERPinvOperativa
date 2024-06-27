@@ -21,6 +21,7 @@
     <div class="row">
         <div class="col-md-4">
             <a th:href="@{/proveedor/listado/nuevo}" class="btn btn-success">+ Agregar Proveedor</a>
+            <a th:href="@{/maestroarticulo}" class="btn btn-secondary"> Ir a maestro articulo</a>
         </div>
     </div>
     <br>
@@ -29,7 +30,7 @@
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Nombre</th>
-
+            <th scope="col">CostoPedido</th>
             <th scope="col">Acciones</th>
         </tr>
         </thead>
@@ -37,6 +38,7 @@
         <tr th:each="proveedor :${proveedor}">
             <td th:text="${proveedor.id}"></td>
             <td th:text="${proveedor.nombreProveedor}"></td>
+            <td th:text="${proveedor.costoPedido}"></td>
 
             <td>
                 <a th:href="@{/proveedor/editar/{id}(id=${proveedor.id})}" class="btn btn-warning">Modificar</a>

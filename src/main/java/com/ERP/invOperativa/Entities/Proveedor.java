@@ -25,9 +25,9 @@ public class Proveedor extends Base{
     @Temporal(TemporalType.DATE)
     private Date fechaBaja;
 
-    @Builder.Default
+
     @Column(name = "costoPedido")
-    private Integer costoPedido = 20;
+    private Integer costoPedido;
 
 
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -37,12 +37,12 @@ public class Proveedor extends Base{
     @JsonIgnore
     private List<ArticuloProveedor> articuloProveedores = new ArrayList<>();
 
-
     // Método para agregar un ArticuloProveedor a la lista
     public void addArticuloProveedor(ArticuloProveedor articuloProveedor) {
         articuloProveedores.add(articuloProveedor);
         articuloProveedor.setProveedor(this);
     }
+
     @Column(name = "Tiempo_Estimado_Entrega")
     @Temporal(TemporalType.TIMESTAMP)
     private Date TiempoEstimadoEntrega;

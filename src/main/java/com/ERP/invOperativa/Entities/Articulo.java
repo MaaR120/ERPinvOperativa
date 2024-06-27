@@ -75,8 +75,9 @@ public class Articulo extends Base{
     @JoinColumn(name="FamiliaArticulo")
     private FamiliaArticulo familiaArticulo;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "Prediccion")
+
     private Prediccion prediccion=null;
 
 }

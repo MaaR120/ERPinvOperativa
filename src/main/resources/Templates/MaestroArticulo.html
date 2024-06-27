@@ -9,7 +9,7 @@
 </head>
 <body>
 <!-- Header  -->
-<footer th:replace="~{Home :: header}"></footer>
+<header th:replace="~{Home :: header}"></header>
 
 
 <!-- Contenido -->
@@ -19,17 +19,17 @@
   </div>
   <hr th:replace="~{ListadoVentas :: separador}">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <a th:href="@{/maestroarticulo/nuevo}" class="btn btn-success">+ Agregar Articulo</a>
     </div>
-    <div class="col-md-4 ms-auto">
-      <a th:href="@{/familiaarticulo}" class="btn btn-secondary">Detalle Familia/Modelo</a>
+    <div class="col-md-3 ms-auto">
+      <a th:href="@{/familiaarticulo}" class="btn btn-secondary"><i class="bi bi-arrow-right-circle"></i> Detalle Familia/Modelo</a>
     </div>
-    <div class="col-md-auto">
-      <a th:href="@{/reponer}" class="btn btn-warning">Lista artículos a reponer</a>
+    <div class="col-md-3 ms-auto">
+      <a th:href="@{/reponer}" class="btn btn-warning"><i class="bi bi-exclamation-circle"></i> Lista artículos a reponer</a>
   </div>
-  <div class="col-md-auto">
-      <a th:href="@{/faltantes}" class="btn btn-warning">Lista artículos faltantes</a>
+  <div class="col-md-3 ms-auto">
+      <a th:href="@{/faltantes}" class="btn btn-warning "><i class="bi bi-exclamation-circle"></i></i> Lista artículos faltantes</a>
   </div>
   </div>
   <br>
@@ -57,7 +57,8 @@
       <td>
         <button type="button" class="btn btn-danger btn-sm" th:onclick="'eliminarArticulo(' + ${articulo.id} + ')'" >Eliminar</button>
         <a th:href="@{/maestroarticulo/{id}/informacion_inventario(id=${articulo.id})}" class="btn btn-outline-primary">Ver Inventario</a>
-        <a th:href="@{maestroarticulo/{id}/articulo_proveedor(id=${articulo.id})}" class="btn btn-info">Proveedores</a>
+        <a th:href="@{maestroarticulo/{id}/articulo_proveedor(id=${articulo.id})}" class="btn btn-outline-info">Ver Proveedores</a>
+        <a th:href="@{maestroarticulo/verPrediccion/{id}(id=${articulo.id})}" class="btn btn-outline-success">Ver Predicción</a>
 
       </td>
     </tr>

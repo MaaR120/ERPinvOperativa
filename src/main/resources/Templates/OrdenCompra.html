@@ -12,14 +12,14 @@
 <header th:replace="Home :: header"> </header>
 
 <!-- Contenido -->
-<div class="container">
+<div class="container mt-4">
     <div class="row">
         <h1>Ordenes de Compra</h1>
     </div>
     <hr th:replace="~{ListadoVentas :: separador}">
     <div class="row">
         <div class="col-md-4">
-            <a th:href="@{/ordenCompra/form}" class="btn btn-primary">Nueva Orden de Compra</a>
+            <a th:href="@{/ordenCompra/form}" class="btn btn-success">+ Nueva Orden de Compra</a>
         </div>
        <!-- <div class="col-md-4 ms-auto">
             <a th:href="@{/familiaarticulo}" class="btn btn-secondary">Nuevo Proveedor</a>

@@ -6,6 +6,6 @@ import java.util.Date;
 
 public interface ArticuloProveedorService extends BaseService<ArticuloProveedor,Long>{
 
-    public void guardarProveedorYRelacion(Long articuloId, String nombreProveedor, Date fechaVigencia,
+    public void guardarProveedorYRelacion(Long articuloId, String nombreProveedor, Integer costoPedido,Date fechaVigencia,
                                           double precioArticuloProveedor, boolean predeterminado, int tiempoDemora) throws Exception;
 }
