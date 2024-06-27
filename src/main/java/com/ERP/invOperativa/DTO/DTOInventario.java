@@ -16,6 +16,8 @@ public class DTOInventario {
 
     public Long idArticulo;
 
+    public Long idProveedor;
+
     public int tiempoDemora;
 
     public static final double DISTRUBUCION = 1.64; // z constante

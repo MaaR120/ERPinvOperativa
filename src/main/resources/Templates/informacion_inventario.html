@@ -66,6 +66,30 @@
     </div>
 </div>
 
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Redondear valores
+        const puntoPedidoInput = document.getElementById("puntoPedido");
+        const loteOptimoInput = document.getElementById("loteOptimo");
+        const stockSeguridadInput = document.getElementById("stockSeguridad");
+        const cgiInput = document.getElementById("CGI");
+
+        if (puntoPedidoInput.value) {
+            puntoPedidoInput.value = Math.round(puntoPedidoInput.value);
+        }
+        if (loteOptimoInput.value) {
+            loteOptimoInput.value = Math.round(loteOptimoInput.value);
+        }
+        if (stockSeguridadInput.value) {
+            stockSeguridadInput.value = Math.round(stockSeguridadInput.value);
+        }
+        if (cgiInput.value) {
+            cgiInput.value = Math.round(cgiInput.value);
+        }
+    });
+</script>
 <!-- Footer -->
 </body>
 </html>

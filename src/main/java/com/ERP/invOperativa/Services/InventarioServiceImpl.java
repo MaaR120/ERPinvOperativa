@@ -68,6 +68,23 @@ public class InventarioServiceImpl implements InventarioService {
     }
 
     @Override
+    public double calcularLoteOptimoParaArticuloYProveedor(Long articuloId, Long proveedorId) throws Exception {
+        ArticuloProveedor articuloProveedor = articuloProveedorRepository.findByArticuloYProveedor(articuloId, proveedorId);
+
+        double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
+        double costoPedido = articuloProveedor.getProveedor().getCostoPedido() != null ? articuloProveedor.getProveedor().getCostoPedido() : 1000;
+        double costoAlmacenamiento = articuloProveedor.getArticulo().getCostoAlmacenamiento();
+        double precioArticuloProveedor = articuloProveedor.getPrecioArticuloProveedor();
+
+        double factorZ = 1.64; // Nivel de servicio del 95%
+        double demandaAnual = demanda;
+        double tiempoDemora = articuloProveedor.getTiempoDemora();
+        double loteOptimo = Math.sqrt((2 * demandaAnual * costoPedido) / (costoAlmacenamiento * precioArticuloProveedor));
+
+        return loteOptimo;
+    }
+
+    @Override
     public List<DTOInventario> calcularLoteOptimo() throws Exception {
         List<DTOInventario> loteOptimo = new ArrayList<>();
         List<Articulo> articulos = articuloRepository.findAll();
@@ -80,6 +97,7 @@ public class InventarioServiceImpl implements InventarioService {
                 for (ArticuloProveedor articuloProveedor : articuloProveedores) {
                     DTOInventario dtoInventario = new DTOInventario();
                     dtoInventario.idArticulo = articulo.getId();
+                    dtoInventario.idProveedor = articuloProveedor.getProveedor().getId();
                     dtoInventario.tiempoDemora = articuloProveedor.getTiempoDemora();
                     dtoInventario.precioArticuloProveedor = articuloProveedor.getPrecioArticuloProveedor();
                     List<DetalleVenta> detalles = detalleVentaRepository.findByArt(articulo.getId());
@@ -129,17 +147,18 @@ public class InventarioServiceImpl implements InventarioService {
                     }
 
                     // Calcular otros valores necesarios como el punto de pedido, stock de seguridad, etc.
-                    double lote = dtoInventario.loteOptimo;
-                    dtoInventario.puntoPedido = demandaAnual * tiempoDemora;
-                    dtoInventario.stockSeguridad = factorZ * dtoInventario.desviacionDemanda * Math.sqrt(dtoInventario.tiempoDemora);
-                    dtoInventario.CGI = costoCompra + costoAlmacenamiento * (lote / 2) + costoPedido * (demandaAnual / lote);
+                    double lote = Math.round(dtoInventario.loteOptimo);
+                    dtoInventario.puntoPedido = Math.round(demandaAnual * tiempoDemora);
+//                    dtoInventario.stockSeguridad = factorZ * dtoInventario.desviacionDemanda * Math.sqrt(dtoInventario.tiempoDemora);
+                    dtoInventario.CGI = Math.round(costoCompra + costoAlmacenamiento * (lote / 2) + costoPedido * (demandaAnual / lote));
                     dtoInventario.stock = articulo.getStock();
                     dtoInventario.proveedor = articuloProveedor.getProveedor().getNombreProveedor();
 
                     loteOptimo.add(dtoInventario);
 
-                    articulo.setPuntoPedido(dtoInventario.puntoPedido);
-                    articulo.setStockSeguridad(dtoInventario.stockSeguridad);
+                    articulo.setLoteOptimo(Math.round(dtoInventario.loteOptimo));
+                    articulo.setPuntoPedido(Math.round(dtoInventario.puntoPedido));
+                    articulo.setStockSeguridad(Math.round(dtoInventario.stockSeguridad));
                 }
             }
 
@@ -152,7 +171,14 @@ public class InventarioServiceImpl implements InventarioService {
 
     }
 
-
+//    private double calcularDesviacionEstandar(List<Double> datos) {
+//        if (datos.size() <= 1) {
+//            return 0.0; // No hay suficiente datos para calcular desviación
+//        }
+//        double media = datos.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+//        double sumaDesviacionesCuadradas = datos.stream().mapToDouble(d -> Math.pow(d - media, 2)).sum();
+//        return Math.sqrt(sumaDesviacionesCuadradas / (datos.size() - 1));
+//    }
     @Override
     public List<Double> obtenerCantidadesVendidas(List<DetalleVenta> detallesVenta) {
         List<Double> cantidadesVendidas = new ArrayList<>();

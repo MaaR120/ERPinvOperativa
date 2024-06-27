@@ -38,7 +38,7 @@ public class Articulo extends Base{
     private double PuntoPedido;
 
     @Column(name = "LoteOptimo")
-    private int LoteOptimo;
+    private double LoteOptimo;
 
     @Column(name = "precio")
     @NotNull

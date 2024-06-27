@@ -131,6 +131,8 @@ public class ArticuloController {
                     DTOInventario dtoVacio = new DTOInventario();
                     dtoVacio.setIdArticulo(id);
                     dtoVacio.setPuntoPedido(10); // Valores predeterminados para prueba
+                    dtoVacio.setStockSeguridad(0);
+                    dtoVacio.setCGI(0);
                     model.addAttribute("inventario", dtoVacio);
                 }
 
