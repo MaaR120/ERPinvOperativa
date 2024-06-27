@@ -114,6 +114,8 @@ public class ArticuloController {
         Optional<Articulo> optionalArticulo = articuloRepository.findById(id);
         if (optionalArticulo.isPresent()) {
             Articulo articulo = optionalArticulo.get();
+            articulo.getId();
+//        DTOInventario resultado = inventarioService.calcularLoteOptimoPorArticulo(id);
 
             try {
                 // Calcular el inventario óptimo para todos los artículos
@@ -121,7 +123,7 @@ public class ArticuloController {
 
                 // Filtrar el inventario para el artículo específico
                 Optional<DTOInventario> inventarioArticulo = inventario.stream()
-                        .filter(dto -> dto.idArticulo.equals(id))
+                        .filter(dtoInventario -> dtoInventario.idArticulo.equals(id))
                         .findFirst();
 
                 if (inventarioArticulo.isPresent()) {
