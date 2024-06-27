@@ -46,6 +46,18 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
         model.addAttribute("articulos", articuloService.ListarArticulos());
         return "crear_ordenCompra";
     }
+    @GetMapping("/ordenCompra/form/{articuloId}")
+    public String mostrarFormularioOrdenArticulo(@PathVariable Long articuloId, Model model) {
+        Optional<Articulo> articuloOptional = articuloService.findById(articuloId);
+        if(articuloOptional.isEmpty()){
+            return "error/404";
+        }
+
+        model.addAttribute("ordenCompra", new OrdenCompra());
+        model.addAttribute("articulo", articuloOptional.get());
+
+        return "crear_ordenCompra_articulo";
+    }
 
     @PostMapping("/ordenCompra/crear")
     public String crearOrdenCompra(@ModelAttribute("ordenCompra") OrdenCompra ordenCompra) {

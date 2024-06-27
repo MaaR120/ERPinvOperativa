@@ -51,7 +51,7 @@
             <td th:text="${articulo.stock}"></td>
             <td th:text="${articulo.puntoPedido}"></td>
             <td>
-                <a th:href="@{/ordenCompra/form}" class="btn btn-primary">Nueva Orden de Compra</a>
+                <a th:href="@{|/ordenCompra/form/${articulo.id}|}" class="btn btn-primary">Nueva Orden de Compra</a>
             </td>
         </tr>
         </tbody>
