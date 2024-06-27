@@ -1,6 +1,7 @@
 package com.ERP.invOperativa.Services;
 
 
+import com.ERP.invOperativa.Entities.ArticuloProveedor;
 import com.ERP.invOperativa.Entities.OrdenCompra;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface OrdenCompraService extends BaseService<OrdenCompra,Long> {
 
     public boolean existeOrdenEnPreparacion(Long articuloId);
 
+    public OrdenCompra saveOrdenAutomatica(ArticuloProveedor articuloProveedor);
 }
 
 

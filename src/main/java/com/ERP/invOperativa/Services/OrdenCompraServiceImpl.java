@@ -1,6 +1,7 @@
 package com.ERP.invOperativa.Services;
 
 import com.ERP.invOperativa.Entities.Articulo;
+import com.ERP.invOperativa.Entities.ArticuloProveedor;
 import com.ERP.invOperativa.Entities.OrdenCompra;
 import com.ERP.invOperativa.Enum.EstadoOrdenCompra;
 import com.ERP.invOperativa.Repositories.BaseRepository;
@@ -8,6 +9,7 @@ import com.ERP.invOperativa.Repositories.OrdenCompraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +44,21 @@ public class OrdenCompraServiceImpl extends BaseServiceImpl<OrdenCompra,Long> im
     public boolean existeOrdenEnPreparacion(Long articuloId) {
         List<OrdenCompra> ordenes = ordenCompraRepository.findByArticuloIdAndEstadoOrdenCompra(articuloId, EstadoOrdenCompra.Preparacion);
         return !ordenes.isEmpty();
+    }
+    @Override
+    public OrdenCompra saveOrdenAutomatica(ArticuloProveedor articuloProveedor){
+        //revisar que la cantidad este cargada, recordemos que hay datos en la bd que todavia no lo tienen
+        double total = (articuloProveedor.getPrecioArticuloProveedor())*(articuloProveedor.getCantidadPredeterminada());
+
+        OrdenCompra ordenCompra = OrdenCompra.builder()
+                .articulo(articuloProveedor.getArticulo())
+                .proveedor(articuloProveedor.getProveedor())
+                .cantidad(articuloProveedor.getCantidadPredeterminada())
+                .fechaInicio(new Date())
+                .estadoOrdenCompra(EstadoOrdenCompra.Preparacion)
+                .totalOrden(total)
+                .build();
+        return ordenCompraRepository.save(ordenCompra);
     }
 }
 

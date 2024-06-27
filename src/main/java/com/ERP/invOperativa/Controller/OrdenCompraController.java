@@ -6,6 +6,7 @@ import com.ERP.invOperativa.Entities.ArticuloProveedor;
 import com.ERP.invOperativa.Entities.OrdenCompra;
 import com.ERP.invOperativa.Entities.Proveedor;
 import com.ERP.invOperativa.Enum.EstadoOrdenCompra;
+import com.ERP.invOperativa.Exceptions.NoProveedorPredeterminadoException;
 import com.ERP.invOperativa.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,6 +67,33 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
         return "redirect:/ordenCompra";
     }
 
+    @PostMapping("/ordenCompra/crearAutomatica/{articuloId}")
+    public String crearOrdenAutomatica(@PathVariable Long articuloId) throws  Exception {
+
+        ArticuloProveedor articuloProveedor = getDatosPredeterminados(articuloId);
+
+        ordenCompraService.saveOrdenAutomatica(articuloProveedor);
+
+        return "redirect:/reponer";
+
+
+    }
+//    public ResponseEntity<String> crearOrdenAutomatica(@PathVariable Long articuloId) {
+//        try {
+//            ArticuloProveedor articuloProveedor = getDatosPredeterminados(articuloId);
+//            if (articuloProveedor == null) {
+//                throw new NoProveedorPredeterminadoException("No se encontró un proveedor predeterminado");
+//            }
+//            ordenCompraService.saveOrdenAutomatica(articuloProveedor);
+//            return ResponseEntity.status(HttpStatus.OK).build();
+//        } catch (NoProveedorPredeterminadoException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se encontró un proveedor predeterminado");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la orden de compra");
+//        }
+//    }
+
+
     @GetMapping("/ordenCompra")
     public String listarOrdenes(Model modelo) {
         modelo.addAttribute("ordenes", ordenCompraService.ListarOrdenes());
@@ -112,6 +140,7 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
         Optional<Articulo> articulo = articuloService.findById(articuloId);
         if (articulo.isPresent()) {
             return articuloProveedorService.getPredeterminadoPorArticulo(articulo.get());
+
         } else throw new Exception("Error al buscar el articulo");
     }
 
