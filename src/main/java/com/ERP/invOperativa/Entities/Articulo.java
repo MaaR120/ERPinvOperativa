@@ -47,6 +47,9 @@ public class Articulo extends Base{
     @Column(name = "fechaBaja")
     private Date fechaBaja;
 
+    @Column(name = "CantidadPreparacion")
+    private Integer cantidadPreparacion;
+
 
 
     @OneToMany(mappedBy = "articulo",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
