@@ -74,7 +74,7 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
 
         ordenCompraService.saveOrdenAutomatica(articuloProveedor);
 
-        return "redirect:/reponer";
+        return "redirect:/maestroarticulo";
 
 
     }

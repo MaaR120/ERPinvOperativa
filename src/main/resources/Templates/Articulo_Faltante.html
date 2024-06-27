@@ -51,7 +51,10 @@
             <td th:text="${articulo.stock}"></td>
             <td th:text="${articulo.stockSeguridad}"></td>
             <td>
-                <a th:href="@{/ordenCompra/form}" class="btn btn-primary">Nueva Orden de Compra</a>
+                <a th:href="@{/ordenCompra/form/{articuloId}(articuloId=${articulo.id})}" class="btn btn-primary">Nueva Orden de Compra</a>
+                <form th:action="@{/ordenCompra/crearAutomatica/{articuloId}(articuloId=${articulo.id})}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-warning">Cargar Orden Compra Automática</button>
+                </form>
             </td>
         </tr>
         </tbody>
