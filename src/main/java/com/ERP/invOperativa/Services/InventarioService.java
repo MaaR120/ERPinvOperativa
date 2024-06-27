@@ -14,6 +14,7 @@ public interface InventarioService {
 //    public List<DTOInventario> calcularPuntoPedido();
     public List<Double> obtenerCantidadesVendidas(List<DetalleVenta> detallesVenta);
 
+    public double calcularLoteOptimoParaArticuloYProveedor(Long articuloId, Long proveedorId) throws Exception;
 
     List<Articulo> obtenerArticulosFaltantes();
     List<Articulo> obtenerArticulosReponer();

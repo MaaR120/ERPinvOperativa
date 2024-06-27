@@ -40,6 +40,7 @@
             <th scope="col">ID</th>
             <th scope="col">Nombre</th>
             <th scope="col">Stock</th>
+            <th scope="col">Cantidad en preparacion</th>
             <th scope="col">Punto de Pedido</th>
             <th scope="col">Acciones</th>
         </tr>
@@ -49,6 +50,7 @@
             <td th:text="${articulo.id}"></td>
             <td th:text="${articulo.nombreArticulo}"></td>
             <td th:text="${articulo.stock}"></td>
+            <td th:text="${articulo.cantidadPreparacion}"></td>
             <td th:text="${articulo.puntoPedido}"></td>
             <td>
                 <a th:href="@{|/ordenCompra/form/${articulo.id}|}" class="btn btn-primary">Nueva Orden de Compra</a>

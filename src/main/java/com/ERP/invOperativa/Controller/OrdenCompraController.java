@@ -207,19 +207,22 @@ public ResponseEntity<?> actualizarStock(@PathVariable("ordenCompraId") Long ord
         }
     }
 
+
+
     private double calcularLoteOptimoPorProveedor(Long articuloId, Long proveedorId) throws Exception {
         Articulo articulo = articuloService.findById(articuloId).orElseThrow(() -> new Exception("Articulo no encontrado"));
+        double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
 //        double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
         ArticuloProveedor articuloProveedor = articulo.getArticuloProveedores().stream()
                 .filter(ap -> ap.getProveedor().getId().equals(proveedorId))
                 .findFirst()
                 .orElseThrow(() -> new Exception("Proveedor no encontrado para este articulo"));
 
-        double demandaAnual = 25000;
+        double demandaAnual = demanda;
         double costoPedido = articuloProveedor.getProveedor().getCostoPedido() != null ? articuloProveedor.getProveedor().getCostoPedido() : 1000;
-        double costoAlmacenamiento = articulo.getCostoAlmacenamiento() * DTOInventario.INTERES_ALMACENAMIENTO;
-        double tiempoDemora = articuloProveedor.getTiempoDemora();
-        double precioArticuloProveedor = articuloProveedor.getPrecioArticuloProveedor();
+
+
+        double costoAlmacenamiento = (DTOInventario.INTERES_ALMACENAMIENTO * articuloProveedor.getPrecioArticuloProveedor());
 
         double loteOptimo = Math.sqrt((2 * demandaAnual * costoPedido) / costoAlmacenamiento);
         return loteOptimo;

@@ -138,7 +138,7 @@ return response.json();
             console.log('Lote Óptimo:', loteOptimo); // Log para depuración
 
             let loteOptimoDiv = document.getElementById('loteOptimoProveedor');
-            loteOptimoDiv.innerText = `Lote Óptimo: ${loteOptimo.toFixed(2)}`;
+            loteOptimoDiv.innerText = `Lote Óptimo: ${Math.round(loteOptimo.toFixed(2))}`;
         })
         .catch(error => console.error('Error al calcular el lote óptimo:', error));
     }

@@ -38,6 +38,7 @@ public class Venta extends Base {
 
     public void agregarDetalleVenta(DetalleVenta detalleVenta){
         detalleVentas.add(detalleVenta);
+        detalleVenta.setVenta(this);
     }
 
 
