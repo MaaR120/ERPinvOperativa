@@ -22,6 +22,6 @@ public interface InventarioService {
 
 
 
-        List<Articulo> obtenerArticulosFaltantes();
+    List<Articulo> obtenerArticulosFaltantes();
     List<Articulo> obtenerArticulosReponer();
 }

@@ -218,27 +218,6 @@ public class ArticuloController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-//    @GetMapping("/maestroarticulo/{id}/informacion_inventario")
-//    public String verInventario(@PathVariable Long id, Model model) {
-//        // Obtén el artículo por su ID
-//        Optional<Articulo> optionalArticulo = articuloRepository.findById(id);
-//        if (optionalArticulo.isPresent()) {
-//            Articulo articulo = optionalArticulo.get();
-//            List<DTOInventario> inventario = inventarioService.calcularLoteOptimo().stream()
-//                    .filter(dto -> dto.idArticulo.equals(id))
-//                    .collect(Collectors.toList());
-//
-//            if (!inventario.isEmpty()) {
-//                model.addAttribute("inventario", inventario.get(0));
-//                return "informacion_inventario"; // Nombre de la vista HTML
-//            } else {
-//                // Manejar el caso en el que no se encuentra el inventario
-//                return "redirect:/maestroarticulo";
-//            }
-//        } else {
-//            // Manejar el caso en el que no se encuentra el artículo
-//            return "redirect:/maestroarticulo";
-//        }
-//    }
+
 }
 
