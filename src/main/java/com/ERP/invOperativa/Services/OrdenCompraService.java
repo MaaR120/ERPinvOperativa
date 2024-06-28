@@ -15,7 +15,7 @@ public interface OrdenCompraService extends BaseService<OrdenCompra,Long> {
 
     public boolean existeOrdenEnPreparacion(Long articuloId);
 
-    public OrdenCompra saveOrdenAutomatica(ArticuloProveedor articuloProveedor);
+    public OrdenCompra saveOrdenAutomatica(ArticuloProveedor articuloProveedor) throws Exception;
 }
 
 

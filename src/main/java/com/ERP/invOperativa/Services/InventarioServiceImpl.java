@@ -41,6 +41,19 @@ public class InventarioServiceImpl implements InventarioService {
         List<Articulo> articulos = articuloRepository.findAll();
 
         for (Articulo articulo : articulos) {
+
+            boolean tieneProveedorPredeterminado = false;
+            for (ArticuloProveedor articuloProveedor : articulo.getArticuloProveedores()) {
+                if (articuloProveedor.isPredeterminado()) {
+                    tieneProveedorPredeterminado = true;
+                    break;
+                }
+            }
+
+            if (!tieneProveedorPredeterminado) {
+                continue; // Si no tiene proveedor predeterminado, pasar al siguiente artículo
+            }
+
             List<OrdenCompra> ordenesEnPreparacion = ordenCompraRepository.findByArticuloIdAndEstadoOrdenCompra(
                     articulo.getId(), EstadoOrdenCompra.Preparacion);
 
@@ -56,7 +69,7 @@ public class InventarioServiceImpl implements InventarioService {
                 double cuenta = articulo.getStock() + cantidadTotalEnPreparacion;
 
                 // Si no hay órdenes de compra en estado "Preparacion", agregar el artículo a la lista
-                if (articulo.getStock() <= articulo.getPuntoPedido() && cuenta <= articulo.getPuntoPedido()) {
+                if (articulo.getStock() <= articulo.getStockSeguridad() && cuenta <= articulo.getStockSeguridad()) {
                     articulo.setCantidadPreparacion(cantidadTotalEnPreparacion);
                     articulosFaltantes.add(articulo);
                 }
@@ -80,6 +93,19 @@ public class InventarioServiceImpl implements InventarioService {
         List<Articulo> articulos = articuloRepository.findAll();
 
         for (Articulo articulo : articulos) {
+
+            boolean tieneProveedorPredeterminado = false;
+            for (ArticuloProveedor articuloProveedor : articulo.getArticuloProveedores()) {
+                if (articuloProveedor.isPredeterminado()) {
+                    tieneProveedorPredeterminado = true;
+                    break;
+                }
+            }
+
+            if (!tieneProveedorPredeterminado) {
+                continue; // Si no tiene proveedor predeterminado, pasar al siguiente artículo
+            }
+
             // Verificar si el artículo tiene una orden de compra en estado "Preparacion"
             List<OrdenCompra> ordenesEnPreparacion = ordenCompraRepository.findByArticuloIdAndEstadoOrdenCompra(
                     articulo.getId(), EstadoOrdenCompra.Preparacion);
