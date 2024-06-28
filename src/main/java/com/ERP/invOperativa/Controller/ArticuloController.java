@@ -1,10 +1,8 @@
 package com.ERP.invOperativa.Controller;
 
 import com.ERP.invOperativa.DTO.DTOInventario;
-import com.ERP.invOperativa.Entities.Articulo;
-import com.ERP.invOperativa.Entities.ArticuloProveedor;
-import com.ERP.invOperativa.Entities.FamiliaArticulo;
-import com.ERP.invOperativa.Entities.Proveedor;
+import com.ERP.invOperativa.DTO.RequestPrediccionDemanda;
+import com.ERP.invOperativa.Entities.*;
 import com.ERP.invOperativa.Repositories.ArticuloProveedorRepository;
 import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.ProveedorRepository;
@@ -75,7 +73,7 @@ public class ArticuloController {
         return "redirect:/maestroarticulo";
     }
 
-
+//Listado de articulos proveedores
     @GetMapping("maestroarticulo/{id}/articulo_proveedor")
     public String verProveedores(@PathVariable Long id, Model model) {
         Optional<Articulo> optionalArticulo = articuloRepository.findById(id);
@@ -173,5 +171,40 @@ public class ArticuloController {
 //            return "redirect:/maestroarticulo";
 //        }
 //    }
+
+    @GetMapping("maestroarticulo/verPrediccion/{id}")
+    public String verPrediccion(@PathVariable Long id, Model model) {
+        // Busca el artículo por su ID
+        Optional<Articulo> articuloOpt = service.findById(id);
+
+        // Verifica si el artículo existe y si tiene una predicción asociada
+        if (articuloOpt.isPresent()) {
+            model.addAttribute("articulo", articuloOpt.get());
+                model.addAttribute("prediccion", articuloOpt.get().getPrediccion());
+            }
+         else {
+            // Si no encuentra el artículo o no tiene predicción, agrega valores nulos al modelo
+            model.addAttribute("articulo", null);
+            model.addAttribute("prediccion", null);
+        }
+
+        // Devuelve el nombre de la vista Thymeleaf que mostrará la información de la predicción
+        return "verPrediccion";
+    }
+
+    @GetMapping("/{id}/crearPrediccion")
+    public String crearPrediccion(@PathVariable Long id, Model model) {
+        Optional<Articulo> articuloOpt = service.findById(id);
+
+        if (articuloOpt.isPresent()) {
+            model.addAttribute("articulo", articuloOpt.get());
+            model.addAttribute("requestPrediccionDemanda", new RequestPrediccionDemanda());
+            return "crearPrediccion";
+        } else {
+            return "redirect:/error"; // Manejo del caso donde el artículo no existe
+        }
+    }
+
 }
+
 

@@ -64,6 +64,7 @@ public class ProveedorController extends BaseControllerImpl<Proveedor,ProveedorS
         Proveedor proveedorExistente = serviceImpl.getProveedorById(id);
         proveedorExistente.setId(id);
         proveedorExistente.setNombreProveedor(proveedor.getNombreProveedor());
+        proveedorExistente.setCostoPedido(proveedor.getCostoPedido());
         serviceImpl.actualizarProveedor(proveedorExistente);
         return "redirect:/proveedor/listado";
     }

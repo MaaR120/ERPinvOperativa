@@ -259,10 +259,7 @@ public class PrediccionDemandaImpl implements PrediccionDemanda{
     @Transactional
     public Prediccion update(Long id, Prediccion prediccion) throws Exception {
         try{
-            Optional<Prediccion> entityOptional = prediccionRepository.findById(id);
-            Prediccion prediccionActualizar = entityOptional.get();
-            prediccionActualizar = prediccionRepository.save(prediccion);
-            return prediccionActualizar;
+            return prediccionRepository.save(prediccion);
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -272,6 +269,7 @@ public class PrediccionDemandaImpl implements PrediccionDemanda{
     public Prediccion asignarPrediccion(RequestPrediccionDemanda requestPrediccionDemanda) throws Exception {
         try{
             Optional<Articulo> articulo=articuloService.findById(requestPrediccionDemanda.getArticuloId());
+
 
             List<DTOPrediccion> promedioMovilPonderado=promedioMovilPonderado(requestPrediccionDemanda);
             List<DTOPrediccion> promedioMovil=promedioMovil(requestPrediccionDemanda);
@@ -301,9 +299,14 @@ public class PrediccionDemandaImpl implements PrediccionDemanda{
             }
             if (articulo.isPresent()){
                 if (articulo.get().getPrediccion()==null){
-                    prediccionRepository.save(prediccion);
+
+                    Articulo articulo1 = articulo.get();
+                    articulo1.setPrediccion(prediccion);
+
+                    articuloService.update(articulo.get().getId(), articulo1);
                 } else {
-                    this.update(articulo.get().getPrediccion().getId(),prediccion);
+                    prediccion.setId(articulo.get().getPrediccion().getId()); // Asegurar que la predicción tenga el mismo ID
+                    this.update(prediccion.getId(), prediccion);
                 }
             }
 

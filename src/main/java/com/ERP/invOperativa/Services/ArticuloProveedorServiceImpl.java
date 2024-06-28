@@ -5,6 +5,7 @@ import com.ERP.invOperativa.Entities.ArticuloProveedor;
 import com.ERP.invOperativa.Entities.Proveedor;
 import com.ERP.invOperativa.Repositories.ArticuloProveedorRepository;
 import com.ERP.invOperativa.Repositories.BaseRepository;
+import com.ERP.invOperativa.Repositories.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProvee
     @Autowired
     protected ArticuloProveedorRepository articuloProveedorRepository;
 
+    @Autowired
+    private ProveedorRepository proveedorRepository;
 
     public ArticuloProveedorServiceImpl(BaseRepository<ArticuloProveedor, Long> baseRepository,ArticuloProveedorRepository articuloProveedorRepository) {
         super(baseRepository);
@@ -52,15 +55,18 @@ public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProvee
 //        return articuloProveedor != null ? articuloProveedor.getPrecioArticuloProveedor() : 0.0;
     }
 
-    public void guardarProveedorYRelacion(Long articuloId, String nombreProveedor, Date fechaVigencia,
-                                          double precioArticuloProveedor, boolean predeterminado, int tiempoDemora, Integer cantidadPredeterminada) throws Exception {
+    public void guardarProveedorYRelacion(Long articuloId, String nombreProveedor, Integer costoPedido, Date fechaVigencia,
+                                          double precioArticuloProveedor, boolean predeterminado, int tiempoDemora) throws Exception {
 
         Articulo articulo = articuloService.findById(articuloId).orElseThrow(() -> new IllegalArgumentException("Invalid article ID"));
 
         Proveedor proveedor = Proveedor.builder()
             .nombreProveedor(nombreProveedor)
+                .costoPedido(costoPedido)
             .build();
-        proveedorService.save(proveedor); // Guardar el nuevo proveedor
+
+       // proveedorService.save(proveedor); // Guardar el nuevo proveedor
+        proveedorRepository.save(proveedor);
 
         ArticuloProveedor articuloProveedor = ArticuloProveedor.builder()
                 .articulo(articulo)

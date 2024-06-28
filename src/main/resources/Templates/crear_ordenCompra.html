@@ -12,8 +12,8 @@
 <header th:replace="Home :: header"> </header>
 
 <!-- Contenido -->
-<div class="container">
-    <h1>Crear Orden de Compra</h1>
+<div class="container mt-4">
+    <h2>Crear Orden de Compra</h2>
     <form th:action="@{/ordenCompra/crear}" th:object="${ordenCompra}" method="POST">
         <div class="form-group">
             <label for="articuloSelect">Artículo</label>

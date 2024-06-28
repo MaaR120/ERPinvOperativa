@@ -87,17 +87,12 @@ public class ArticuloProveedorController extends BaseControllerImpl<ArticuloProv
     @PostMapping("/{articuloId}/proveedor/guardar")
     public String saveArticuloProveedor(@PathVariable Long articuloId,
                                         @RequestParam String nombreProveedor,
+                                        @RequestParam Integer costoPedido,
                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaVigencia,
                                         @RequestParam double precioArticuloProveedor,
                                         @RequestParam(defaultValue = "false") boolean predeterminado,
-                                        @RequestParam int tiempoDemora,
-                                        @RequestParam (required = false) Integer cantidadPredeterminada) throws Exception {
-        if (!predeterminado) {
-            cantidadPredeterminada = null; // Si no es predeterminado, establecer cantidadPredeterminada como null
-        } else if (cantidadPredeterminada == null) {
-            cantidadPredeterminada = 0; // Si es predeterminado y no se establece cantidadPredeterminada, establecer como 0
-        }
-        articuloProveedorService.guardarProveedorYRelacion(articuloId, nombreProveedor, fechaVigencia, precioArticuloProveedor, predeterminado, tiempoDemora, cantidadPredeterminada);
+                                        @RequestParam int tiempoDemora) throws Exception {
+        articuloProveedorService.guardarProveedorYRelacion(articuloId, nombreProveedor, costoPedido, fechaVigencia, precioArticuloProveedor, predeterminado, tiempoDemora);
         return "redirect:/maestroarticulo" ; //redirije a la lista de proveedores
 
 
@@ -130,19 +125,23 @@ public class ArticuloProveedorController extends BaseControllerImpl<ArticuloProv
     @PostMapping("/actualizar/{id}")
     //recordar que borre el path variable articuloId
     public String actualizarProveedorArticulo(@PathVariable Long id,
-                                              @ModelAttribute("articuloProveedor") ArticuloProveedor articuloProveedor, BindingResult result, Model model) throws Exception {
-     //   if (result.hasErrors()) {
-       //     return "modificarArticuloProveedor";
-        //}
-       // try {
+                                              @ModelAttribute("articuloProveedor") ArticuloProveedor articuloProveedor,
+                                              BindingResult result, Model model) throws Exception {
+//       if (result.hasErrors()) {
+//            return "modificarArticuloProveedor";
+//        }
+//        try {
             //si tuviera que guardar otro dato, hacerlo
-           articuloProveedorService.save(articuloProveedor);
-        //} catch (Exception e) {
-          //  result.rejectValue(null, "error.articuloProveedor", e.getMessage());
-          //  return "modificarArticuloProveedor";
-       // }
+
+        articuloProveedorService.save(articuloProveedor);
+
+//        } catch (Exception e) {
+//           result.rejectValue(null, "error.articuloProveedor", e.getMessage());
+//            return "modificarArticuloProveedor";
+//        }
         return "redirect:/maestroarticulo";
     }
+
 
     @GetMapping("/{articuloId}/proveedor/eliminar/{id}")
     public String eliminarProveedorArticulo(@PathVariable Long articuloId,@PathVariable Long id) throws Exception {

@@ -22,6 +22,7 @@
                 <thead>
                 <tr>
                     <th scope="col">Nombre del Proveedor</th>
+                    <th scope="col">Costo de Pedido</th>
                     <th scope="col">Precio del Artículo al Proveedor</th>
                     <th scope="col">Predeterminado</th>
                     <th scope="col">Acciones</th>
@@ -30,6 +31,7 @@
                 <tbody>
                 <tr th:each="articuloProveedor : ${articulo.articuloProveedores}" th:id="'row-' + ${articuloProveedor.id}">
                     <td th:text="${articuloProveedor.proveedor.nombreProveedor}"></td>
+                    <td th:text="${articuloProveedor.proveedor.costoPedido}"></td>
                     <td th:text="${articuloProveedor.precioArticuloProveedor}"></td>
                     <td th:text="${articuloProveedor.predeterminado}"></td>
                     <td>
@@ -41,7 +43,7 @@
             </table>
             <div>
                 <a th:href="@{/maestroarticulo}" class="btn btn-secondary"><i class="bi bi-arrow-left-circle"></i> Ir a maestro articulo</a>
-                <a th:href="@{/articulo/{articuloId}/proveedor/nuevo(articuloId=${articulo.id})}" class="btn btn-success mb-3">+ Nuevo Proveedor</a>
+                <a th:href="@{/articulo/{articuloId}/proveedor/nuevo(articuloId=${articulo.id})}" class="btn btn-success">+ Nuevo Proveedor</a>
             </div>
         </div>
     </div>
