@@ -116,6 +116,7 @@ public class ArticuloController {
         if (optionalArticulo.isPresent()) {
             Articulo articulo = optionalArticulo.get();
             articulo.getId();
+
 //        DTOInventario resultado = inventarioService.calcularLoteOptimoPorArticulo(id);
 
             try {
