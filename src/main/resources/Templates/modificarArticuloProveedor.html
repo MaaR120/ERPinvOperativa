@@ -43,7 +43,7 @@
                         <label>Precio ArticuloProveedor</label>
                         <input type="number" name="precioArticuloProveedor" id="PrecioArticuloProveedor" th:field="*{precioArticuloProveedor}" class="form-control" required>
                     </div><br>
-                    <div class="form-group" id="cantidadPredeterminadaDiv" style="display: none;">
+                    <div class="form-group" id="cantidadPredeterminadaDiv" >
                         <label>Cantidad Predeterminada</label>
                         <input type="number" name="cantidadPredeterminada" id="cantidadPredeterminada" th:field="*{cantidadPredeterminada}" class="form-control" required>
                     </div>
@@ -91,16 +91,16 @@
 
 </body>
 <script th:inline="javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        const predeterminadoCheckbox = document.getElementById('predeterminado');
-        const cantidadPredeterminadaDiv = document.getElementById('cantidadPredeterminadaDiv');
-
-        if (predeterminadoCheckbox.checked) {
-            cantidadPredeterminadaDiv.style.display = 'block';
-        } else {
-            cantidadPredeterminadaDiv.style.display = 'none';
-        }
-    });
+//    document.addEventListener('DOMContentLoaded', function() {
+//        const predeterminadoCheckbox = document.getElementById('predeterminado');
+//        const cantidadPredeterminadaDiv = document.getElementById('cantidadPredeterminadaDiv');
+//
+//        if (predeterminadoCheckbox.checked) {
+//            cantidadPredeterminadaDiv.style.display = 'block';
+//        } else {
+//            cantidadPredeterminadaDiv.style.display = 'none';
+//        }
+//    });
     function verificarPredeterminado() {
         if (document.getElementById('predeterminado').checked) {
             var articuloId = document.getElementById('articuloSelect').value;
@@ -124,11 +124,11 @@
                     alert('Error al verificar el proveedor predeterminado.');
                 }
             });
-
-        } else {
-            // Ocultar el campo cantidadPredeterminada
-            document.getElementById('cantidadPredeterminadaDiv').style.display = 'none';
         }
+//        } else {
+//            // Ocultar el campo cantidadPredeterminada
+//            document.getElementById('cantidadPredeterminadaDiv').style.display = 'none';
+//        }
     }
 </script>
 </html>
