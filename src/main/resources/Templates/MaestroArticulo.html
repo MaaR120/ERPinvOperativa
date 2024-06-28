@@ -37,7 +37,7 @@
     <thead>
     <tr>
       <th scope="col">NombreArticulo</th>
-      <th scope="col">CostoAlmacenamiento</th>
+<!--      <th scope="col">CostoAlmacenamiento</th>-->
       <th scope="col">Stock</th>
       <th scope="col">Precio</th>
       <th scope="col">Categoria</th>
@@ -48,7 +48,7 @@
     <tbody>
     <tr th:each="articulo :${articulos}">
       <td th:text="${articulo.NombreArticulo}"></td>
-      <td th:text="${articulo.CostoAlmacenamiento}"></td>
+<!--      <td th:text="${articulo.CostoAlmacenamiento}"></td>-->
       <td th:text="${articulo.Stock}"></td>
       <td th:text="${articulo.Precio}"></td>
       <td th:text="${articulo.familiaArticulo.nombreFamilia}"></td>

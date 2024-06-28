@@ -41,8 +41,32 @@ public class InventarioServiceImpl implements InventarioService {
         List<Articulo> articulos = articuloRepository.findAll();
 
         for (Articulo articulo : articulos) {
-            if (articulo.getStock() <= articulo.getStockSeguridad()) {
-                articulosFaltantes.add(articulo);
+            List<OrdenCompra> ordenesEnPreparacion = ordenCompraRepository.findByArticuloIdAndEstadoOrdenCompra(
+                    articulo.getId(), EstadoOrdenCompra.Preparacion);
+
+            if (!ordenesEnPreparacion.isEmpty()) {
+
+                int cantidadTotalEnPreparacion = ordenesEnPreparacion.stream()
+                        .mapToInt(OrdenCompra::getCantidad)
+                        .sum();
+
+//                OrdenCompra ordenEnPreparacion = ordenesEnPreparacion.get(0); //aca se asume que es solo 1, en el caso de que queramos mas hay que cambiar y sumar
+//                int cantidadEnPreparacion = ordenEnPreparacion.getCantidad();
+
+                double cuenta = articulo.getStock() + cantidadTotalEnPreparacion;
+
+                // Si no hay órdenes de compra en estado "Preparacion", agregar el artículo a la lista
+                if (articulo.getStock() <= articulo.getPuntoPedido() && cuenta <= articulo.getPuntoPedido()) {
+                    articulo.setCantidadPreparacion(cantidadTotalEnPreparacion);
+                    articulosFaltantes.add(articulo);
+                }
+
+            } else {
+                // Si no hay órdenes de compra en estado "Preparacion", agregar el artículo a la lista
+                if (articulo.getStock() <= articulo.getStockSeguridad()) {
+                    articulosFaltantes.add(articulo);
+                    articulo.setCantidadPreparacion(0);
+                }
             }
         }
 
