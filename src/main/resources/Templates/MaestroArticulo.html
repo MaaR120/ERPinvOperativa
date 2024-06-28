@@ -36,6 +36,7 @@
   <table class="table">
     <thead>
     <tr>
+      <th scope="col">ID</th>
       <th scope="col">NombreArticulo</th>
       <th scope="col">CostoAlmacenamiento</th>
       <th scope="col">Stock</th>
@@ -47,6 +48,7 @@
     </thead>
     <tbody>
     <tr th:each="articulo :${articulos}">
+      <td th:text="${articulo.id}"></td>
       <td th:text="${articulo.NombreArticulo}"></td>
       <td th:text="${articulo.CostoAlmacenamiento}"></td>
       <td th:text="${articulo.Stock}"></td>
@@ -79,7 +81,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger" id="confirmarEliminarArt">Eliminar</button>
+<!--        onclick="'eliminarArticulo2(' + ${articulo.id} + ')'"-->
+        <button type="button" class="btn btn-danger" id="confirmarEliminarArt" >Eliminar</button>
       </div>
     </div>
   </div>
@@ -102,10 +105,25 @@
     </div>
   </div>
 </div>
-</div>
 
 <script th:inline="javascript">
+  function eliminarArticulo2(articuloId){
+    fetch(`/maestroarticulo/${articuloId}`)
+          .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al eliminar el artículo');
+          }
+          location.reload(); // Recargar la página después de la eliminación
+        })
+          .catch(error => {
+          console.error('Error al eliminar el artículo:', error);
+          alert('Hubo un error al eliminar el artículo, tiene una venta asociada!');
+        });
+      }
+
+
   function eliminarArticulo(id) {
+    console.log('id',id);
     // Guardar el ID del artículo en el botón de confirmación
     document.getElementById('confirmarEliminarArt').setAttribute('data-articulo-id', id);
 
@@ -114,11 +132,13 @@
   }
 
   function verificarOrdenCompra(id) {
-    fetch('/ordenCompra/estado/' + id)
+    console.log('id',id);
+    fetch(`/ordenCompra/estado/${id}`)
       .then(response => {
       if (!response.ok) {
         throw new Error('La solicitud no fue exitosa');
       }
+      console.log('tatopiola',id);
       return response.text();
     })
       .then(data => {
@@ -140,7 +160,8 @@
 
   document.getElementById('confirmarEliminarArt').addEventListener('click', function() {
     var articuloId = this.getAttribute('data-articulo-id');
-    fetch('/maestroarticulo/' + articuloId)
+    console.log('articuloId', articuloId)
+    fetch(`/maestroarticulo/${articuloId}`)
       .then(response => {
       if (!response.ok) {
         throw new Error('Error al eliminar el artículo');

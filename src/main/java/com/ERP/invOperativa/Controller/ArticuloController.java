@@ -6,11 +6,7 @@ import com.ERP.invOperativa.Entities.*;
 import com.ERP.invOperativa.Repositories.ArticuloProveedorRepository;
 import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.ProveedorRepository;
-import com.ERP.invOperativa.Services.ArticuloProveedorService;
-import com.ERP.invOperativa.Services.ArticuloService;
-import com.ERP.invOperativa.Services.FamilaArticuloService;
-import com.ERP.invOperativa.Services.ProveedorService;
-import com.ERP.invOperativa.Services.InventarioService;
+import com.ERP.invOperativa.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +18,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
-public class ArticuloController {
+public class ArticuloController{
     @Autowired
-    private ArticuloService service;
+    private ArticuloServiceImpl service;
     @Autowired
     private InventarioService inventarioService;
     @Autowired
@@ -68,8 +64,8 @@ public class ArticuloController {
     }
 
     @GetMapping("/maestroarticulo/{id}")
-    public String deleteArticulo(@PathVariable Long id){
-        service.deleteArticulo(id);
+    public String deleteArticulo(@PathVariable Long id) throws Exception {
+        service.delete(id);
         return "redirect:/maestroarticulo";
     }
 

@@ -26,7 +26,7 @@ public class FamiliaArticulo extends Base{
     @Enumerated(EnumType.STRING)
     private Modelo modelo;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.REFRESH,orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "FamiliaArticulo")
     @Builder.Default
     @JsonIgnore
