@@ -25,8 +25,7 @@ public class Articulo extends Base{
     @Column(name = "NombreArticulo")
     private String NombreArticulo;
 
-    @Column(name = "CostoAlmacenamiento")
-    private Double CostoAlmacenamiento;
+
 
     @Column(name = "Stock")
     private int Stock;

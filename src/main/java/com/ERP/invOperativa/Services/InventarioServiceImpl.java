@@ -12,6 +12,8 @@ import com.ERP.invOperativa.Enum.Modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ERP.invOperativa.Enum.Modelo.Lote_fijo;
+
 @Service
 public class InventarioServiceImpl implements InventarioService {
     @Autowired
@@ -91,17 +93,110 @@ public class InventarioServiceImpl implements InventarioService {
     public double calcularLoteOptimoParaArticuloYProveedor(Long articuloId, Long proveedorId) throws Exception {
         ArticuloProveedor articuloProveedor = articuloProveedorRepository.findByArticuloYProveedor(articuloId, proveedorId);
 
+        DTOInventario dtoInventario = new DTOInventario();
         double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
         double costoPedido = articuloProveedor.getProveedor().getCostoPedido() != null ? articuloProveedor.getProveedor().getCostoPedido() : 1000;
-        double costoAlmacenamiento = articuloProveedor.getArticulo().getCostoAlmacenamiento();
+        double costoAlmacenamiento = articuloProveedor.getPrecioArticuloProveedor() * 0.20;
         double precioArticuloProveedor = articuloProveedor.getPrecioArticuloProveedor();
 
         double factorZ = 1.64; // Nivel de servicio del 95%
         double demandaAnual = demanda;
         double tiempoDemora = articuloProveedor.getTiempoDemora();
-        double loteOptimo = Math.sqrt((2 * demandaAnual * costoPedido) / (costoAlmacenamiento * precioArticuloProveedor));
+        double loteOptimo = Math.sqrt((2 * demandaAnual * costoPedido) / (costoAlmacenamiento));
 
+//        dtoInventario.setLoteOptimo(loteOptimo);
+//        articuloProveedor.setLoteOptimo(loteOptimo);
+//        System.out.println("Guardando lote óptimo: " + loteOptimo); // Log de depuración
+//        articuloProveedorRepository.save(articuloProveedor);
         return loteOptimo;
+    }
+
+    @Override
+    public double calcularPuntoPedidoParaArticuloYProveedor(Long articuloId, Long proveedorId) throws Exception {
+        ArticuloProveedor articuloProveedor = articuloProveedorRepository.findByArticuloYProveedor(articuloId, proveedorId);
+
+        double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
+        double costoPedido = articuloProveedor.getProveedor().getCostoPedido() != null ? articuloProveedor.getProveedor().getCostoPedido() : 1000;
+        double costoAlmacenamiento = articuloProveedor.getPrecioArticuloProveedor() * 0.20;
+        double precioArticuloProveedor = articuloProveedor.getPrecioArticuloProveedor();
+
+        double factorZ = 1.64; // Nivel de servicio del 95%
+        double demandaAnual = demanda;
+        double tiempoDemora = articuloProveedor.getTiempoDemora();
+        double puntoPedido = Math.round(demandaAnual * tiempoDemora);
+//        articuloProveedor.setPuntoPedidoA(puntoPedido);
+
+//        articuloProveedor.setPuntoPedido(puntoPedido);
+//        System.out.println("Guardando lote óptimo: " + puntoPedido); // Log de depuración
+//        articuloProveedorRepository.save(articuloProveedor);
+        return puntoPedido;
+    }
+
+    @Override
+    public double calcularStockSeguridadParaArticuloYProveedor(Long articuloId, Long proveedorId) throws Exception {
+        ArticuloProveedor articuloProveedor = articuloProveedorRepository.findByArticuloYProveedor(articuloId, proveedorId);
+
+        double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
+        double costoPedido = articuloProveedor.getProveedor().getCostoPedido() != null ? articuloProveedor.getProveedor().getCostoPedido() : 1000;
+        double costoAlmacenamiento = articuloProveedor.getPrecioArticuloProveedor() * 0.20;
+        double precioArticuloProveedor = articuloProveedor.getPrecioArticuloProveedor();
+        double factorZ = 1.64; // Nivel de servicio del 95%
+        double demandaAnual = demanda;
+        double tiempoDemora = articuloProveedor.getTiempoDemora();
+        List<DetalleVenta> detalles = detalleVentaRepository.findByArt(articuloId);
+        List<Double> demandasHistoricas = obtenerCantidadesVendidas(detalles);
+        double desviacionDemanda = StatisticsUtils.calcularDesviacionEstandar(demandasHistoricas);
+
+        // Corrección en la obtención de la familia del artículo
+        FamiliaArticulo familia = articuloProveedor.getArticulo().getFamiliaArticulo();
+        Modelo modelo = familia.getModelo();
+
+        double stockSeguridad = 0;
+
+        if (modelo != null) {
+            if (modelo == Modelo.Lote_fijo) { // Usar el valor correcto del enum Modelo
+                stockSeguridad = factorZ * desviacionDemanda * Math.sqrt(tiempoDemora);
+            } else {
+                double tiempoStock = 20;
+                stockSeguridad = factorZ * desviacionDemanda * Math.sqrt(tiempoDemora + tiempoStock);
+            }
+        }
+
+//        articuloProveedor.setStockSeguridadA(stockSeguridad);
+
+
+//        articuloProveedor.setStockSeguridad(stockSeguridad);
+//        System.out.println("Guardando lote óptimo: " + stockSeguridad); // Log de depuración
+//        articuloProveedorRepository.save(articuloProveedor);
+
+
+
+        return stockSeguridad;
+
+
+    }
+
+    @Override
+    public double calcularCgiParaArticuloYProveedor(Long articuloId, Long proveedorId) throws Exception {
+        ArticuloProveedor articuloProveedor = articuloProveedorRepository.findByArticuloYProveedor(articuloId, proveedorId);
+
+        double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
+        double costoPedido = articuloProveedor.getProveedor().getCostoPedido() != null ? articuloProveedor.getProveedor().getCostoPedido() : 1000;
+        double costoAlmacenamiento = articuloProveedor.getPrecioArticuloProveedor()*0.20;
+        double demandaAnual = demanda;
+        // Corrección en la obtención de la familia del artículo
+
+        double costoCompra = (articuloProveedor.getPrecioArticuloProveedor() * demandaAnual);
+        double lote = calcularLoteOptimoParaArticuloYProveedor(articuloId, proveedorId);
+        double cgi = Math.round(costoCompra + costoAlmacenamiento * (lote / 2) + costoPedido * (demandaAnual / lote));
+//        articuloProveedor.setCgiA(cgi);
+
+//        articuloProveedor.setCgi(cgi);
+//        System.out.println("Guardando lote óptimo: " + cgi); // Log de depuración
+//        articuloProveedorRepository.save(articuloProveedor);
+//        articuloProveedor.setCostoAlmacenamiento(costoAlmacenamiento);
+//        articuloProveedorRepository.save(articuloProveedor);
+        return cgi;
     }
 
     @Override
@@ -134,12 +229,12 @@ public class InventarioServiceImpl implements InventarioService {
                         dtoInventario.costoPedido = 1000; // Valor por defecto si no hay costo de pedido definido
                     }
 
-                    dtoInventario.costoAlmacenamiento = articulo.getCostoAlmacenamiento() * DTOInventario.INTERES_ALMACENAMIENTO;
+                    dtoInventario.costoAlmacenamiento = articuloProveedor.getPrecioArticuloProveedor() * DTOInventario.INTERES_ALMACENAMIENTO;
 
                     // Calcular Lote Óptimo (EOQ - Economic Order Quantity) según el modelo de familia y modelo
                     double factorZ = 1.64; // Nivel de servicio del 95%
                     double demandaAnual = demanda;
-                    double costoPedido = dtoInventario.costoPedido;
+                    double costoPedido = articuloProveedor.getProveedor().getCostoPedido();
                     double costoAlmacenamiento = (dtoInventario.INTERES_ALMACENAMIENTO * articuloProveedor.getPrecioArticuloProveedor());
                     double tiempoDemora = dtoInventario.tiempoDemora;
                     double costoCompra = (articuloProveedor.getPrecioArticuloProveedor() * demandaAnual);
@@ -151,15 +246,16 @@ public class InventarioServiceImpl implements InventarioService {
                         switch (modelo) {
                             case Lote_fijo:
                                 // Calcular Lote Óptimo (EOQ - Economic Order Quantity) para Lote Fijo
-                                dtoInventario.loteOptimo = Math.sqrt((2 * demandaAnual * costoPedido) / costoAlmacenamiento);
-                                dtoInventario.stockSeguridad = (factorZ * dtoInventario.desviacionDemanda * Math.sqrt(tiempoDemora));
+                                dtoInventario.loteOptimo = Math.sqrt((2 * demandaAnual * articuloProveedor.getProveedor().getCostoPedido()) / costoAlmacenamiento);
+                                dtoInventario.stockSeguridad = (factorZ * dtoInventario.desviacionDemanda * Math.sqrt(articuloProveedor.getTiempoDemora()));
                                 break;
                             case Lote_intervalo_fijo:
                                 // Calcular para Lote Intervalo Fijo (ejemplo de cálculo)
                                 double tiempoStock = 20;
-                                double kDemandaProduccion = 1.5;
-                                dtoInventario.loteOptimo = (2 * demandaAnual * costoPedido) / (costoAlmacenamiento * (1 - (demandaAnual / kDemandaProduccion)));
-                                dtoInventario.stockSeguridad = (factorZ * dtoInventario.desviacionDemanda * Math.sqrt(dtoInventario.tiempoDemora + tiempoStock));
+//                                double kDemandaProduccion = 1.5;
+                                dtoInventario.loteOptimo = (0);
+//                              dtoInventario.loteOptimo = (2 * demandaAnual * costoPedido) / (costoAlmacenamiento * (1 - (demandaAnual / kDemandaProduccion)));
+                                dtoInventario.stockSeguridad = (factorZ * StatisticsUtils.calcularDesviacionEstandar(demandasHistoricas) * Math.sqrt(dtoInventario.tiempoDemora + tiempoStock));
                                 break;
                             default:
                                 throw new IllegalArgumentException("Modelo no soportado: " + modelo);
@@ -178,7 +274,8 @@ public class InventarioServiceImpl implements InventarioService {
 
                     dtoInventario.setPuntoPedido(dtoInventario.puntoPedido);
                     dtoInventario.setStockSeguridad(dtoInventario.stockSeguridad);
-
+                    dtoInventario.setIdProveedor(dtoInventario.idProveedor);
+                    dtoInventario.setProveedor(dtoInventario.proveedor);
                     if (lote >= 0){
                         articulo.setLoteOptimo(Math.round(lote));
                         dtoInventario.setLoteOptimo(lote);

@@ -10,12 +10,18 @@ import java.util.List;
 
 public interface InventarioService {
     public List<DTOInventario> calcularLoteOptimo() throws Exception;
-//    public List<DTOInventario> calcularStockSeguridad();
-//    public List<DTOInventario> calcularPuntoPedido();
+
+
+    //INVENTARIO
+
     public List<Double> obtenerCantidadesVendidas(List<DetalleVenta> detallesVenta);
-
+    public double calcularPuntoPedidoParaArticuloYProveedor(Long articuloId, Long proveedorId) throws Exception;
     public double calcularLoteOptimoParaArticuloYProveedor(Long articuloId, Long proveedorId) throws Exception;
+    public double calcularStockSeguridadParaArticuloYProveedor(Long articuloId, Long proveedorId) throws Exception;
+    public double calcularCgiParaArticuloYProveedor(Long articuloId, Long proveedorId) throws Exception;
 
-    List<Articulo> obtenerArticulosFaltantes();
+
+
+        List<Articulo> obtenerArticulosFaltantes();
     List<Articulo> obtenerArticulosReponer();
 }

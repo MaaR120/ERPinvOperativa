@@ -8,12 +8,10 @@ import com.ERP.invOperativa.Entities.Proveedor;
 import com.ERP.invOperativa.Repositories.ArticuloProveedorRepository;
 import com.ERP.invOperativa.Repositories.ArticuloRepository;
 import com.ERP.invOperativa.Repositories.ProveedorRepository;
-import com.ERP.invOperativa.Services.ArticuloProveedorService;
-import com.ERP.invOperativa.Services.ArticuloService;
-import com.ERP.invOperativa.Services.FamilaArticuloService;
-import com.ERP.invOperativa.Services.ProveedorService;
-import com.ERP.invOperativa.Services.InventarioService;
+import com.ERP.invOperativa.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +44,9 @@ public class ArticuloController {
 
     @Autowired
     private ArticuloProveedorService articuloProveedorService;
+
+    @Autowired
+    private VentaService ventaService;
 
     @GetMapping("/maestroarticulo")
     public String listarArticulos(Model modelo) {
@@ -128,6 +129,8 @@ public class ArticuloController {
 
                 if (inventarioArticulo.isPresent()) {
                     model.addAttribute("inventario", inventarioArticulo.get());
+                    model.addAttribute("articulo", optionalArticulo.get());
+
                 } else {
                     // Si no se encuentra inventario para el artículo se agrega un DTOInventario vacío
                     DTOInventario dtoVacio = new DTOInventario();
@@ -150,7 +153,71 @@ public class ArticuloController {
         }
     }
 
+    @GetMapping("/informacion_inventario/proveedoresPorArticulo/{articuloId}")
+    @ResponseBody
+    public List<Proveedor> getProveedoresPorArticulo(@PathVariable("articuloId") Long articuloId) {
+        return articuloProveedorService.getProveedoresPorArticulo(articuloId);
+    }
 
+
+    @GetMapping("informacion_inventario/loteOptimo/{articuloId}/{proveedorId}")
+    public ResponseEntity<Double> getLoteOptimo(@PathVariable Long articuloId, @PathVariable Long proveedorId) {
+        try {
+            double loteOptimo = calcularLoteOptimoPorProveedor(articuloId, proveedorId);
+            return ResponseEntity.ok(loteOptimo);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
+    private double calcularLoteOptimoPorProveedor(Long articuloId, Long proveedorId) throws Exception {
+        Articulo articulo = service.findById(articuloId).orElseThrow(() -> new Exception("Articulo no encontrado"));
+        double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
+        ArticuloProveedor articuloProveedor = articulo.getArticuloProveedores().stream()
+                .filter(ap -> ap.getProveedor().getId().equals(proveedorId))
+                .findFirst()
+                .orElseThrow(() -> new Exception("Proveedor no encontrado para este articulo"));
+
+        double demandaAnual = demanda;
+        double costoPedido = articuloProveedor.getProveedor().getCostoPedido() != null ? articuloProveedor.getProveedor().getCostoPedido() : 1000;
+
+
+        double costoAlmacenamiento = (DTOInventario.INTERES_ALMACENAMIENTO * articuloProveedor.getPrecioArticuloProveedor());
+
+        double loteOptimo = Math.sqrt((2 * demandaAnual * costoPedido) / costoAlmacenamiento);
+        return loteOptimo;
+    }
+
+    @GetMapping("informacion_inventario/puntoPedido/{articuloId}/{proveedorId}")
+    public ResponseEntity<Double> getPuntoPedido(@PathVariable Long articuloId, @PathVariable Long proveedorId) {
+        try {
+            double puntoPedido = inventarioService.calcularPuntoPedidoParaArticuloYProveedor(articuloId, proveedorId);
+            return ResponseEntity.ok(puntoPedido);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("informacion_inventario/stockSeguridad/{articuloId}/{proveedorId}")
+    public ResponseEntity<Double> getstockSeguridad(@PathVariable Long articuloId, @PathVariable Long proveedorId) {
+        try {
+            double stockSeguridad = inventarioService.calcularStockSeguridadParaArticuloYProveedor(articuloId, proveedorId);
+            return ResponseEntity.ok(stockSeguridad);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("informacion_inventario/cgi/{articuloId}/{proveedorId}")
+    public ResponseEntity<Double> getcgi(@PathVariable Long articuloId, @PathVariable Long proveedorId) {
+        try {
+            double cgi = inventarioService.calcularCgiParaArticuloYProveedor(articuloId, proveedorId);
+            return ResponseEntity.ok(cgi);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 //    @GetMapping("/maestroarticulo/{id}/informacion_inventario")
 //    public String verInventario(@PathVariable Long id, Model model) {
 //        // Obtén el artículo por su ID
