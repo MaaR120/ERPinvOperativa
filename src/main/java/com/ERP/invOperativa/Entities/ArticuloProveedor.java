@@ -3,6 +3,7 @@ package com.ERP.invOperativa.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -17,6 +18,7 @@ import java.util.Date;
 public class ArticuloProveedor extends Base{
     @Column(name = "fecha_Vigencia")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaVigencia;
 
 

@@ -23,13 +23,42 @@ import java.util.Optional;
 public class ArticuloProveedorController extends BaseControllerImpl<ArticuloProveedor, ArticuloProveedorServiceImpl>{
 
     @Autowired
-    private ArticuloProveedorService articuloProveedorService;
+    private ArticuloProveedorServiceImpl articuloProveedorService;
 
     @Autowired
     private ArticuloService articuloService;
 
     @Autowired
     private ProveedorService proveedorService;
+
+
+    @GetMapping("/{articuloId}/articuloProveedor/nuevo")
+    public String mostrarFormularioNuevo(@PathVariable Long articuloId, Model model){
+        Optional<Articulo> articuloOptional = articuloService.findById(articuloId);
+        if (articuloOptional.isEmpty()) {
+            return "error/404"; // Redirigir a una página de error o mostrar un mensaje adecuado
+        }
+        ArticuloProveedor articuloProveedor = new ArticuloProveedor();
+        model.addAttribute("articuloProveedor", articuloProveedor);
+        model.addAttribute("articulo", articuloOptional.get());
+        model.addAttribute("proveedores", proveedorService.ListarProveedor());
+
+        return "NuevoAP";
+    }
+
+    @PostMapping("/{articuloId}/articuloProveedor/guardar")
+    public String saveAP(@PathVariable Long articuloId, @ModelAttribute ArticuloProveedor articuloProveedor, @RequestParam("proveedor.id") Long proveedorId) throws Exception {
+        Optional<Articulo> articuloOptional = articuloService.findById(articuloId);
+        Optional<Proveedor> proveedorOptional = proveedorService.findById(proveedorId);
+        if (articuloOptional.isEmpty() || proveedorOptional.isEmpty()) {
+            return "error/404"; // Redirigir a una página de error o mostrar un mensaje adecuado
+        }
+        articuloProveedor.setArticulo(articuloOptional.get());
+        articuloProveedor.setProveedor(proveedorOptional.get());
+        articuloProveedorService.save(articuloProveedor);
+
+        return "redirect:/maestroarticulo";
+    }
 
 
     @GetMapping("/{articuloId}/proveedor/nuevo")
@@ -78,6 +107,16 @@ public class ArticuloProveedorController extends BaseControllerImpl<ArticuloProv
         return "modificarArticuloProveedor";
 
     }
+
+//    @GetMapping("/{articuloProveedorId}/predeterminado")
+//    @ResponseBody
+//    public ArticuloProveedor getDatosPredeterminados(@PathVariable("articuloProveedorId") Long articuloProveedorId) throws Exception {
+//       Optional<ArticuloProveedor> articuloProveedorOptional = articuloProveedorService.findById(articuloProveedorId);
+//        if (articuloProveedorOptional.isPresent()) {
+//            return articuloProveedorService.getPredeterminado(articuloProveedorOptional.get());
+//
+//        } else throw new Exception("Error al buscar el articulo proveedor predeterminado");
+//    }
 
 
     @PostMapping("/actualizar/{id}")

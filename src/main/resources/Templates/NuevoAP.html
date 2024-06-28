@@ -8,34 +8,41 @@
 <body>
 <div class="container mt-4">
     <h1>Nuevo Proveedor para Artículo: <span th:text="${articulo.nombreArticulo}"></span></h1>
-    <form th:action="@{/articulo/{articuloId}/proveedor/guardar(articuloId=${articulo.id})}" method="post" th:object="${articulo}" >
-        <div class="mb-3">
-            <input type="hidden" th:field="*{id}" th:name="${'articuloId'}" id="articuloSelect">
-            <label for="nombreProveedor" class="form-label">Nombre del Proveedor</label>
-            <input type="text" class="form-control" id="nombreProveedor" name="nombreProveedor" required>
+    <form th:action="@{/articulo/{articuloId}/articuloProveedor/guardar(articuloId=${articulo.id})}" method="post" th:object="${articuloProveedor}" >
+        <!-- Campo oculto para el ID del artículo -->
+
+        <input type="hidden" th:field="*{articulo.id}" th:value="${articulo.id}" id="articuloId">
+
+        <div class="form-group">
+            <label for="proveedorSelect">Proveedor</label>
+            <select id="proveedorSelect" name="proveedor.id" class="form-control" required>
+                <option value="" disabled selected>Seleccionar Proveedor</option>
+                <option th:each="proveedor : ${proveedores}" th:value="${proveedor.id}" th:text="${proveedor.nombreProveedor}"></option>
+            </select>
         </div>
+
         <div class="mb-3">
             <label for="fechaVigencia" class="form-label">Fecha de Vigencia</label>
-            <input type="date" class="form-control" id="fechaVigencia" name="fechaVigencia"  required>
+            <input type="date" class="form-control" id="fechaVigencia" name="fechaVigencia" th:field="*{fechaVigencia}" required>
         </div>
         <div class="mb-3">
             <label for="precioArticuloProveedor" class="form-label">Precio del Artículo</label>
-            <input type="number" step="0.01" class="form-control" id="precioArticuloProveedor" name="precioArticuloProveedor"  required>
+            <input type="number" step="0.01" class="form-control" id="precioArticuloProveedor" name="precioArticuloProveedor" th:field="*{precioArticuloProveedor}" required>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="predeterminado" name="predeterminado" onchange="verificarPredeterminado()">
+            <input class="form-check-input" type="checkbox" id="predeterminado" name="predeterminado" th:field="*{predeterminado}" >
             <label class="form-check-label" for="predeterminado">
                 Predeterminado
             </label>
         </div>
-        <div class="mb-3" id="cantidadPredeterminadaDiv" style="display: none;">
-<!--ACA IRIA EL LOTE OPTIMO-->
-            <label for="cantidadPredeterminada" class="form-label">Cantidad Predeterminada</label>
-            <input type="number" class="form-control" id="cantidadPredeterminada" name="cantidadPredeterminada">
-        </div>
+        <!-- Campo oculto para la cantidad predeterminada, que se mostrará solo si es necesario -->
+<!--        <div class="mb-3" id="cantidadPredeterminadaDiv" style="display: none;">-->
+<!--            <label for="cantidadPredeterminada" class="form-label">Cantidad Predeterminada</label>-->
+<!--            <input type="number" class="form-control" id="cantidadPredeterminada" name="cantidadPredeterminada" th:field="*{cantidadPredeterminada}">-->
+<!--        </div>-->
         <div class="mb-3">
             <label for="tiempoDemora" class="form-label">Tiempo de Demora</label>
-            <input type="number" class="form-control" id="tiempoDemora" name="tiempoDemora" required>
+            <input type="number" class="form-control" id="tiempoDemora" name="tiempoDemora" th:field="*{tiempoDemora}" required>
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
@@ -58,17 +65,27 @@
     </div>
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</body>
 <script th:inline="javascript">
-    function verificarPredeterminado() {
+    $(document).ready(function() {
+        // Event listener para el checkbox predeterminado
+        $('#predeterminado').change(function() {
+            if ($(this).is(':checked')) {
+                var articuloId = $('#articuloId').val();
+                console.log('Valor de articuloId:', articuloId); // Imprimir en consola
+                verificarPredeterminado(articuloId);
+            }
+        });
+    });
+    function verificarPredeterminado(articuloId) {
+
         if (document.getElementById('predeterminado').checked) {
-            var articuloId = document.getElementById('articuloSelect').value;
+//            var articuloId = document.getElementById('articuloId').value;
+//            var articuloId = document.getElementById('articuloId').value; // Obtener el articuloId
 
             $.ajax({
-                url: `/ordenCompra/articulo/${articuloId}/predeterminado`,
+                url: `/articulo/${articuloId}/predeterminado`,
                 method: 'GET',
                 success: function(articuloProveedor) {
                     if (articuloProveedor){
@@ -76,35 +93,22 @@
                         errorModal.show();
                         // Desmarcar el checkbox
                         document.getElementById('predeterminado').checked = false;
-                    }else {
-                        // Mostrar el campo cantidadPredeterminada
-                        cantidadPredeterminadaDiv.style.display = 'block';
                     }
                 },
                 error: function() {
                     alert('Error al verificar el proveedor predeterminado.');
                 }
             });
-        } else {
-            // Ocultar el campo cantidadPredeterminada
-            cantidadPredeterminadaDiv.style.display = 'none';
+            // Prevent the default form submission
+            event.preventDefault();
         }
     }
+    //Add an event listener to the checkbox
+//    document.getElementById('predeterminado').addEventListener('change', function () {
+//        verificarPredeterminado(document.getElementById('articuloId').value);
+//    });
 
-    //Esta funcion "esccuha" al evento de checkbox, en el caso de que no lo haya chequeado, inicializa el valor en 0, esto para evitar problemas de tipo nulos
-    //SE DESCOMENTARA EN CASO DE QUE TENGAMOS ERROR CON LOS NULOS
-    function handleSubmit(event) {
-        const predeterminadoCheckbox = document.getElementById('predeterminado');
-        const cantidadPredeterminadaInput = document.getElementById('cantidadPredeterminada');
 
-        if (!predeterminadoCheckbox.checked) {
-            // Asignar valor nulo a cantidadPredeterminada si no está marcado
-            cantidadPredeterminadaInput.value = null;
-        }
-
-        return true;
-    }
 </script>
-
-
+</body>
 </html>
