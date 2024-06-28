@@ -32,29 +32,33 @@
                     Información de Inventario
                 </div>
                 <div class="card-body">
+                    <!-- ID del artículo (puede ser oculto) -->
+                    <input type="hidden" id="articuloId" th:value="${articulo.id}" />
 
-                    <div class="col-md-6">
-                        <label for="proveedor" class="form-label">Proveedor:</label>
-                        <input type="text" id="proveedor" class="form-control" th:value="${inventario.proveedor != null ? inventario.proveedor : ''}" readonly>
+                    <div class="form-group">
+                        <label for="proveedorSelect">Proveedor</label>
+                        <select id="proveedorSelect" name="proveedor" class="form-control" onchange="mostrarLoteOptimo(); mostrarPuntoPedido(); mostrarStockSeguridad(); mostrarCgi()" >
+                            <!-- Proveedores se cargarán dinámicamente -->
+                        </select>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="puntoPedido" class="form-label">Punto de Pedido:</label>
-                            <input type="text" id="puntoPedido" class="form-control" th:value="${inventario.puntoPedido != null ? inventario.puntoPedido : ''}" readonly>
+                            <label for="puntoPedidoProveedor" class="form-label">Punto de Pedido:</label>
+                            <input type="text" id="puntoPedidoProveedor" class="form-control" readonly>
                         </div>
                         <div class="col-md-6">
-                            <label for="loteOptimo" class="form-label">Lote Óptimo:</label>
-                            <input type="text" id="loteOptimo" class="form-control" th:value="${inventario.loteOptimo}" readonly>
+                            <label for="loteOptimoProveedor" class="form-label">Lote Óptimo:</label>
+                            <input type="text" id="loteOptimoProveedor" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="stockSeguridad" class="form-label">Stock de Seguridad:</label>
-                            <input type="text" id="stockSeguridad" class="form-control" th:value="${inventario.stockSeguridad}" readonly>
+                            <label for="stockSeguridadProveedor" class="form-label">Stock de Seguridad:</label>
+                            <input type="text" id="stockSeguridadProveedor" class="form-control" readonly>
                         </div>
                         <div class="col-md-6">
-                            <label for="CGI" class="form-label">CGI:</label>
-                            <input type="text" id="CGI" class="form-control" th:value="${inventario.cGI}" readonly>
+                            <label for="cgi" class="form-label">CGI:</label>
+                            <input type="text" id="cgi" class="form-control"readonly>
                         </div>
                     </div>
                     <div class="text-center mt-4">
@@ -66,13 +70,135 @@
     </div>
 </div>
 
-
-
 <script>
+
+    function mostrarLoteOptimo() {
+        let articuloId = document.getElementById('articuloId').value;
+        let proveedorId = document.getElementById('proveedorSelect').value;
+
+        console.log('Mostrar Lote Óptimo llamado para Articulo ID:', articuloId, 'Proveedor ID:', proveedorId); // Log para depuración
+
+        if (articuloId && proveedorId) {
+            fetch(`/informacion_inventario/loteOptimo/${articuloId}/${proveedorId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('La solicitud no fue exitosa');
+                    }
+                    return response.json();
+                })
+                .then(loteOptimo => {
+                    console.log('Lote Óptimo:', loteOptimo); // Log para depuración
+                    let loteOptimoDiv = document.getElementById('loteOptimoProveedor');
+                    loteOptimoDiv.value = Math.round(loteOptimo.toFixed(2));
+                })
+                .catch(error => console.error('Error al calcular el lote óptimo:', error));
+        }
+    }
+ function mostrarPuntoPedido() {
+    let articuloId = document.getElementById('articuloId').value;
+    let proveedorId = document.getElementById('proveedorSelect').value;
+
+    console.log('Mostrar Punto Pedido llamado para Articulo ID:', articuloId, 'Proveedor ID:', proveedorId); // Log para depuración
+
+    if (articuloId && proveedorId) {
+        fetch(`/informacion_inventario/puntoPedido/${articuloId}/${proveedorId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La solicitud no fue exitosa');
+                }
+                return response.json();
+            })
+            .then(puntoPedido => {
+                console.log('Punto Pedido:', puntoPedido); // Log para depuración
+                let puntoPedidoDiv = document.getElementById('puntoPedidoProveedor');
+                puntoPedidoDiv.value = Math.round(puntoPedido.toFixed(2));
+            })
+            .catch(error => console.error('Error al calcular el puntoPedido:', error));
+    }
+}
+
+function mostrarStockSeguridad() {
+    let articuloId = document.getElementById('articuloId').value;
+    let proveedorId = document.getElementById('proveedorSelect').value;
+
+    console.log('Mostrar stockSeguridad llamado para Articulo ID:', articuloId, 'Proveedor ID:', proveedorId); // Log para depuración
+
+    if (articuloId && proveedorId) {
+        fetch(`/informacion_inventario/stockSeguridad/${articuloId}/${proveedorId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La solicitud no fue exitosa');
+                }
+                return response.json();
+            })
+            .then(stockSeguridad => {
+                console.log('Punto Pedido:', stockSeguridad); // Log para depuración
+                let stockSeguridadDiv = document.getElementById('stockSeguridadProveedor');
+                stockSeguridadDiv.value = Math.round(stockSeguridad.toFixed(2));
+            })
+            .catch(error => console.error('Error al calcular el stockSeguridad:', error));
+    }
+}
+
+function mostrarCgi() {
+    let articuloId = document.getElementById('articuloId').value;
+    let proveedorId = document.getElementById('proveedorSelect').value;
+
+    console.log('Mostrar cgi llamado para Articulo ID:', articuloId, 'Proveedor ID:', proveedorId); // Log para depuración
+
+    if (articuloId && proveedorId) {
+        fetch(`/informacion_inventario/cgi/${articuloId}/${proveedorId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La solicitud no fue exitosa');
+                }
+                return response.json();
+            })
+            .then(cgi => {
+                console.log('CGI:', cgi); // Log para depuración
+                let cgiDiv = document.getElementById('cgi');
+                cgiDiv.value = Math.round(cgi.toFixed(2));
+            })
+            .catch(error => console.error('Error al calcular el cgi:', error));
+    }
+}
+    function cargarProveedores() {
+    let articuloId = document.getElementById('articuloId').value;
+    fetch(`/informacion_inventario/proveedoresPorArticulo/${articuloId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('La solicitud no fue exitosa');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Datos recibidos:', data);
+            let proveedorSelect = document.getElementById('proveedorSelect');
+            proveedorSelect.innerHTML = '';
+            data.forEach(proveedor => {
+                let option = document.createElement('option');
+                option.value = proveedor.id;
+                option.textContent = proveedor.nombreProveedor;
+                proveedorSelect.appendChild(option);
+            });
+            mostrarLoteOptimo();
+            mostrarPuntoPedido();
+            mostrarStockSeguridad()
+            mostrarCgi()
+        })
+        .catch(error => console.error('Error al cargar proveedores:', error));
+}
+
+
     document.addEventListener("DOMContentLoaded", function() {
+        cargarProveedores();
+        mostrarLoteOptimo();
+        mostrarPuntoPedido();
+        mostrarStockSeguridad()
+        mostrarCgi()
         // Redondear valores
         const puntoPedidoInput = document.getElementById("puntoPedido");
-        const loteOptimoInput = document.getElementById("loteOptimo");
+        const loteOptimoInput = document.getElementById("loteOptimoProveedor");
         const stockSeguridadInput = document.getElementById("stockSeguridad");
         const cgiInput = document.getElementById("CGI");
 
@@ -90,9 +216,8 @@
         }
     });
 </script>
+
 <!-- Footer -->
 </body>
 </html>
-
-
 

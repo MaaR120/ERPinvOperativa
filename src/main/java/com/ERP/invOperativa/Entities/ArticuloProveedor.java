@@ -21,7 +21,8 @@ public class ArticuloProveedor extends Base{
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaVigencia;
 
-
+    @Column(name = "CostoAlmacenamiento")
+    private Double CostoAlmacenamiento;
 
     @Column(name = "Tiempo_Demora")
     private int tiempoDemora;
@@ -44,15 +45,27 @@ public class ArticuloProveedor extends Base{
     private Articulo articulo;
 
 
+//    @Column(name = "lote_optimo")
+//    private Double loteOptimo;
+//
+//    @Column(name = "punto_pedido")
+//    private Double puntoPedido;
+//
+//    @Column(name = "stock_Seguridad")
+//    private Double stockSeguridad;
+//
+//    @Column(name = "cgi")
+//    private Double cgi;
+
     @ManyToOne()
     @JoinColumn(name = "id_proveedor") //Clave foranea de la entidad proveedor
     private Proveedor proveedor;
 
     // Método para calcular el costo de almacenamiento basado en el precio del producto y un interés constante
     public double calcularCostoAlmacenamiento() {
+        setCostoAlmacenamiento(precioArticuloProveedor*0.20);
         return this.precioArticuloProveedor * 0.20;
     }
-
 
 
 }
