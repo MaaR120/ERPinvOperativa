@@ -75,7 +75,6 @@ public class ArticuloProveedorServiceImpl extends BaseServiceImpl<ArticuloProvee
                 .precioArticuloProveedor(precioArticuloProveedor)
                 .predeterminado(predeterminado)
                 .tiempoDemora(tiempoDemora)
-                .cantidadPredeterminada(cantidadPredeterminada)
                 .build();
 
         articuloProveedorRepository.save(articuloProveedor); // Guardar la relación
