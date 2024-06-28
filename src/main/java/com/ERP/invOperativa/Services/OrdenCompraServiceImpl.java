@@ -17,6 +17,8 @@ import java.util.Optional;
 public class OrdenCompraServiceImpl extends BaseServiceImpl<OrdenCompra,Long> implements OrdenCompraService {
     @Autowired
     protected OrdenCompraRepository ordenCompraRepository;
+    @Autowired
+    protected InventarioServiceImpl inventarioService;
 
 
     public OrdenCompraServiceImpl(BaseRepository<OrdenCompra, Long> baseRepository, OrdenCompraRepository ordenCompraRepository) {
@@ -46,14 +48,19 @@ public class OrdenCompraServiceImpl extends BaseServiceImpl<OrdenCompra,Long> im
         return !ordenes.isEmpty();
     }
     @Override
-    public OrdenCompra saveOrdenAutomatica(ArticuloProveedor articuloProveedor){
+    public OrdenCompra saveOrdenAutomatica(ArticuloProveedor articuloProveedor) throws Exception {
+        double loteOptimo = inventarioService.calcularLoteOptimoParaArticuloYProveedor(articuloProveedor.getArticulo().getId(), articuloProveedor.getProveedor().getId());
+        double puntoPedido = inventarioService.calcularPuntoPedidoParaArticuloYProveedor(articuloProveedor.getArticulo().getId(), articuloProveedor.getProveedor().getId());
+        int puntoPedidoEntero = (int)Math.round(puntoPedido);
+        int loteOptimoEntero = (int)Math.round(loteOptimo);
+        int NuevaCantidad = loteOptimoEntero + puntoPedidoEntero;
         //revisar que la cantidad este cargada, recordemos que hay datos en la bd que todavia no lo tienen
-        double total = (articuloProveedor.getPrecioArticuloProveedor())*(articuloProveedor.getCantidadPredeterminada());
+        double total = (articuloProveedor.getPrecioArticuloProveedor())*(NuevaCantidad);
 
         OrdenCompra ordenCompra = OrdenCompra.builder()
                 .articulo(articuloProveedor.getArticulo())
                 .proveedor(articuloProveedor.getProveedor())
-                .cantidad(articuloProveedor.getCantidadPredeterminada())
+                .cantidad(NuevaCantidad)
                 .fechaInicio(new Date())
                 .estadoOrdenCompra(EstadoOrdenCompra.Preparacion)
                 .totalOrden(total)
