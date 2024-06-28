@@ -44,7 +44,6 @@ public class ArticuloProveedor extends Base{
     private Articulo articulo;
 
 
-
     @ManyToOne()
     @JoinColumn(name = "id_proveedor") //Clave foranea de la entidad proveedor
     private Proveedor proveedor;

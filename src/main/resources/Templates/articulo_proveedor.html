@@ -23,23 +23,20 @@
                 <tr>
                     <th scope="col">Nombre del Proveedor</th>
                     <th scope="col">Precio del Artículo al Proveedor</th>
-                    <th scope="col">Cantidad Predeterminada</th>
                     <th scope="col">Predeterminado</th>
                     <th scope="col">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="articuloProveedor : ${articulo.articuloProveedores}">
+                <tr th:each="articuloProveedor : ${articulo.articuloProveedores}" th:id="'row-' + ${articuloProveedor.id}">
                     <td th:text="${articuloProveedor.proveedor.nombreProveedor}"></td>
                     <td th:text="${articuloProveedor.precioArticuloProveedor}"></td>
-                    <td th:text="${articuloProveedor.cantidadPredeterminada}"></td>
                     <td th:text="${articuloProveedor.predeterminado}"></td>
                     <td>
                         <a th:href="@{|/articulo/${articulo.id}/proveedor/editar/${articuloProveedor.id}|}" class="btn btn-warning">Modificar</a>
-                        <a th:href="@{|/articulo/${articulo.id}/proveedor/eliminar/${articuloProveedor.id}|}" class="btn btn-danger">Eliminar</a>
+                        <a th:href="@{|/proveedor/eliminar/${articuloProveedor.proveedor.id}|}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
-
                 </tbody>
             </table>
             <div>
@@ -50,6 +47,7 @@
     </div>
 </div>
 
+
+
 </body>
 </html>
-

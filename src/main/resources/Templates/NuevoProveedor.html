@@ -28,11 +28,11 @@
                 Predeterminado
             </label>
         </div>
-        <div class="mb-3" id="cantidadPredeterminadaDiv" style="display: none;">
-<!--ACA IRIA EL LOTE OPTIMO-->
-            <label for="cantidadPredeterminada" class="form-label">Cantidad Predeterminada</label>
-            <input type="number" class="form-control" id="cantidadPredeterminada" name="cantidadPredeterminada">
-        </div>
+<!--        <div class="mb-3" id="cantidadPredeterminadaDiv" style="display: none;">-->
+<!--&lt;!&ndash;ACA IRIA EL LOTE OPTIMO&ndash;&gt;-->
+<!--            <label for="cantidadPredeterminada" class="form-label">Cantidad Predeterminada</label>-->
+<!--            <input type="number" class="form-control" id="cantidadPredeterminada" name="cantidadPredeterminada">-->
+<!--        </div>-->
         <div class="mb-3">
             <label for="tiempoDemora" class="form-label">Tiempo de Demora</label>
             <input type="number" class="form-control" id="tiempoDemora" name="tiempoDemora" required>
@@ -85,25 +85,26 @@
                     alert('Error al verificar el proveedor predeterminado.');
                 }
             });
-        } else {
-            // Ocultar el campo cantidadPredeterminada
-            cantidadPredeterminadaDiv.style.display = 'none';
         }
+//        } else {
+//            // Ocultar el campo cantidadPredeterminada
+//            cantidadPredeterminadaDiv.style.display = 'none';
+//        }
     }
 
     //Esta funcion "esccuha" al evento de checkbox, en el caso de que no lo haya chequeado, inicializa el valor en 0, esto para evitar problemas de tipo nulos
     //SE DESCOMENTARA EN CASO DE QUE TENGAMOS ERROR CON LOS NULOS
-    function handleSubmit(event) {
-        const predeterminadoCheckbox = document.getElementById('predeterminado');
-        const cantidadPredeterminadaInput = document.getElementById('cantidadPredeterminada');
-
-        if (!predeterminadoCheckbox.checked) {
-            // Asignar valor nulo a cantidadPredeterminada si no está marcado
-            cantidadPredeterminadaInput.value = null;
-        }
-
-        return true;
-    }
+//    function handleSubmit(event) {
+//        const predeterminadoCheckbox = document.getElementById('predeterminado');
+//        const cantidadPredeterminadaInput = document.getElementById('cantidadPredeterminada');
+//
+//        if (!predeterminadoCheckbox.checked) {
+//            // Asignar valor nulo a cantidadPredeterminada si no está marcado
+//            cantidadPredeterminadaInput.value = null;
+//        }
+//
+//        return true;
+//    }
 </script>
 
 

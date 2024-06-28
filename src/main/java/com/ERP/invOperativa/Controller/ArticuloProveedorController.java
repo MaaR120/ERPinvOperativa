@@ -9,11 +9,14 @@ import com.ERP.invOperativa.Services.ArticuloService;
 import com.ERP.invOperativa.Services.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.Date;
 import java.util.Optional;
 
@@ -30,6 +33,9 @@ public class ArticuloProveedorController extends BaseControllerImpl<ArticuloProv
 
     @Autowired
     private ProveedorService proveedorService;
+
+    @Autowired
+    private OrdenCompraController ordenCompraController;
 
 
     @GetMapping("/{articuloId}/articuloProveedor/nuevo")
@@ -59,6 +65,8 @@ public class ArticuloProveedorController extends BaseControllerImpl<ArticuloProv
 
         return "redirect:/maestroarticulo";
     }
+
+
 
 
     @GetMapping("/{articuloId}/proveedor/nuevo")
