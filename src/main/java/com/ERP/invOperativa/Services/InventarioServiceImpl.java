@@ -152,8 +152,18 @@ public class InventarioServiceImpl implements InventarioService {
         double factorZ = 1.64; // Nivel de servicio del 95%
         double demandaAnual = demanda;
         double tiempoDemora = articuloProveedor.getTiempoDemora();
-        double loteOptimo = Math.sqrt((2 * demandaAnual * costoPedido) / (costoAlmacenamiento));
+        FamiliaArticulo familia = articuloProveedor.getArticulo().getFamiliaArticulo();
+        Modelo modelo = familia.getModelo();
 
+        double loteOptimo = 0;
+
+        if (modelo == Modelo.Lote_fijo) {
+            loteOptimo = Math.sqrt((2 * demandaAnual * costoPedido) / costoAlmacenamiento);
+        } else if (modelo == Modelo.Lote_intervalo_fijo) {
+            loteOptimo = 0; // Asignar 0 cuando el modelo es de intervalo fijo
+        }
+
+        System.out.println(demandaAnual);
 //        dtoInventario.setLoteOptimo(loteOptimo);
 //        articuloProveedor.setLoteOptimo(loteOptimo);
 //        System.out.println("Guardando lote óptimo: " + loteOptimo); // Log de depuración
@@ -212,6 +222,7 @@ public class InventarioServiceImpl implements InventarioService {
             }
         }
 
+        System.out.println(desviacionDemanda);
 //        articuloProveedor.setStockSeguridadA(stockSeguridad);
 
 
@@ -219,11 +230,7 @@ public class InventarioServiceImpl implements InventarioService {
 //        System.out.println("Guardando lote óptimo: " + stockSeguridad); // Log de depuración
 //        articuloProveedorRepository.save(articuloProveedor);
 
-
-
         return stockSeguridad;
-
-
     }
 
     @Override
@@ -232,13 +239,27 @@ public class InventarioServiceImpl implements InventarioService {
 
         double demanda = ventaService.obtenerDemandaArt(articuloId, 2024);
         double costoPedido = articuloProveedor.getProveedor().getCostoPedido() != null ? articuloProveedor.getProveedor().getCostoPedido() : 1000;
-        double costoAlmacenamiento = articuloProveedor.getPrecioArticuloProveedor()*0.20;
+        double costoAlmacenamiento = articuloProveedor.getPrecioArticuloProveedor() * 0.20;
         double demandaAnual = demanda;
         // Corrección en la obtención de la familia del artículo
 
-        double costoCompra = (articuloProveedor.getPrecioArticuloProveedor() * demandaAnual);
         double lote = calcularLoteOptimoParaArticuloYProveedor(articuloId, proveedorId);
-        double cgi = Math.round(costoCompra + costoAlmacenamiento * (lote / 2) + costoPedido * (demandaAnual / lote));
+
+        double costoCompra = (articuloProveedor.getPrecioArticuloProveedor()) * lote;
+
+
+        FamiliaArticulo familia = articuloProveedor.getArticulo().getFamiliaArticulo();
+        Modelo modelo = familia.getModelo();
+
+        double cgi = 0;
+        if (modelo != null) {
+            if (modelo == Modelo.Lote_fijo) { // Usar el valor correcto del enum Modelo
+                cgi = Math.round(costoCompra + costoAlmacenamiento * (lote / 2) + costoPedido * (demandaAnual / lote));
+            } else {
+                double tiempoStock = 20;
+                cgi = (0);
+            }
+        }
 //        articuloProveedor.setCgiA(cgi);
 
 //        articuloProveedor.setCgi(cgi);

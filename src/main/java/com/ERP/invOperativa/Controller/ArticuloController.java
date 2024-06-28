@@ -161,7 +161,7 @@ public class ArticuloController{
     @GetMapping("informacion_inventario/loteOptimo/{articuloId}/{proveedorId}")
     public ResponseEntity<Double> getLoteOptimo(@PathVariable Long articuloId, @PathVariable Long proveedorId) {
         try {
-            double loteOptimo = calcularLoteOptimoPorProveedor(articuloId, proveedorId);
+            double loteOptimo = inventarioService.calcularLoteOptimoParaArticuloYProveedor(articuloId, proveedorId);
             return ResponseEntity.ok(loteOptimo);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
