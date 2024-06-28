@@ -168,20 +168,30 @@ public class InventarioServiceImpl implements InventarioService {
 
                     // Calcular otros valores necesarios como el punto de pedido, stock de seguridad, etc.
                     double lote = Math.round(dtoInventario.loteOptimo);
+                    System.out.println(lote);
+
                     dtoInventario.puntoPedido = Math.round(demandaAnual * tiempoDemora);
 //                    dtoInventario.stockSeguridad = factorZ * dtoInventario.desviacionDemanda * Math.sqrt(dtoInventario.tiempoDemora);
                     dtoInventario.CGI = Math.round(costoCompra + costoAlmacenamiento * (lote / 2) + costoPedido * (demandaAnual / lote));
                     dtoInventario.stock = articulo.getStock();
                     dtoInventario.proveedor = articuloProveedor.getProveedor().getNombreProveedor();
 
-                    loteOptimo.add(dtoInventario);
+                    dtoInventario.setPuntoPedido(dtoInventario.puntoPedido);
+                    dtoInventario.setStockSeguridad(dtoInventario.stockSeguridad);
 
-                    articulo.setLoteOptimo(Math.round(dtoInventario.loteOptimo));
+                    if (lote >= 0){
+                        articulo.setLoteOptimo(Math.round(lote));
+                        dtoInventario.setLoteOptimo(lote);
+                    }else {
+                        articulo.setLoteOptimo(0);
+                        dtoInventario.setLoteOptimo(0);
+                    }
                     articulo.setPuntoPedido(Math.round(dtoInventario.puntoPedido));
                     articulo.setStockSeguridad(Math.round(dtoInventario.stockSeguridad));
+                    loteOptimo.add(dtoInventario);
+
                 }
             }
-
             articuloRepository.saveAll(articulos);
             return loteOptimo;
         } catch (Exception e) {
