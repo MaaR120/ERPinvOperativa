@@ -136,7 +136,7 @@ public class OrdenCompraController extends BaseControllerImpl<OrdenCompra, Orden
 
     @GetMapping("/ordenCompra/articulo/{articuloId}/predeterminado")
     @ResponseBody
-    public ArticuloProveedor getDatosPredeterminados(@PathVariable("articuloId") Long articuloId) throws Exception {
+    public ArticuloProveedor getDatosPredeterminados(@PathVariable("articuloId") Long articuloId) throws Exception{
         Optional<Articulo> articulo = articuloService.findById(articuloId);
         if (articulo.isPresent()) {
             return articuloProveedorService.getPredeterminadoPorArticulo(articulo.get());
