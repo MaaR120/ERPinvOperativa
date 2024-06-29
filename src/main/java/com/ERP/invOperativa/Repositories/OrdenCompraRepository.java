@@ -1,4 +1,7 @@
 package com.ERP.invOperativa.Repositories;
 
-public interface OrdenCompraRepository {
+
+import com.ERP.invOperativa.Entities.OrdenCompra;
+
+public interface OrdenCompraRepository extends BaseRepository<OrdenCompra, Long> {
 }

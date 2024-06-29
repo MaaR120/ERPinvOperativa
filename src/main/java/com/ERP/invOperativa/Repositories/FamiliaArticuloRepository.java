@@ -1,4 +1,7 @@
 package com.ERP.invOperativa.Repositories;
 
-public interface FamiliaArticuloRepository {
+
+import com.ERP.invOperativa.Entities.FamiliaArticulo;
+
+public interface FamiliaArticuloRepository extends BaseRepository<FamiliaArticulo, Long>{
 }

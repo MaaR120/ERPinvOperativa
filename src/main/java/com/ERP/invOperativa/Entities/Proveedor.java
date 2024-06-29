@@ -34,7 +34,6 @@ public class Proveedor extends Base{
     @Builder.Default
     private List<ArticuloProveedor> articuloProveedors = new ArrayList<>();
     public void agregarArticuloProveedor(ArticuloProveedor articuloProveedor){
-
         articuloProveedors.add(articuloProveedor);
     }
 }
