@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Ventas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        .titulo {
+            margin-left: -14px;
+            margin-top: 10px;
+        }
+        .separador {
+            border: none;
+            height: 1px;
+            background-color: #0a0a0a;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<!-- Header  -->
+<header th:replace="Home :: header"> </header>
+
+<!-- Contenido -->
+<div class="container">
+    <div class="row titulo">
+        <h1>Lista de Ventas</h1>
+    </div>
+    <hr th:fragment="separador" class="separador">
+    <div class="row">
+        <div class="col-lg-3">
+            <a th:href="@{/venta/crear}" class="btn btn-success">+ Agregar Venta</a>
+        </div>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Total</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="venta : ${ventas}">
+            <td th:text="${venta.fechaFacturacion}"></td>
+            <td th:text="${venta.totalVenta}"></td>
+            <td>
+                <a th:href="@{/venta/detalleVenta/{id}(id=${venta.id})}" class="btn btn-outline-primary">Detalle</a>
+<!--                <a th:href="@{/venta/modificar/{id}(id=${venta.id})}" class="btn btn-warning">Modificar</a>-->
+                <a th:href="@{/venta/listadoVentas/{id}(id=${venta.id})}" class="btn btn-danger">Eliminar</a>            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

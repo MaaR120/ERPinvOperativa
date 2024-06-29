@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Orden Compra</title>
+    <link rel="shortcut icon" href="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Header  -->
+<header th:replace="Home :: header"> </header>
+
+<!-- Contenido -->
+<div class="container mt-4">
+    <div class="row">
+        <h1>Ordenes de Compra</h1>
+    </div>
+    <hr th:replace="~{ListadoVentas :: separador}">
+    <div class="row">
+        <div class="col-md-4">
+            <a th:href="@{/ordenCompra/form}" class="btn btn-success">+ Nueva Orden de Compra</a>
+        </div>
+       <!-- <div class="col-md-4 ms-auto">
+            <a th:href="@{/familiaarticulo}" class="btn btn-secondary">Nuevo Proveedor</a>
+        </div>  TODAVIA NO LO IMPLEMENTO-->
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Articulo</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Proveedor</th>
+<!--            NO SERAN MOSTRADOS HASTA TENER SU FUNCIONALIDAD-->
+            <!--<th scope="col">FechaInicio</th> ME PARECIO IRRELEVANTE PARA EL USUARIO ESTE DATO-->
+<!--            <th scope="col">FechaUltimoCambio</th>-->
+<!--            <th scope="col">FechaEntrega</th>-->
+            <th scope="col">EstadoOrden</th>
+            <th scope="col">Total</th>
+            <th scope="col">F.Inicio</th>
+            <th scope="col">F.ÚltimoCambio</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+            <tbody>
+        <tr th:each="ordenCompra :${ordenes}">
+            <td th:text="${ordenCompra.articulo.NombreArticulo}"></td>
+            <td th:text="${ordenCompra.cantidad}"></td>
+          <td th:text="${ordenCompra.proveedor.nombreProveedor}"></td>
+            <!--<td th:text="${ordenCompra.fechaInicio}"></td>-->
+<!--            <td th:text="${ordenCompra.fechaUltimoCambio}"></td>-->
+<!--            <td th:text="${ordenCompra.fechaEntrega}"></td>-->
+            <td th:text="${ordenCompra.estadoOrdenCompra}"></td>
+            <td th:text="${ordenCompra.totalOrden}"></td>
+            <td th:text="${ordenCompra.fechaInicio}"></td>
+            <td th:text="${ordenCompra.fechaUltimoCambio}"></td>
+
+            <td>
+                <a th:href="@{/ordenCompra/modificar/{id}(id=${ordenCompra.id})} "class="btn btn-warning">Modificar</a>
+                <a th:href="@{/ordenCompra/eliminar/{id}(id=${ordenCompra.id})}" class="btn btn-danger">Eliminar</a>
+                <!--Podria crear un boton que diga "CREAR SIMILAR" que nos redirija al formulario de ALTA, pero con los datos, del proveedor, del articulo inicializados-->
+
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

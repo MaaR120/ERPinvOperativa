@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Venta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        .titulo {
+            margin-left: -14px;
+            margin-top: 10px;
+        }
+        .separador {
+            border: none;
+            height: 1px;
+            background-color: #0a0a0a;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<!-- Header  -->
+<header th:replace="Home :: header"> </header>
+
+<!-- Contenido -->
+<div class="container">
+    <div class="row titulo">
+        <h2>+ Agregar Venta</h2>
+    </div>
+    <hr class="separador">
+    <form th:action="@{/venta/add}" method="post">
+        <div class="row mb-3 ">
+            <label for="fechaFacturacion" class="col-sm-2 col-form-label">Fecha de Facturación</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="fechaFacturacion" name="fechaFacturacion" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="detalleVentas" class="col-sm-2 col-form-label">Detalles de la Venta</label>
+            <div class="col-sm-10">
+                <table class="table" id="detalleVentas">
+                    <thead>
+                    <tr>
+                        <th scope="col">Artículo</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Subtotal</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="detalleVenta, iterStat : ${venta.detalleVentas}">
+                        <td>
+                            <select class="form-select articulo" name="detalleVentas[' + ${iterStat.index} + '].idArticulo" required onchange="actualizarStockDisponible(this)">
+                                <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.NombreArticulo}" th:data-precio="${articulo.precio}" th:data-stock="${articulo.stock}"></option>
+                            </select>
+                            <div class="mensajeStock"></div> <!-- Mensaje de stock -->
+                        </td>
+                        <td><input type="number" class="form-control cantidad" name="detalleVentas[' + ${iterStat.index} + '].cantidad" required></td>
+                        <td><input type="number" class="form-control subtotal" name="detalleVentas[' + ${iterStat.index} + '].subtotal" readonly></td>
+                        <td><button type="button" class="btn btn-danger" onclick="removeDetalle(this)">Eliminar</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-secondary" onclick="addDetalle()">Agregar Detalle</button>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Total Venta</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="totalVenta" readonly>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Guardar Venta</button>
+        <a th:href="@{/venta/listadoVentas}" class="btn btn-danger">Volver a la lista</a>
+    </form>
+
+</div>
+<script>
+    function addDetalle() {
+        var table = document.getElementById('detalleVentas').getElementsByTagName('tbody')[0];
+        var newRow = table.insertRow();
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
+
+        var articulosOptions = document.getElementById('articulosOptions').innerHTML;
+
+        cell1.innerHTML = '<select class="form-select articulo" name="detalleVentas[' + (table.rows.length - 1) + '].idArticulo" required onchange="actualizarStockDisponible(this)">' + articulosOptions + '</select>' +
+                          '<div class="mensajeStock"></div>'; // Agregar mensaje de stock
+        cell2.innerHTML = '<input type="number" class="form-control cantidad" name="detalleVentas[' + (table.rows.length - 1) + '].cantidad" required>';
+        cell3.innerHTML = '<input type="number" class="form-control subtotal" name="detalleVentas[' + (table.rows.length - 1) + '].subtotal" readonly>';
+        cell4.innerHTML = '<button type="button" class="btn btn-danger" onclick="removeDetalle(this)">Eliminar</button>';
+
+        updateSubtotalListeners();
+        actualizarStockDisponible(cell1.querySelector('.articulo'));
+    }
+
+    function actualizarStockDisponible(selectElement) {
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var stockDisponible = parseFloat(selectedOption.getAttribute('data-stock'));
+        var cantidadInput = selectElement.parentNode.nextElementSibling.querySelector('.cantidad');
+        var mensajeStock = selectElement.parentNode.querySelector('.mensajeStock');
+
+        cantidadInput.max = stockDisponible; // Establecer el máximo como el stock disponible
+        mensajeStock.innerText = 'Stock disponible: ' + stockDisponible; // Actualizar mensaje de stock disponible
+    }
+
+    function updateSubtotalListeners() {
+        var cantidadInputs = document.querySelectorAll('.cantidad');
+        var subtotalInputs = document.querySelectorAll('.subtotal');
+        var articuloSelects = document.querySelectorAll('.articulo');
+
+        cantidadInputs.forEach(function(cantidadInput, index) {
+            cantidadInput.addEventListener('change', function() {
+                var cantidad = parseInt(this.value);
+                var precio = parseFloat(articuloSelects[index].selectedOptions[0].getAttribute('data-precio'));
+                var subtotal = cantidad * precio;
+                subtotalInputs[index].value = subtotal.toFixed(2);
+                calcularTotalVenta();
+            });
+        });
+    }
+
+    function removeDetalle(button) {
+        var row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+        calcularTotalVenta();
+    }
+
+    function calcularTotalVenta() {
+        var subtotalElements = document.querySelectorAll('.subtotal');
+        var totalVenta = 0;
+        subtotalElements.forEach(function(element) {
+            totalVenta += parseFloat(element.value);
+        });
+        document.getElementById('totalVenta').value = totalVenta.toFixed(2);
+    }
+
+    // Ejecutar al cargar para inicializar los listeners y stock disponible
+    document.addEventListener('DOMContentLoaded', function() {
+        updateSubtotalListeners();
+        var articuloSelects = document.querySelectorAll('.articulo');
+        articuloSelects.forEach(function(select) {
+            actualizarStockDisponible(select);
+        });
+    });
+</script>
+<div id="articulosOptions" class="d-none">
+    <option th:each="articulo : ${articulos}" th:value="${articulo.id}" th:text="${articulo.NombreArticulo}" th:data-precio="${articulo.precio}" th:data-stock="${articulo.stock}"></option>
+</div>
+</body>
+</html>

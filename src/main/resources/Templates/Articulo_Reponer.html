@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Artículos a Reponer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        .titulo {
+            margin-left: -14px;
+            margin-top: 10px;
+        }
+        .separador {
+            border: none;
+            height: 1px;
+            background-color: #0a0a0a;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<!-- Header  -->
+<header th:replace="Home :: header"> </header>
+
+<!-- Contenido -->
+<div class="container">
+    <div class="row titulo">
+        <h2>Artículos a Reponer</h2>
+    </div>
+    <hr th:fragment="separador" class="separador">
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <a th:href="@{/maestroarticulo}" class="btn btn-secondary"><i class="bi bi-arrow-left-circle"></i> Ir a maestro articulo</a>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Cantidad en preparacion</th>
+            <th scope="col">Punto de Pedido</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="articulo : ${articulosReponer}">
+            <td th:text="${articulo.id}"></td>
+            <td th:text="${articulo.nombreArticulo}"></td>
+            <td th:text="${articulo.stock}"></td>
+            <td th:text="${articulo.cantidadPreparacion}"></td>
+            <td th:text="${articulo.puntoPedido}"></td>
+            <td>
+                <a th:href="@{|/ordenCompra/form/${articulo.id}|}" class="btn btn-primary">Nueva Orden de Compra</a>
+<!--                <a href="#" onclick="crearOrdenAutomatica([[${articulo.id}]])" class="btn btn-warning">Cargar Orden Compra Automática</a>-->
+                <form th:action="@{/ordenCompra/crearAutomatica/{articuloId}(articuloId=${articulo.id})}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-warning">Cargar Orden Compra Automática</button>
+                </form>
+<!--                <button type="button" onclick="crearOrdenAutomatica([[${articulo.id}]])" class="btn btn-warning">Cargar Orden Compra Automática</button>-->
+
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Modal de error de proveedor predeterminado NO FUNCIONA JS -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                No se encontró un proveedor predeterminado para este artículo, para crear ordenes de compra automaticas, debe existir un proveedor predeterminado.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+</div>
+<script th:inline="javascript">
+//    document.addEventListener('DOMContentLoaded', function() {
+//        // Agregar event listener al botón
+//        document.getElementById('btnCrearOrden').addEventListener('click', function() {
+//            // Obtener el ID del artículo del atributo data
+//            var articuloId = this.getAttribute('data-articulo-id');
+//
+//            // Verificar si el ID es un número válido
+//            if (!isNaN(articuloId)) {
+//                // Convertir el ID del artículo a número (Long)
+//                var articuloIdNumero = parseInt(articuloId); // O puedes usar parseFloat si el ID es decimal
+//
+//                // Llamar a la función para crear la orden automática
+//                crearOrdenAutomatica(articuloIdNumero);
+//            } else {
+//                console.error('ID del artículo no es un número válido:', articuloId);
+//                alert('ID del artículo no es un número válido.');
+//            }
+//        });
+//    });
+    function crearOrdenAutomatica(articuloId) {
+        fetch(`/ordenCompra/crearAutomatica/${articuloId}`, {
+            method: 'POST'
+        })
+            .then(response => {
+            if (response.ok) {
+                // Si la respuesta es exitosa, redirige o realiza la acción necesaria
+                window.location.href = '/reponer';
+            } else {
+                // Si el servidor devuelve un error, mostrar el modal
+                var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                errorModal.show();
+                throw new Error('Error al crear la orden automática');
+            }
+        })
+            .catch(error => {
+            console.error('Error al cargar proveedor predeterminado:', error);
+            alert('Hubo un error al cargar el proveedor predeterminado.');
+        });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhG0q3uJIZmxK87QjoK2bJbSoQ6R9bW6EdD7aZz+crW6S4lYr/6A6I2QKwsi" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+
+</body>
+
+
+</html>

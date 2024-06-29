@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Proveedor de:</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+</head>
+<body>
+<!-- Header  -->
+<header th:replace="Home :: header"> </header>
+
+<!-- Contenido  -->
+<div class="container mt-4">
+    <div class="row">
+        <h2> Modificar Datos</h2>
+    </div>
+</div>
+
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <div class="card-body">
+                <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+                <form th:action="@{/articulo/actualizar/{id}(id=${articuloProveedor.id})}" th:object="${articuloProveedor}" method="POST">
+                    <div class="form-group">
+                        <input type="hidden" th:field="*{articulo.id}" th:name="${'articuloId'}" id="articuloSelect">
+                        <input type="hidden" th:field="*{id}"  id="articuloProvId">
+                        <input type="hidden" th:field="*{proveedor.id}" id="ProvId">
+                        <input type="hidden" th:field="*{fechaVigencia}" id="fechaVig">
+                        <label>NombreProveedor</label>
+                        <input type="text" name="nombre" th:field="*{proveedor.nombreProveedor}" class="form-control" readonly>
+                    </div><br>
+
+                    <div class="form-group">
+                        <label>Costo Pedido</label>
+                        <input type="number" name="costoPedido" th:field="*{proveedor.costoPedido}" class="form-control"readonly>
+                    </div><br>
+
+                    <div class="form-group">
+                        <label>NombreArticulo</label>
+                        <input type="text" name="nombre" th:field="*{articulo.NombreArticulo}" class="form-control" readonly>
+                    </div><br>
+                    <div class="form-group">
+                        <label>Precio ArticuloProveedor</label>
+                        <input type="number" name="precioArticuloProveedor" id="PrecioArticuloProveedor" th:field="*{precioArticuloProveedor}" class="form-control" required>
+                    </div><br>
+                    <div class="form-group">
+                        <label>Tiempo de Demora</label>
+                        <input type="number" name="tiempoDemora" th:field="*{tiempoDemora}" class="form-control" required>
+                    </div><br>
+                    <div class="form-group">
+                        <input class="form-check-input" type="checkbox" id="predeterminado" name="predeterminado" th:field="*{predeterminado}" onchange="verificarPredeterminado()">
+                        <label class="form-check-label" for="predeterminado">Predeterminado</label>
+                    </div><br>
+
+
+                    <div class="box-footer mb-4">
+                        <button class="btn btn-success">Guardar</button>
+                        <a th:href="@{/proveedor/listado}" class="btn btn-secondary">Acceder a Proveedores</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal de error -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Ya existe un proveedor predeterminado para este artículo.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</body>
+<script th:inline="javascript">
+//    document.addEventListener('DOMContentLoaded', function() {
+//        const predeterminadoCheckbox = document.getElementById('predeterminado');
+//        const cantidadPredeterminadaDiv = document.getElementById('cantidadPredeterminadaDiv');
+//
+//        if (predeterminadoCheckbox.checked) {
+//            cantidadPredeterminadaDiv.style.display = 'block';
+//        } else {
+//            cantidadPredeterminadaDiv.style.display = 'none';
+//        }
+//    });
+    function verificarPredeterminado() {
+        if (document.getElementById('predeterminado').checked) {
+            var articuloId = document.getElementById('articuloSelect').value;
+            var articuloProvId = document.getElementById('articuloProvId').value;
+
+            $.ajax({
+                url: `/ordenCompra/articulo/${articuloId}/predeterminado`,
+                method: 'GET',
+                success: function(articuloProveedor) {
+                    if (articuloProveedor && articuloProveedor.id != articuloProvId){
+                        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                        errorModal.show();
+                        // Desmarcar el checkbox
+                        document.getElementById('predeterminado').checked = false;
+                    } else {
+                        // Mostrar el campo cantidadPredeterminada
+                        document.getElementById('cantidadPredeterminadaDiv').style.display = 'block';
+                    }
+                },
+                error: function() {
+                    alert('Error al verificar el proveedor predeterminado.');
+                }
+            });
+        }
+//        } else {
+//            // Ocultar el campo cantidadPredeterminada
+//            document.getElementById('cantidadPredeterminadaDiv').style.display = 'none';
+//        }
+    }
+</script>
+</html>

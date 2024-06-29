@@ -3,16 +3,19 @@ package com.ERP.invOperativa.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.Builder;
 
-@Entity
-@Table(name = "DetalleVenta")
+
+@Table(name = "detalleVenta")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Data
 @Builder
-public class DetalleVenta extends Base{
+@Entity
+public class DetalleVenta extends Base {
     @NotNull
     private int cantidad;
 
@@ -20,7 +23,14 @@ public class DetalleVenta extends Base{
     @Column(name = "subtotal")
     private double subtotal;
 
-    @ManyToOne()
-    @JoinColumn(name = "Articulo")
-    private Articulo Articulo;
+    @ManyToOne
+    @JoinColumn(name = "articulo_id")
+    private Articulo articulo;
+
+    @ManyToOne
+    @JoinColumn(name = "venta_id")
+    private Venta venta;
+
+
+
 }

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Proveedor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Nuevo Proveedor para Artículo: <span th:text="${articulo.nombreArticulo}"></span></h1>
+    <form th:action="@{/articulo/{articuloId}/articuloProveedor/guardar(articuloId=${articulo.id})}" method="post" th:object="${articuloProveedor}" >
+        <!-- Campo oculto para el ID del artículo -->
+
+        <input type="hidden" th:field="*{articulo.id}" th:value="${articulo.id}" id="articuloId">
+
+        <div class="form-group">
+            <label for="proveedorSelect">Proveedor</label>
+            <select id="proveedorSelect" name="proveedor.id" class="form-control" required>
+                <option value="" disabled selected>Seleccionar Proveedor</option>
+                <option th:each="proveedor : ${proveedores}" th:value="${proveedor.id}" th:text="${proveedor.nombreProveedor}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="fechaVigencia" class="form-label">Fecha de Vigencia</label>
+            <input type="date" class="form-control" id="fechaVigencia" name="fechaVigencia" th:field="*{fechaVigencia}" required>
+        </div>
+        <div class="mb-3">
+            <label for="precioArticuloProveedor" class="form-label">Precio del Artículo</label>
+            <input type="number" step="0.01" class="form-control" id="precioArticuloProveedor" name="precioArticuloProveedor" th:field="*{precioArticuloProveedor}" required>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="predeterminado" name="predeterminado" th:field="*{predeterminado}" >
+            <label class="form-check-label" for="predeterminado">
+                Predeterminado
+            </label>
+        </div>
+        <!-- Campo oculto para la cantidad predeterminada, que se mostrará solo si es necesario -->
+<!--        <div class="mb-3" id="cantidadPredeterminadaDiv" style="display: none;">-->
+<!--            <label for="cantidadPredeterminada" class="form-label">Cantidad Predeterminada</label>-->
+<!--            <input type="number" class="form-control" id="cantidadPredeterminada" name="cantidadPredeterminada" th:field="*{cantidadPredeterminada}">-->
+<!--        </div>-->
+        <div class="mb-3">
+            <label for="tiempoDemora" class="form-label">Tiempo de Demora</label>
+            <input type="number" class="form-control" id="tiempoDemora" name="tiempoDemora" th:field="*{tiempoDemora}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+    <!-- Modal de error -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Ya existe un proveedor predeterminado para este artículo.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function() {
+        // Event listener para el checkbox predeterminado
+        $('#predeterminado').change(function() {
+            if ($(this).is(':checked')) {
+                var articuloId = $('#articuloId').val();
+                console.log('Valor de articuloId:', articuloId); // Imprimir en consola
+                verificarPredeterminado(articuloId);
+            }
+        });
+    });
+    function verificarPredeterminado(articuloId) {
+
+        if (document.getElementById('predeterminado').checked) {
+//            var articuloId = document.getElementById('articuloId').value;
+//            var articuloId = document.getElementById('articuloId').value; // Obtener el articuloId
+
+            $.ajax({
+                url: `/articulo/${articuloId}/predeterminado`,
+                method: 'GET',
+                success: function(articuloProveedor) {
+                    if (articuloProveedor){
+                        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                        errorModal.show();
+                        // Desmarcar el checkbox
+                        document.getElementById('predeterminado').checked = false;
+                    }
+                },
+                error: function() {
+                    alert('Error al verificar el proveedor predeterminado.');
+                }
+            });
+            // Prevent the default form submission
+            event.preventDefault();
+        }
+    }
+    //Add an event listener to the checkbox
+//    document.getElementById('predeterminado').addEventListener('change', function () {
+//        verificarPredeterminado(document.getElementById('articuloId').value);
+//    });
+
+
+</script>
+</body>
+</html>

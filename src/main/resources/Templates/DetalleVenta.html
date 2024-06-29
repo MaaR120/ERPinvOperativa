@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de Venta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+                .titulo {
+                    margin-left: -14px;
+                    margin-top: 10px;
+                }
+                .separador {
+                    border: none;
+                    height: 1px;
+                    background-color: #0a0a0a;
+                    margin-top: 10px;
+                }
+    </style>
+</head>
+<body>
+<!-- Header  -->
+<header th:replace="Home :: header"> </header>
+
+<!-- Contenido -->
+<div class="container">
+    <div class="row titulo">
+        <h2>Detalle de Venta</h2>
+    </div>
+    <hr class="separador">
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Artículo</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                <tr th:each="detalle : ${venta.detalleVentas}">
+                    <td>
+                        <span th:if="${detalle.articulo != null}" th:text="${detalle.articulo.NombreArticulo}">-</span>
+                        <span th:unless="${detalle.articulo != null}">N/A</span>
+                    </td>
+                    <td th:text="${detalle.cantidad}"></td>
+                    <td th:text="${detalle.subtotal}"></td>
+                </tr>
+                </tbody>
+
+                </tbody>
+            </table>
+            <a th:href="@{/venta/listadoVentas}" class="btn btn-primary"><i class="bi bi-arrow-left-circle"></i> Volver a la lista</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

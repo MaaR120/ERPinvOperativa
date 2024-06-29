@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Familia Articulo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header  -->
+    <header th:replace="Home :: header"> </header>
+
+    <!-- Contenido -->
+    <div class="container mt-4">
+        <div class="row">
+            <h1> Lista de Familias de Articulos</h1>
+        </div>
+        <hr th:replace="~{ListadoVentas :: separador}">
+        <div class="row">
+            <div class="col-md-4">
+                <a th:href="@{/familiaarticulo/nuevo}" class="btn btn-success">+ Agregar Familia</a>
+            </div>
+            <div class="col-md-4 ms-auto">
+                <a th:href="@{/maestroarticulo}" class="btn btn-secondary"><i class="bi bi-arrow-left-circle"></i> Ir a maestro articulo</a>
+            </div>
+        </div>
+        <br>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Modelo Inventario</th>
+                <th scope="col">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="familias :${familias}">
+                <td th:text="${familias.id}"></td>
+                <td th:text="${familias.nombreFamilia}"></td>
+                <td th:text="${familias.modelo}"></td>
+                <td>
+                    <a th:href="@{/familiaarticulo/editar/{id}(id=${familias.id})}" class="btn btn-warning">Modificar</a>
+                    <a th:href="@{/familiaarticulo/eliminar/{id}(id=${familias.id})}" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>
